@@ -1,7 +1,9 @@
 
 var Discord = require('discord.io');
 var logger = require('winston');
-var auth = require('./auth.json');
+var bot_token = process.env.token;
+var osu_token = process.env.osuapi;
+//var auth = require('./auth.json');
 var https = require('https');
 //var request = require('sync-request');
 
@@ -58,7 +60,7 @@ logger.level = 'debug';
 var bot = new Discord.Client({
    token: auth.token,
    autorun: true,
-   autoReconnect:true
+   autoReconnect: true
 });
 
 bot.on('ready', function (evt) {
