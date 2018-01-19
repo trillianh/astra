@@ -3,7 +3,7 @@ var Discord = require('discord.io');
 var logger = require('winston');
 var bot_token = process.env.token;
 var osu_token = process.env.osuapi;
-//var auth = require('./auth.json');
+var auth = require('./auth.json');
 var https = require('https');
 //var request = require('sync-request');
 
@@ -12,14 +12,13 @@ const ventusBotChannel = 385971798539370496;
 const trillianAstra = 387326440607186947;
 const path = "C:\\Users\\astra\\Desktop\\ventus";
 const officers = [
-229422191362441216,
-223993765398970368,
-110143617699430400,
-163807302061785088
-]
+"229422191362441216",
+"223993765398970368",
+"110143617699430400",
+"163807302061785088"];
 const classnicks = [
     "zerker,zerk,berserker,zk,giant", //0
-    "dk,drk,darkknight,batman,darknight,brucewayne",
+    "dk,drk,darkknight,batman,darknight,brucewayne,dark",
     "kuno,kunoichi",
     "mae,bae,baehwa,maehwa,plum,meihua,maewah,maewha",
     "musa,blader,beyblade",
@@ -74,7 +73,9 @@ bot.on('ready', function (evt) {
 bot.on('disconnect', function(erMsg, code) {
     logger.info('Disconnected');
     logger.info(code+" "+erMsg);
+    bot.connect();
 });
+
 
 bot.on('message', function (user, userID, channelID, message, evt) {
     // Our bot needs to know if it will execute a command
@@ -122,6 +123,17 @@ try{
                 });
             });
         }
+
+        if(userID==110143617699430400){
+            //trillian
+            if(message.toLowerCase()==".restart"){
+                bot.sendMessage({
+                   to: channelID,
+                   message: "Restarting!"
+               });
+                bot.disconnect();
+            }
+        }
         if(channelID==trillianAstra){
             //TEST REALM
             logger.info(message);
@@ -136,7 +148,7 @@ try{
                 case 'test':
                     bot.sendMessage({
                         to: channelID,
-                        message: lsga(args)
+                        message: "a"+ matcha(officers,args[0])
                     });
                 break;
                 case 'list':
@@ -589,7 +601,7 @@ function add(args,userID){
         }
         return "Use the `.update` or `.reroll` command to update your info.";
     }
-    if(args[5]==null){
+    if(args[5]==null||args[6]){
         return "incorrect format: `.add family character ap dp level class`";
     }
     else if(args[0].match(/[^0-9a-zA-Z_]/)!=null){
@@ -650,8 +662,10 @@ function getClassId(str){
 }
 function matcha(arr,str){
     for(var i=0;i<arr.length;i++){
+        logger.info(arr[i] + " " + str);
         if(str.match(arr[i])!=null)
         {
+            logger.info("found");
             return i;
         }
     }
@@ -687,7 +701,6 @@ function parsedTableString(player,addClassName){
     var gs = player["gs"]+"";
     var level = player["level"]+"";
     var namepad = 30;
-    logger.info(player+" "+addClassName);
     return name.padEnd(namepad)+" "+ap.padEnd(4)+" | "+dp.padEnd(4)+" | "+gs.padEnd(4)+" | "+level.padEnd(3)+" | "+((addClassName==1)?getClassName(player.classid):"");
 
 
@@ -702,8 +715,6 @@ function info(){
     var json = JSON.parse(fs.readFileSync(path+"\\"+guildName+".json","utf8"));
     for(var key in json){
         ct++;
-        logger.info(json[key]["gs"]);
-
         avg+=(isNaN(parseInt(json[key]["gs"])))?0:parseInt(json[key]["gs"]);
         currentGS=parseInt(json[key]["gs"]);
         if(currentGS<lowest){
@@ -719,7 +730,7 @@ function info(){
     avg=avg.toPrecision(5);
     lowestStr=("Lowest GS: **"+lowest+"** ").padEnd(15)+lowestName+"\n";
     highestStr=("Highest GS: **"+highest+"** ").padEnd(15)+highestName+"\n";
-    return "Average: **"+avg+"**\n"+lowestStr+highestStr;
+    return "Members: **"+ct+"**\nAverage: **"+avg+"**\n"+lowestStr+highestStr;
 
 }
 
