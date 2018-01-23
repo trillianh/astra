@@ -480,7 +480,7 @@ catch(err){
     ventus[family]["dp"] = parseInt(args[1]);
     ventus[family]["level"] = parseInt(args[2]);
     ventus[family]["gs"] = parseInt(args[0])+parseInt(args[1]);
-    fs.writeFile(path+"\\"+guildName+'.json', JSON.stringify(ventus), 'utf8');
+    fs.writeFile(path.join(path,guildName +'.json'), JSON.stringify(ventus), 'utf8');
 }
 catch(err){
     logger.info(userID);
@@ -531,7 +531,7 @@ function reroll(args,userID){
         ventus[family]["level"] = parseInt(args[3]);
         ventus[family]["classid"] = getClassId(args[4]);
         ventus[family]["gs"] = parseInt(args[1])+parseInt(args[2]);
-        fs.writeFile(path+"\\"+guildName+'.json', JSON.stringify(ventus), 'utf8');
+        fs.writeFile(path.join(path,guildName +'.json'), JSON.stringify(ventus), 'utf8');
     }
     catch(err){
         logger.info(userID);
@@ -584,7 +584,7 @@ function addAdmin(args){
         //var tostring = newAccount.fa+"("+newAccount.ch+") AP:"+newAccount.ap+" DP:"+newAccount.dp+" GS:"+newAccount.gs+" Level:"+newAccount.level+" Class: "+newAccount.classid;
         logger.info("starting add");
         ventus[newAccount.fa.toLowerCase()]=newAccount;
-        fs.writeFile(path+"\\"+guildName+'.json', JSON.stringify(ventus), 'utf8');
+        fs.writeFile(path.join(path,guildName +'.json'), JSON.stringify(ventus), 'utf8');
         return "The "+ventus[newAccount.fa.toLowerCase()]["fa"]+" family has been added and linked to <@"+args[6]+">";
     }
 
@@ -639,7 +639,7 @@ function add(args,userID){
         //var tostring = newAccount.fa+"("+newAccount.ch+") AP:"+newAccount.ap+" DP:"+newAccount.dp+" GS:"+newAccount.gs+" Level:"+newAccount.level+" Class: "+newAccount.classid;
         logger.info("starting add");
         ventus[newAccount.fa.toLowerCase()]=newAccount;
-        fs.writeFile(path+"\\"+guildName+'.json', JSON.stringify(ventus), 'utf8');
+        fs.writeFile(path.join(path,guildName +'.json'), JSON.stringify(ventus), 'utf8');
         return "added the "+args[0]+" family successfully.";
     }
     return "error <@110143617699430400>";
@@ -712,7 +712,7 @@ function info(){
     var highest=0;
     var lowestName;
     var highestName;
-    var json = JSON.parse(fs.readFileSync(path+"\\"+guildName+".json","utf8"));
+    var json = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
     for(var key in json){
         ct++;
         avg+=(isNaN(parseInt(json[key]["gs"])))?0:parseInt(json[key]["gs"]);
@@ -735,7 +735,7 @@ function info(){
 }
 
 function remove(str,userID){
-    var ventus = JSON.parse(fs.readFileSync(path+"\\"+guildName+".json","utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
     if(matcha(officers,userID)==-1){
         if(getById("fa",userID).toLowerCase()!=str.toLowerCase()){ // if attempted remove is not your own
             return "You can only remove your own family, "+getById("fa",userID)+".";
@@ -744,7 +744,7 @@ function remove(str,userID){
             if(ventus[str]){
                 var ret = "Member "+getById("fa",userID)+" has removed their family.";
                 delete ventus[str];
-                fs.writeFile(path+"\\"+guildName+'.json', JSON.stringify(ventus), 'utf8');
+                fs.writeFile(path.join(path,guildName +'.json'), JSON.stringify(ventus), 'utf8');
                 return ret;
             }
             else{
@@ -755,7 +755,7 @@ function remove(str,userID){
     else{ //officer remove
         if(ventus[str]){
             delete ventus[str];
-            fs.writeFile(path+"\\"+guildName+'.json', JSON.stringify(ventus), 'utf8');
+            fs.writeFile(path.join(path,guildName +'.json'), JSON.stringify(ventus), 'utf8');
             return "Officer"+getById("fa",userID)+" has removed the "+str+" family.";
         }
         else{
