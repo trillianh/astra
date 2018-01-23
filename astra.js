@@ -10,7 +10,7 @@ var https = require('https');
 const guildName = "ventus";
 const ventusBotChannel = 385971798539370496;
 const trillianAstra = 387326440607186947;
-const path = "C:\\Users\\astra\\Desktop\\ventus";
+const path = ".";//"C:\\Users\\astra\\Desktop\\ventus";
 const officers = [
 "229422191362441216",
 "223993765398970368",
