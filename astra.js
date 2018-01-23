@@ -57,7 +57,7 @@ logger.add(logger.transports.Console, {
 logger.level = 'debug';
 // Initialize Discord Bot
 var bot = new Discord.Client({
-   token: auth.token,
+   token: bot_token,
    autorun: true,
    autoReconnect: true
 });
