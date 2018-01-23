@@ -683,12 +683,12 @@ function getStat(stat,data){
     }
 }
 function getPlayer(args){
-    var player = JSON.parse(fs.readFileSync(path+"\\"+guildName+".json","utf8"))[a[0].toLowerCase()];
+    var player = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"))[a[0].toLowerCase()];
 
     return player.fa+"("+player.ch+") - AP:**"+player.ap+"** DP:**"+player.dp+"** GS:**"+player.gs+"** Level:**"+player.level+"** Class: **"+getClassName(player.classid)+"**";
 }
 function playerToString(fa){
-    player = JSON.parse(fs.readFileSync(path+"\\"+guildName+".json","utf8"))[fa+""];
+    player = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"))[fa+""];
     return player.fa+"("+player.ch+") - AP:**"+player.ap+"** DP:**"+player.dp+"** GS:**"+player.gs+"** Level:**"+player.level+"** Class: **"+getClassName(player.classid)+"**";
 }
 function parsedToString(player){
@@ -820,7 +820,7 @@ function listt(metric, cid){
 
     var sorted = new Array();
 
-    var json = JSON.parse(fs.readFileSync(process.cwd()+"\\"+guildName+".json","utf8"));
+    var json = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
     for (var key in json){
         sorted.push(json[key]);
     }
