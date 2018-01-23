@@ -494,7 +494,6 @@ function reroll(args,userID){
 //char ap dp level class
 
     var ventus = JSON.parse(fs.readFileSync(path.join(pathbase,guildName +'.json'),"utf8"));
-    logger.info(getFaBy("ch",getById("ch",userID)));
     //if char exists
     
     if(args[4]==null||args[5]){
@@ -663,10 +662,8 @@ function getClassId(str){
 }
 function matcha(arr,str){
     for(var i=0;i<arr.length;i++){
-        logger.info(arr[i] + " " + str);
         if(str.match(arr[i])!=null)
         {
-            logger.info("found");
             return i;
         }
     }
@@ -766,6 +763,7 @@ function remove(str,userID){
     return "error";
 }
 function list(args){
+
     if(args.length==1){
 
         if(matcha(["lvl","levl","lv","lev","growth"],args[0])>=0){
@@ -777,17 +775,14 @@ function list(args){
         }
         else{
             //list all args[0] by gs
-            logger.info(getClassId(args[0])+"one");
             return listt("gs",getClassId(args[0]));
         }
     }
     else if(args.length==2){
         if(matcha(["ap","dp","level","gs"],args[0])>-1){
-            logger.info(getClassId(args[1])+" two");
             return listt(args[0],getClassId(args[1]));
         }
         else{
-            logger.info(getClassId(args[0])+"three");
             return listt(args[1],getClassId(args[0]));
         }
     }
