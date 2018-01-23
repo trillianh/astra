@@ -3,7 +3,7 @@ var Discord = require('discord.io');
 var logger = require('winston');
 var bot_token = process.env.token;
 var osu_token = process.env.osuapi;
-var auth = require('./auth.json');
+//var auth = require('./auth.json');
 var https = require('https');
 //var request = require('sync-request');
 
