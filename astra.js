@@ -423,7 +423,7 @@ function trade(args){
 
 }
 function getById(key,userID){
-    var ventus = JSON.parse(fs.readFileSync(path+"\\"+guildName+'.json',"utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
     for(var k in ventus){
         if(ventus[k]["discordid"]==userID){
             return ventus[k][key];
@@ -432,7 +432,7 @@ function getById(key,userID){
     return -1;
 }
 function getFaBy(key,value){
-    var ventus = JSON.parse(fs.readFileSync(path+"\\"+guildName+'.json',"utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
     for(var k in ventus){
         if(ventus[k][key]==value){
             return ventus[k]["fa"];
@@ -468,7 +468,7 @@ function update(args,userID){
     else if(args[2].match(/[^0-9]/)!=null){
         return "Level must be a number.\n\""+args[5].match(/[^0-9]/)[0]+"\"";
     }
-    var ventus = JSON.parse(fs.readFileSync(path+"\\"+guildName+'.json',"utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
     try{
     var family = getFaBy("discordid",userID).toLowerCase();
 }
@@ -492,7 +492,7 @@ catch(err){
 function reroll(args,userID){
 //char ap dp level class
 
-    var ventus = JSON.parse(fs.readFileSync(path+"\\"+guildName+'.json',"utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
     logger.info(getFaBy("ch",getById("ch",userID)));
     //if char exists
     
@@ -522,7 +522,7 @@ function reroll(args,userID){
     else if(args[4].match(/[^a-zA-Z_]/)!=null){
         return "Class name cannot contain special characters. \n\""+args[5].match(/[^a-zA-Z_]/)[0]+"\"";
     }
-    var ventus = JSON.parse(fs.readFileSync(path+"\\"+guildName+'.json',"utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
     var family = getFaBy("discordid",userID).toLowerCase();
     try{
         ventus[family]["ch"] = args[0];
@@ -569,7 +569,7 @@ function addAdmin(args){
         }
         return "Discord ID must be a number. \n\""+args[5].match(/[^a-zA-Z_]/)[0]+"\"";
     }
-    var ventus = JSON.parse(fs.readFileSync(path+"\\"+guildName+'.json',"utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
     if(ventus[args[0]]){
         return "The "+ventus[args[0]]["fa"]+" family already exists.";
     }
@@ -623,7 +623,7 @@ function add(args,userID){
         return "Class name cannot contain special characters. \n\""+args[5].match(/[^a-zA-Z_]/)[0]+"\"";
     }
 
-    var ventus = JSON.parse(fs.readFileSync(path+"\\"+guildName+'.json',"utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
     if(ventus[args[0]]){
         return "The "+ventus[args[0]]["fa"]+" family already exists.";
     }
