@@ -4,13 +4,14 @@ var logger = require('winston');
 var bot_token = process.env.token;
 var osu_token = process.env.osuapi;
 //var auth = require('./auth.json');
+var path = require('path');
 var https = require('https');
 //var request = require('sync-request');
 
 const guildName = "ventus";
 const ventusBotChannel = 385971798539370496;
 const trillianAstra = 387326440607186947;
-const path = ".";//"C:\\Users\\astra\\Desktop\\ventus";
+const pathbase = ".";//"C:\\Users\\astra\\Desktop\\ventus";
 const officers = [
 "229422191362441216",
 "223993765398970368",
@@ -423,7 +424,7 @@ function trade(args){
 
 }
 function getById(key,userID){
-    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase,guildName +'.json'),"utf8"));
     for(var k in ventus){
         if(ventus[k]["discordid"]==userID){
             return ventus[k][key];
@@ -432,7 +433,7 @@ function getById(key,userID){
     return -1;
 }
 function getFaBy(key,value){
-    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase,guildName +'.json'),"utf8"));
     for(var k in ventus){
         if(ventus[k][key]==value){
             return ventus[k]["fa"];
@@ -468,7 +469,7 @@ function update(args,userID){
     else if(args[2].match(/[^0-9]/)!=null){
         return "Level must be a number.\n\""+args[5].match(/[^0-9]/)[0]+"\"";
     }
-    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase,guildName +'.json'),"utf8"));
     try{
     var family = getFaBy("discordid",userID).toLowerCase();
 }
@@ -480,7 +481,7 @@ catch(err){
     ventus[family]["dp"] = parseInt(args[1]);
     ventus[family]["level"] = parseInt(args[2]);
     ventus[family]["gs"] = parseInt(args[0])+parseInt(args[1]);
-    fs.writeFile(path.join(path,guildName +'.json'), JSON.stringify(ventus), 'utf8');
+    fs.writeFile(path.join(pathbase,guildName +'.json'), JSON.stringify(ventus), 'utf8');
 }
 catch(err){
     logger.info(userID);
@@ -492,7 +493,7 @@ catch(err){
 function reroll(args,userID){
 //char ap dp level class
 
-    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase,guildName +'.json'),"utf8"));
     logger.info(getFaBy("ch",getById("ch",userID)));
     //if char exists
     
@@ -522,7 +523,7 @@ function reroll(args,userID){
     else if(args[4].match(/[^a-zA-Z_]/)!=null){
         return "Class name cannot contain special characters. \n\""+args[5].match(/[^a-zA-Z_]/)[0]+"\"";
     }
-    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase,guildName +'.json'),"utf8"));
     var family = getFaBy("discordid",userID).toLowerCase();
     try{
         ventus[family]["ch"] = args[0];
@@ -531,7 +532,7 @@ function reroll(args,userID){
         ventus[family]["level"] = parseInt(args[3]);
         ventus[family]["classid"] = getClassId(args[4]);
         ventus[family]["gs"] = parseInt(args[1])+parseInt(args[2]);
-        fs.writeFile(path.join(path,guildName +'.json'), JSON.stringify(ventus), 'utf8');
+        fs.writeFile(path.join(pathbase,guildName +'.json'), JSON.stringify(ventus), 'utf8');
     }
     catch(err){
         logger.info(userID);
@@ -569,7 +570,7 @@ function addAdmin(args){
         }
         return "Discord ID must be a number. \n\""+args[5].match(/[^a-zA-Z_]/)[0]+"\"";
     }
-    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase,guildName +'.json'),"utf8"));
     if(ventus[args[0]]){
         return "The "+ventus[args[0]]["fa"]+" family already exists.";
     }
@@ -584,7 +585,7 @@ function addAdmin(args){
         //var tostring = newAccount.fa+"("+newAccount.ch+") AP:"+newAccount.ap+" DP:"+newAccount.dp+" GS:"+newAccount.gs+" Level:"+newAccount.level+" Class: "+newAccount.classid;
         logger.info("starting add");
         ventus[newAccount.fa.toLowerCase()]=newAccount;
-        fs.writeFile(path.join(path,guildName +'.json'), JSON.stringify(ventus), 'utf8');
+        fs.writeFile(path.join(pathbase,guildName +'.json'), JSON.stringify(ventus), 'utf8');
         return "The "+ventus[newAccount.fa.toLowerCase()]["fa"]+" family has been added and linked to <@"+args[6]+">";
     }
 
@@ -623,7 +624,7 @@ function add(args,userID){
         return "Class name cannot contain special characters. \n\""+args[5].match(/[^a-zA-Z_]/)[0]+"\"";
     }
 
-    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase,guildName +'.json'),"utf8"));
     if(ventus[args[0]]){
         return "The "+ventus[args[0]]["fa"]+" family already exists.";
     }
@@ -639,7 +640,7 @@ function add(args,userID){
         //var tostring = newAccount.fa+"("+newAccount.ch+") AP:"+newAccount.ap+" DP:"+newAccount.dp+" GS:"+newAccount.gs+" Level:"+newAccount.level+" Class: "+newAccount.classid;
         logger.info("starting add");
         ventus[newAccount.fa.toLowerCase()]=newAccount;
-        fs.writeFile(path.join(path,guildName +'.json'), JSON.stringify(ventus), 'utf8');
+        fs.writeFile(path.join(pathbase,guildName +'.json'), JSON.stringify(ventus), 'utf8');
         return "added the "+args[0]+" family successfully.";
     }
     return "error <@110143617699430400>";
@@ -683,12 +684,12 @@ function getStat(stat,data){
     }
 }
 function getPlayer(args){
-    var player = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"))[a[0].toLowerCase()];
+    var player = JSON.parse(fs.readFileSync(path.join(pathbase,guildName +'.json'),"utf8"))[a[0].toLowerCase()];
 
     return player.fa+"("+player.ch+") - AP:**"+player.ap+"** DP:**"+player.dp+"** GS:**"+player.gs+"** Level:**"+player.level+"** Class: **"+getClassName(player.classid)+"**";
 }
 function playerToString(fa){
-    player = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"))[fa+""];
+    player = JSON.parse(fs.readFileSync(path.join(pathbase,guildName +'.json'),"utf8"))[fa+""];
     return player.fa+"("+player.ch+") - AP:**"+player.ap+"** DP:**"+player.dp+"** GS:**"+player.gs+"** Level:**"+player.level+"** Class: **"+getClassName(player.classid)+"**";
 }
 function parsedToString(player){
@@ -712,7 +713,7 @@ function info(){
     var highest=0;
     var lowestName;
     var highestName;
-    var json = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
+    var json = JSON.parse(fs.readFileSync(path.join(pathbase,guildName +'.json'),"utf8"));
     for(var key in json){
         ct++;
         avg+=(isNaN(parseInt(json[key]["gs"])))?0:parseInt(json[key]["gs"]);
@@ -735,7 +736,7 @@ function info(){
 }
 
 function remove(str,userID){
-    var ventus = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
+    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase,guildName +'.json'),"utf8"));
     if(matcha(officers,userID)==-1){
         if(getById("fa",userID).toLowerCase()!=str.toLowerCase()){ // if attempted remove is not your own
             return "You can only remove your own family, "+getById("fa",userID)+".";
@@ -744,7 +745,7 @@ function remove(str,userID){
             if(ventus[str]){
                 var ret = "Member "+getById("fa",userID)+" has removed their family.";
                 delete ventus[str];
-                fs.writeFile(path.join(path,guildName +'.json'), JSON.stringify(ventus), 'utf8');
+                fs.writeFile(path.join(pathbase,guildName +'.json'), JSON.stringify(ventus), 'utf8');
                 return ret;
             }
             else{
@@ -755,7 +756,7 @@ function remove(str,userID){
     else{ //officer remove
         if(ventus[str]){
             delete ventus[str];
-            fs.writeFile(path.join(path,guildName +'.json'), JSON.stringify(ventus), 'utf8');
+            fs.writeFile(path.join(pathbase,guildName +'.json'), JSON.stringify(ventus), 'utf8');
             return "Officer"+getById("fa",userID)+" has removed the "+str+" family.";
         }
         else{
@@ -820,7 +821,7 @@ function listt(metric, cid){
 
     var sorted = new Array();
 
-    var json = JSON.parse(fs.readFileSync(path.join(path,guildName +'.json'),"utf8"));
+    var json = JSON.parse(fs.readFileSync(path.join(pathbase,guildName +'.json'),"utf8"));
     for (var key in json){
         sorted.push(json[key]);
     }
