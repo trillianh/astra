@@ -278,7 +278,7 @@ try{
 function osuBeatmapInfo(bid){
     var url = "https://osu.ppy.sh/api/get_beatmaps";
     url = buildUrl(url,{
-        "k":auth.osuapi,
+        "k":osu_token,
         "b":bid,
         "m":0,
         "limit":1
