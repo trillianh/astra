@@ -820,7 +820,7 @@ function listt(metric, cid){
 
     var sorted = new Array();
 
-    var json = JSON.parse(fs.readFileSync(path+"\\"+guildName+".json","utf8"));
+    var json = JSON.parse(fs.readFileSync(process.cwd()+"\\"+guildName+".json","utf8"));
     for (var key in json){
         sorted.push(json[key]);
     }
