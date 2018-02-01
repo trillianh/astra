@@ -149,7 +149,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         break;
                     case 'test':
                         bot.sendMessage({
-                            to: 384475247723806724,
+                            to: ventusBotChannel,
                             message: args[0]
                         });
                         break;
