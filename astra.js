@@ -149,8 +149,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         break;
                     case 'test':
                         bot.sendMessage({
-                            to: ventusBotChannel,
-                            message: "a"
+                            to: channelID,
+                            message: args[0]
                         });
                         break;
                     case 'list':
