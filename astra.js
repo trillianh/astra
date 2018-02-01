@@ -141,7 +141,15 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         message: args[1]
                     });
                 }
+                if(message.toLowerCase().startsWith(".backup")){
+                    bot.uploadFile({
+                        to: 110143617699430400,
+                        file: path.join(pathbase, guildName + '.json'),
+                        message: "here's json"
+                    });
+                }
             }
+            
             if (channelID == trillianAstra) {
                 //TEST REALM
                 logger.info(message);
