@@ -135,7 +135,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     });
                     bot.disconnect();
                 }
-                if(message.toLowerCase() == ".msg"){
+                if(message.toLowerCase().startsWith(".msg")){
                     bot.sendMessage({
                         to: args[0],
                         message: args[1]
