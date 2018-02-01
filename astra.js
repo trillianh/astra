@@ -135,6 +135,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     });
                     bot.disconnect();
                 }
+                if(message.toLowerCase() == ".msg"){
+                    bot.sendMessage({
+                        to: args[0],
+                        message: args[1]
+                    });
+                }
             }
             if (channelID == trillianAstra) {
                 //TEST REALM
