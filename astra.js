@@ -149,7 +149,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         break;
                     case 'test':
                         bot.sendMessage({
-                            to: channelID,
+                            to: 384475247723806724,
                             message: args[0]
                         });
                         break;
