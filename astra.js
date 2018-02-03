@@ -891,7 +891,7 @@ function help(args) {
             r = "`.list metric`\n`.list class`\n`.list metric class`\n`.list class metric`\n Lists members in certain ways.";
             break;
         case 'update':
-            r = "`.update ap dp level`\nUpdates your GS and level.";
+            r = "`.update ap dp level`\nUpdates your GS and level.\n`.update discordID ap dp level` Officer update command";
             break;
         case 'reroll':
             r = "`.reroll character ap dp level class`\nUpdates with a new character reroll.";
