@@ -460,6 +460,7 @@ function getFaBy(key, value) {
 }
 function update(args, userID) {
     //ap dp level
+    var iso = 0;
     logger.info(args.length);
     if (args.length != 3) {
         if (args.length == 0) {
@@ -467,6 +468,7 @@ function update(args, userID) {
         }
         else {
             if (args.length==4&&matcha(officers, userID) > -1) {
+                iso = 1;
                 userID = args[0];
             }
             else {
@@ -492,10 +494,10 @@ function update(args, userID) {
         return "User not found.";
     }
     try {
-        ventus[family]["ap"] = parseInt(args[0]);
-        ventus[family]["dp"] = parseInt(args[1]);
-        ventus[family]["level"] = parseInt(args[2]);
-        ventus[family]["gs"] = parseInt(args[0]) + parseInt(args[1]);
+        ventus[family]["ap"] = parseInt(args[0+iso]);
+        ventus[family]["dp"] = parseInt(args[1+iso]);
+        ventus[family]["level"] = parseInt(args[2+iso]);
+        ventus[family]["gs"] = parseInt(args[0+iso]) + parseInt(args[1+iso]);
         fs.writeFile(path.join(pathbase, guildName + '.json'), JSON.stringify(ventus), 'utf8');
     }
     catch (err) {
