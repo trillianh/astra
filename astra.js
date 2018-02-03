@@ -465,8 +465,8 @@ function update(args, userID) {
         if (args.length == 0) {
             return "`.update ap dp level`";
         }
-        if (args[0].match(/[^0-9]/)!=null) {
-            if (matcha(officers, userID) > -1) {
+        else {
+            if (args.length==4&&matcha(officers, userID) > -1) {
                 return "officer update tbd";
             }
             else {
