@@ -470,12 +470,10 @@ function update(args, userID) {
                 userID = args[0];
             }
             else {
-                return "Use the `.reroll` command to switch classes.";
+                return "`.update ap dp level`";
             }
-            //
         }
 
-        return "`.update ap dp level`";
     }
     else if (args[0].match(/[^0-9]/) != null) {
         return "AP must be a number.\n\"" + args[5].match(/[^0-9]/)[0] + "\"";
