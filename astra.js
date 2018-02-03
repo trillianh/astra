@@ -461,11 +461,11 @@ function getFaBy(key, value) {
 function update(args, userID) {
     //ap dp level
     logger.info(args.length);
-    if (args[3] || args.length < 3) {
+    if (args.length != 3) {
         if (args.length == 0) {
             return "`.update ap dp level`";
         }
-        if (args[0].match(/[^0-9]/)) {
+        if (args[0].match(/[^0-9]/)!=null) {
             if (matcha(officers, userID) > -1) {
                 return "officer update tbd";
             }
@@ -879,7 +879,7 @@ function roll(args) {
     return parseInt(args[0]) + Math.floor(Math.random() * (parseInt(args[1]) - parseInt(args[0]) + 1));
 }
 function help(args) {
-    var r = "idk lol";
+    var r = "cc add update reroll help remove roll lsga list info get";
     switch (args[0]) {
         case 'add':
             r = "`.add family character ap dp level class`\nor `.add family character ap dp level class discordID`\nAdds a new family to the guild.";
