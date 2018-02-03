@@ -467,7 +467,7 @@ function update(args, userID) {
         }
         else {
             if (args.length==4&&matcha(officers, userID) > -1) {
-                return "officer update tbd";
+                userID = args[0];
             }
             else {
                 return "Use the `.reroll` command to switch classes.";
