@@ -164,7 +164,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     case 'test':
                         bot.sendMessage({
                             to: channelID,
-                            message: args[1].match(/[0-9]+/)[0]
+                            message: args[0].match(/[0-9]+/)[0]
                         });
                         break;
                     case 'list':
@@ -603,7 +603,7 @@ function addAdmin(args) {
         logger.info("starting add");
         ventus[newAccount.fa.toLowerCase()] = newAccount;
         fs.writeFile(path.join(pathbase, guildName + '.json'), JSON.stringify(ventus), 'utf8');
-        return "The " + ventus[newAccount.fa.toLowerCase()]["fa"] + " family has been added and linked to <@" + args[6] + ">";
+        return "The " + ventus[newAccount.fa.toLowerCase()]["fa"] + " family has been added and linked to <@" + did + ">";
     }
 
 }
