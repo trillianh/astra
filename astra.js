@@ -163,8 +163,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         break;
                     case 'test':
                         bot.sendMessage({
-                            to: args[0],
-                            message: args[1]
+                            to: channelID,
+                            message: args[1].match(/[0-9]+/)[0]
                         });
                         break;
                     case 'list':
@@ -469,7 +469,7 @@ function update(args, userID) {
         else {
             if (args.length==4&&matcha(officers, userID) > -1) {
                 iso = 1;
-                userID = args[0];
+                userID = args[0].match(/[0-9]+/)[0];
             }
             else {
                 return "`.update ap dp level`";
@@ -558,7 +558,7 @@ function reroll(args, userID) {
 }
 var fs = require('fs');
 function addAdmin(args) {
-
+    
     if (args[5] == null) {
         return "incorrect format: `.add family character ap dp level class discordID`";
     }
@@ -584,7 +584,7 @@ function addAdmin(args) {
         if (args[6].length < 18) {
             return "Discord ID must be 18 digits.";
         }
-        return "Discord ID must be a number. \n\"" + args[5].match(/[^a-zA-Z_]/)[0] + "\"";
+        
     }
     var ventus = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"));
     if (ventus[args[0]]) {
@@ -596,8 +596,9 @@ function addAdmin(args) {
         if (classid == -1) {
             return "I'm not sure what class that is.";
         }
+        var did = args[6].match(/[0-9]+/)[0];
         logger.info("initialize newaccount");
-        var newAccount = { "fa": args[0], "ch": args[1], "ap": parseInt(args[2]), "dp": parseInt(args[3]), "gs": gs, "level": parseInt(args[4]), "classid": classid, "discordid": args[6] }
+        var newAccount = { "fa": args[0], "ch": args[1], "ap": parseInt(args[2]), "dp": parseInt(args[3]), "gs": gs, "level": parseInt(args[4]), "classid": classid, "discordid": did }
         //var tostring = newAccount.fa+"("+newAccount.ch+") AP:"+newAccount.ap+" DP:"+newAccount.dp+" GS:"+newAccount.gs+" Level:"+newAccount.level+" Class: "+newAccount.classid;
         logger.info("starting add");
         ventus[newAccount.fa.toLowerCase()] = newAccount;
@@ -891,7 +892,7 @@ function help(args) {
             r = "`.list metric`\n`.list class`\n`.list metric class`\n`.list class metric`\n Lists members in certain ways.";
             break;
         case 'update':
-            r = "`.update ap dp level`\nUpdates your GS and level.\n`.update discordID ap dp level` Officer update command";
+            r = "`.update ap dp level`\nor `.update discordID ap dp level`\nUpdates your GS and level.";
             break;
         case 'reroll':
             r = "`.reroll character ap dp level class`\nUpdates with a new character reroll.";
