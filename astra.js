@@ -441,7 +441,7 @@ function trade(args) {
 
 }
 function getById(key, userID) {
-    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"));
+    var ventus = getJSON(guildName);
     for (var k in ventus) {
         if (ventus[k]["discordid"] == userID) {
             return ventus[k][key];
@@ -450,7 +450,7 @@ function getById(key, userID) {
     return -1;
 }
 function getFaBy(key, value) {
-    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"));
+    var ventus = getJSON(guildName);
     for (var k in ventus) {
         if (ventus[k][key] == value) {
             return ventus[k]["fa"];
@@ -486,7 +486,7 @@ function update(args, userID) {
     else if (args[2].match(/[^0-9]/) != null) {
         return "Level must be a number.\n\"" + args[5].match(/[^0-9]/)[0] + "\"";
     }
-    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"));
+    var ventus = getJSON(guildName);
     try {
         var family = getFaBy("discordid", userID).toLowerCase();
     }
@@ -510,7 +510,7 @@ function update(args, userID) {
 function reroll(args, userID) {
     //char ap dp level class
 
-    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"));
+    var ventus = getJSON(guildName);
     //if char exists
 
     if (args[4] == null || args[5]) {
@@ -539,7 +539,7 @@ function reroll(args, userID) {
     else if (args[4].match(/[^a-zA-Z_]/) != null) {
         return "Class name cannot contain special characters. \n\"" + args[5].match(/[^a-zA-Z_]/)[0] + "\"";
     }
-    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"));
+    var ventus = getJSON(guildName);
     var family = getFaBy("discordid", userID).toLowerCase();
     try {
         ventus[family]["ch"] = args[0];
@@ -586,7 +586,7 @@ function addAdmin(args) {
         }
         
     }
-    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"));
+    var ventus = getJSON(guildName);
     if (ventus[args[0]]) {
         return "The " + ventus[args[0]]["fa"] + " family already exists.";
     }
@@ -641,7 +641,7 @@ function add(args, userID) {
         return "Class name cannot contain special characters. \n\"" + args[5].match(/[^a-zA-Z_]/)[0] + "\"";
     }
 
-    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"));
+    var ventus = getJSON(guildName);
     if (ventus[args[0]]) {
         return "The " + ventus[args[0]]["fa"] + " family already exists.";
     }
@@ -727,7 +727,7 @@ function info() {
     var highest = 0;
     var lowestName;
     var highestName;
-    var json = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"));
+    var json = getJSON(guildName);
     for (var key in json) {
         ct++;
         avg += (isNaN(parseInt(json[key]["gs"]))) ? 0 : parseInt(json[key]["gs"]);
@@ -837,7 +837,7 @@ function listt(metric, cid) {
 
     var sorted = new Array();
 
-    var json = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"));
+    var json = getJSON(guildName);
     for (var key in json) {
         sorted.push(json[key]);
     }
