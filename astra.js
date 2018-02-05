@@ -749,8 +749,12 @@ function info() {
 
 }
 
+function getJSON(gname){
+    return JSON.parse(fs.readFileSync(path.join(pathbase, gname + '.json'), "utf8"));
+}
+
 function remove(str, userID) {
-    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"));
+    var ventus = getJSON(guildName);
     if (matcha(officers, userID) == -1) {
         if (getById("fa", userID).toLowerCase() != str.toLowerCase()) { // if attempted remove is not your own
             return "You can only remove your own family, " + getById("fa", userID) + ".";
