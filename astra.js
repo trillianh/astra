@@ -887,7 +887,7 @@ function help(args) {
     var r = "cc add update reroll help remove roll lsga list info get";
     switch (args[0]) {
         case 'add':
-            r = "`.add family character ap dp level class`\nor `.add family character ap dp level class discordID`\nAdds a new family to the guild.";
+            r = "`.add family character ap dp level class`\nor officer `.add family character ap dp level class discordID`\nAdds a new family to the guild.";
             break;
         case 'get':
             r = "`.get family`\nGets details of a family in the guild.";
