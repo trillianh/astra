@@ -9,6 +9,8 @@ var https = require('https');
 var mongodb = require('mongodb');
 //var request = require('sync-request');
 
+var messageQueue = [];
+//LIFO
 const guildName = "ventus";
 const MESSAGE_CHAR_LIMIT = 2000;
 const ventusBotChannel = 385971798539370496;
@@ -166,17 +168,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         });
                         break;
                     case 'test':
-                        var testarr = ["msg1","msg2","msg3"];
-
-                        var wait = 0;
-                        for(var testmsg in testarr){
-                            setTimeout(function () {
-                                bot.sendMessage({
-                                    to: channelID,
-                                    message: testarr[testmsg]
-                                });
-                            }, wait);
-                            wait+=30;
+                        messageQueue = ['a','b','c'];
+                        if(messageQueue.length>0){
+                            bot.sendMessage({
+                                to:channelID,
+                                message: messageQueue.shift()
+                            });
                         }
                         break;
                     case 'list':
@@ -291,6 +288,14 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         // add more commands here
                     }
                 }
+            }
+        }
+        else if(userID==385936309463678976){
+            if(messageQueue.length>0){
+                bot.sendMessage({
+                    to: channelID,
+                    message: messageQueue.shift()
+                });
             }
         }
     }
