@@ -166,14 +166,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         });
                         break;
                     case 'test':
-                    bot.sendMessage({
-                        to: channelID,
-                        message: ["asdf","asdf2"]
-                    });
-                    bot.sendMessage({
-                        to: channelID,
-                        message: ["asdf","asdf2"]
-                    });
+                    for(var tested in ["asdf","asdf2"]){
+                        bot.sendMessage({
+                            to: channelID,
+                            message: tested
+                        });
+                    }
                         break;
                     case 'list':
                         bot.sendMessage({
@@ -271,6 +269,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             });
                             break;
                         case 'list':
+                            msgArray = list(args)
+                            for()
                             bot.sendMessage({
                                 to: channelID,
                                 message: list(args)
