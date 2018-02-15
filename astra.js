@@ -273,10 +273,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             });
                             break;
                         case 'list':
-                            //list(args);
+                            list(args);
                             bot.sendMessage({
                                 to: channelID,
-                                message: "UNDER CONSTRUCTION"//messageQueue.shift()
+                                message: messageQueue.shift()
                             });
                             break;
                         case 'info':
