@@ -177,9 +177,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         }
                         break;
                     case 'list':
+                        list(args);
                         bot.sendMessage({
                             to: channelID,
-                            message: (args.length > 1) ? ((args.length > 2) ? "`.list metric class` or `.list metric`" : list(args[0], getClassId(args[1]))) : list(args[0])
+                            message: messageQueue.shift()
                         });
                         break;
                     case 'remove':
@@ -272,10 +273,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             });
                             break;
                         case 'list':
-                            msgArray = list(args)
+                            //list(args);
                             bot.sendMessage({
                                 to: channelID,
-                                message: list(args)
+                                message: "UNDER CONSTRUCTION"//messageQueue.shift()
                             });
                             break;
                         case 'info':
@@ -828,13 +829,14 @@ function list(args) {
     else{
     str = listt("gs", -1);
     }
-    if(str.length>MESSAGE_CHAR_LIMIT-3){
-        capped = str.substring(0,MESSAGE_CHAR_LIMIT-3);
-        lastline = capped.lastIndexOf('\n');
-        capped = capped.substring(0,lastline);
-        over = str.substring(lastline,str.length);
+    while(str.length>MESSAGE_CHAR_LIMIT-3){
+        capped = str.substring(0,MESSAGE_CHAR_LIMIT-3); //rough cut ex "asdf\nasd"
+        lastline = capped.lastIndexOf('\n'); //find most recent newline ex "4"
+        capped = capped.substring(0,lastline)+"```"; //clean cut ex "asdf"
+        messageQueue.push(capped); //add to messageQueue ex ["asdf"]
+        str = "```"+str.substring(lastline,str.length); //put the rest back in str "\nasd"
     }
-    return capped;
+    messageQueue.push(str);
 }
 function listn(metric) {
     if (metric.length == 0) {
