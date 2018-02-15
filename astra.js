@@ -170,7 +170,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         for(var testmsg in testarr){
                             bot.sendMessage({
                                 to: channelID,
-                                message: testmsg
+                                message: testarr[testmsg]
                             });
                         }
                         break;
