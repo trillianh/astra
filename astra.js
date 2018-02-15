@@ -10,6 +10,7 @@ var mongodb = require('mongodb');
 //var request = require('sync-request');
 
 const guildName = "ventus";
+const MESSAGE_CHAR_LIMIT = 2000;
 const ventusBotChannel = 385971798539370496;
 const trillianAstra = 387326440607186947;
 const pathbase = ".";//"C:\\Users\\astra\\Desktop\\ventus";
@@ -17,6 +18,9 @@ const officers = [
     "229422191362441216",
     "223993765398970368",
     "110143617699430400",
+    "110565709414690816",
+    "100711732757938176",
+    "233826421489795072",
     "163807302061785088"];
 const classnicks = [
     "zerker,zerk,berserker,zk,giant", //0
@@ -164,7 +168,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     case 'test':
                         bot.sendMessage({
                             to: channelID,
-                            message: args[0].match(/[0-9]+/)[0]
+                            message: ["asdf","asdf2"]
                         });
                         break;
                     case 'list':
@@ -784,7 +788,7 @@ function remove(str, userID) {
     return "error";
 }
 function list(args) {
-
+    str = "";
     if (args.length == 1) {
 
         if (matcha(["lvl", "levl", "lv", "lev", "growth"], args[0]) >= 0) {
@@ -792,22 +796,31 @@ function list(args) {
         }
         if (matcha(["ap", "dp", "level", "gs"], args[0]) > -1) {
             //sort all by args[0]
-            return listt(args[0], -1);
+            str = listt(args[0], -1);
         }
         else {
             //list all args[0] by gs
-            return listt("gs", getClassId(args[0]));
+            str = listt("gs", getClassId(args[0]));
         }
     }
     else if (args.length == 2) {
         if (matcha(["ap", "dp", "level", "gs"], args[0]) > -1) {
-            return listt(args[0], getClassId(args[1]));
+            str = listt(args[0], getClassId(args[1]));
         }
         else {
-            return listt(args[1], getClassId(args[0]));
+            str = listt(args[1], getClassId(args[0]));
         }
     }
-    return listt("gs", -1);
+    else{
+    str = listt("gs", -1);
+    }
+    if(str.length>MESSAGE_CHAR_LIMIT-3){
+        capped = str.substring(0,MESSAGE_CHAR_LIMIT-3);
+        lastline = capped.lastIndexOf('\n');
+        capped = capped.substring(0,lastline);
+        over = str.substring(lastline,str.length);
+    }
+    return capped;
 }
 function listn(metric) {
     if (metric.length == 0) {
