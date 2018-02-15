@@ -166,7 +166,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         });
                         break;
                     case 'test':
-                        var testarr = ["msg1","msg2"];
+                        var testarr = ["msg1","msg2","msg3"];
                         for(var testmsg in testarr){
                             bot.sendMessage({
                                 to: channelID,
