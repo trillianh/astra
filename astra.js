@@ -167,11 +167,16 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         break;
                     case 'test':
                         var testarr = ["msg1","msg2","msg3"];
+
+                        var wait = 0;
                         for(var testmsg in testarr){
-                            bot.sendMessage({
-                                to: channelID,
-                                message: testarr[testmsg]
-                            });
+                            setTimeout(function () {
+                                bot.sendMessage({
+                                    to: channelID,
+                                    message: testarr[testmsg]
+                                });
+                            }, wait);
+                            wait+=30;
                         }
                         break;
                     case 'list':
