@@ -166,10 +166,14 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         });
                         break;
                     case 'test':
-                        bot.sendMessage({
-                            to: channelID,
-                            message: ["asdf","asdf2"]
-                        });
+                    bot.sendMessage({
+                        to: channelID,
+                        message: ["asdf","asdf2"]
+                    });
+                    bot.sendMessage({
+                        to: channelID,
+                        message: ["asdf","asdf2"]
+                    });
                         break;
                     case 'list':
                         bot.sendMessage({
