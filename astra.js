@@ -512,6 +512,7 @@ function update(args, userID) {
     catch (err) {
         return "User not found.";
     }
+    var before = getInfo("avg");
     try {
         ventus[family]["ap"] = parseInt(args[0+iso]);
         ventus[family]["dp"] = parseInt(args[1+iso]);
@@ -523,7 +524,13 @@ function update(args, userID) {
         logger.info(userID);
         return -1;
     }
-    return "Updated the " + ventus[family]["fa"] + " family successfully.";
+    var after = getInfo("avg");
+    var diff = after-before;
+    var up = "up";
+    if(diff<0){
+        var up = "down";
+    }
+    return "Updated the " + ventus[family]["fa"] + " family successfully.\nOur gs average went "+up+" by " +Math.abs(diff)+".";
 }
 
 function reroll(args, userID) {
@@ -634,7 +641,7 @@ function add(args, userID) {
             }
         }
         if (matcha(officers, userID) > -1) {
-            return "Add their Discord ID at the end of the `.add` command to add a member.";
+            return "Officers can add their Discord ID at the end of the `.add` command to add a member.";
         }
         return "Use the `.update` or `.reroll` command to update your info.";
     }
@@ -766,6 +773,37 @@ function info() {
     highestStr = ("Highest GS: **" + highest + "** ").padEnd(15) + highestName + "\n";
     return "Members: **" + ct + "**\nAverage: **" + avg + "**\n" + lowestStr + highestStr;
 
+}
+function getInfo(type){
+    var avg = 0;
+    var ct = 0;
+    var lowest = 700;
+    var highest = 0;
+    var lowestName;
+    var highestName;
+    var json = getJSON(guildName);
+    for (var key in json) {
+        ct++;
+        avg += (isNaN(parseInt(json[key]["gs"]))) ? 0 : parseInt(json[key]["gs"]);
+        currentGS = parseInt(json[key]["gs"]);
+        if (currentGS < lowest) {
+            lowest = currentGS;
+            lowestName = json[key]["fa"] + "(" + json[key]["ch"] + ")";
+        }
+        if (currentGS > highest) {
+            highest = currentGS;
+            highestName = json[key]["fa"] + "(" + json[key]["ch"] + ")";
+        }
+    }
+    avg = avg / ct;
+    avg = avg.toPrecision(5);
+    lowestStr = ("Lowest GS: **" + lowest + "** ").padEnd(15) + lowestName + "\n";
+    highestStr = ("Highest GS: **" + highest + "** ").padEnd(15) + highestName + "\n";
+    var re = avg;
+    if(type=="count"){
+        re = ct;
+    }
+    return re;
 }
 
 function getJSON(gname){
@@ -900,6 +938,7 @@ function listt(metric, cid) {
     str += "```";
     return str;
 }
+//roll command
 function roll(args) {
     if (isNaN(args[0])) {
         return Math.floor(Math.random() * 101);
@@ -912,8 +951,9 @@ function roll(args) {
     }
     return parseInt(args[0]) + Math.floor(Math.random() * (parseInt(args[1]) - parseInt(args[0]) + 1));
 }
+//help command
 function help(args) {
-    var r = "cc add update reroll help remove roll lsga list info get";
+    var r = "cc add update reroll help remove roll lsga list info get \nex. `.help add`";
     switch (args[0]) {
         case 'add':
             r = "member: `.add family character ap dp level class`\nofficer: `.add family character ap dp level class discordID`\nAdds a new family to the guild.";
