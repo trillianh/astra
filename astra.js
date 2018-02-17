@@ -916,7 +916,7 @@ function help(args) {
     var r = "cc add update reroll help remove roll lsga list info get";
     switch (args[0]) {
         case 'add':
-            r = "`.add family character ap dp level class`\nor officer `.add family character ap dp level class discordID`\nAdds a new family to the guild.";
+            r = "member: `.add family character ap dp level class`\nofficer: `.add family character ap dp level class discordID`\nAdds a new family to the guild.";
             break;
         case 'get':
             r = "`.get family`\nGets details of a family in the guild.";
@@ -925,7 +925,7 @@ function help(args) {
             r = "`.list metric`\n`.list class`\n`.list metric class`\n`.list class metric`\n Lists members in certain ways.";
             break;
         case 'update':
-            r = "`.update ap dp level`\nor `.update discordID ap dp level`\nUpdates your GS and level.";
+            r = "member: `.update ap dp level`\nofficer: `.update discordID ap dp level`\nUpdates your GS and level.";
             break;
         case 'reroll':
             r = "`.reroll character ap dp level class`\nUpdates with a new character reroll.";
