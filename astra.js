@@ -512,7 +512,6 @@ function update(args, userID) {
     catch (err) {
         return "User not found.";
     }
-    var before = getInfo("avg");
     try {
         ventus[family]["ap"] = parseInt(args[0+iso]);
         ventus[family]["dp"] = parseInt(args[1+iso]);
@@ -524,13 +523,7 @@ function update(args, userID) {
         logger.info(userID);
         return -1;
     }
-    var after = getInfo("avg");
-    var diff = after-before;
-    var up = "up";
-    if(diff<0){
-        var up = "down";
-    }
-    return "Updated the " + ventus[family]["fa"] + " family successfully.\nOur gs average went "+up+" by " +Math.abs(diff)+".";
+    return "Updated the " + ventus[family]["fa"] + " family successfully.";
 }
 
 function reroll(args, userID) {
