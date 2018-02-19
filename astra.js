@@ -89,10 +89,14 @@ bot.on('message', function (user, userID, channelID, message, evt) {
     // Our bot needs to know if it will execute a command
     // It will listen for messages that will start with `!`
     try {
+        while(message.includes("  ")){
+           message = message.replace("  "," ");
+        }
         var args = message.substring(1).split(' ');
         var cmd = args[0];
         args = args.splice(1);
         var cm = message.substring(4);
+
         if (userID != 385936309463678976) {
             //GLOBAL
             if (message.toLowerCase().replace(" ", "").includes("feelsgoodman") && userID != 385936309463678976) {
