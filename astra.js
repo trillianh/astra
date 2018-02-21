@@ -171,6 +171,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             message: channelID
                         });
                         break;
+                    case 'get':
+                        bot.sendMessage({
+                            to: channelID,
+                            message: getPlayer(args)
+                        });
+                        break;
                     case 'test':
                         messageQueue = ['a','b','c'];
                         if(messageQueue.length>0){
@@ -197,6 +203,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             }
             if (channelID == ventusBotChannel) {
                 //VENTUS BOT CH COMMANDS
+                logger.info(message);
                 if (message.substring(0, 1) == '.') {
                     var args = message.substring(1).split(' ');
                     var cmd = args[0].toLowerCase();
@@ -721,8 +728,8 @@ function getStat(stat, data) {
     }
 }
 function getPlayer(args) {
-    var player = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"))[args[0].toLowerCase()];
-
+    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"));
+    var player = ventus[args[0].toLowerCase()];
     return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**";
 }
 function playerToString(fa) {
