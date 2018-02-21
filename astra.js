@@ -808,9 +808,10 @@ function getJSON(gname){
 }
 
 function remove(str, userID) {
+    str = str.toString().toLowerCase();
     var ventus = getJSON(guildName);
     if (matcha(officers, userID) == -1) {
-        if (getById("fa", userID).toLowerCase() != str.toLowerCase()) { // if attempted remove is not your own
+        if (getById("fa", userID).toString().toLowerCase() != str) { // if attempted remove is not your own
             return "You can only remove your own family, " + getById("fa", userID) + ".";
         }
         else {
@@ -829,7 +830,7 @@ function remove(str, userID) {
         if (ventus[str]) {
             delete ventus[str];
             fs.writeFile(path.join(pathbase, guildName + '.json'), JSON.stringify(ventus), 'utf8');
-            return "Officer" + getById("fa", userID) + " has removed the " + str + " family.";
+            return "Officer " + getById("fa", userID) + " has removed the " + str + " family.";
         }
         else {
             return str + " family not found.";
