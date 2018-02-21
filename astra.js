@@ -93,7 +93,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
            message = message.replace("  "," ");
         }
         var args = message.substring(1).split(' ');
-        var cmd = args[0];
+        var cmd = args[0].toLowerCase();
         args = args.splice(1);
         var cm = message.substring(4);
 
@@ -883,7 +883,7 @@ function listn(metric) {
     return "Error <@110143617699430400>";
 }
 function listt(metric, cid) {
-
+    cid = cid.toLowerCase();
     metric = metric.toString().toLowerCase();
     if (matcha(["lvl", "levl", "lv", "lev", "growth"], metric) >= 0) {
         metric = "level";
