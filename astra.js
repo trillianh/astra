@@ -721,7 +721,7 @@ function getStat(stat, data) {
     }
 }
 function getPlayer(args) {
-    var player = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"))[a[0].toLowerCase()];
+    var player = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"))[args[0].toLowerCase()];
 
     return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**";
 }
@@ -814,7 +814,7 @@ function remove(str, userID) {
         if (getById("fa", userID).toString().toLowerCase() != str) { // if attempted remove is not your own
             return "You can only remove your own family, " + getById("fa", userID) + ".";
         }
-        else {
+        else { //default 
             if (ventus[str]) {
                 var ret = "Member " + getById("fa", userID) + " has removed their family.";
                 delete ventus[str];
