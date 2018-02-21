@@ -883,7 +883,7 @@ function listn(metric) {
     return "Error <@110143617699430400>";
 }
 function listt(metric, cid) {
-    cid = cid.toLowerCase();
+    cid = cid.toString().toLowerCase();
     metric = metric.toString().toLowerCase();
     if (matcha(["lvl", "levl", "lv", "lev", "growth"], metric) >= 0) {
         metric = "level";
