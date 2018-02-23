@@ -92,6 +92,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         while(message.includes("  ")){
            message = message.replace("  "," ");
         }
+        
         var args = message.substring(1).split(' ');
         var cmd = args[0].toLowerCase();
         args = args.splice(1);
@@ -862,11 +863,13 @@ function list(args) {
         }
     }
     else if (args.length == 2) {
-        if (matcha(["ap", "dp", "level", "gs"], args[0]) > -1) {
-            str = listt(args[0], getClassId(args[1]));
+        arg1 = args[0].toString().toLowerCase();
+        arg2 = args[1].toString().toLowerCase();
+        if (matcha(["ap", "dp", "level", "gs"], arg1) > -1) {
+            str = listt(arg1, getClassId(arg2));
         }
         else {
-            str = listt(args[1], getClassId(args[0]));
+            str = listt(arg2, getClassId(arg1));
         }
     }
     else{
