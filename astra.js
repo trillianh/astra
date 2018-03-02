@@ -322,6 +322,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
     }
 });
 
+
 function osuBeatmapInfo(bid) {
     var url = "https://osu.ppy.sh/api/get_beatmaps";
     url = buildUrl(url, {
@@ -729,7 +730,7 @@ function getStat(stat, data) {
     }
 }
 function getPlayer(args) {
-    var ventus = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"));
+    var ventus = getJSON(guildName);
     var player = ventus[args[0].toLowerCase()];
     return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**";
 }
@@ -923,7 +924,7 @@ function listt(metric, cid) {
         }
         sorted[j + 1] = temp;
     }
-    str += "```Name(Family)                   AP     DP     GS     LVL    Class\n________________________________________________________________\n";
+    str += "```Family(Character)                   AP     DP     GS     LVL    Class\n________________________________________________________________\n";
     //add ascend/decend functionality here
     //sorted should be full of objects at this point
     for (var i = 0; i < sorted.length; i++) {
