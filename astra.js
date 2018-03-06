@@ -936,7 +936,7 @@ function listt(metric, cid) {
         }
         sorted[j + 1] = temp;
     }
-    str += "```Family(Character)                   AP     DP     GS     LVL    Class\n________________________________________________________________\n";
+    str += "```Family(Character)              AP     DP     GS     LVL    Class\n________________________________________________________________\n";
     //add ascend/decend functionality here
     //sorted should be full of objects at this point
     for (var i = 0; i < sorted.length; i++) {
@@ -948,7 +948,7 @@ function listt(metric, cid) {
                     (cid == -2 && matcha(["13","14"],sorted[i]["classid"])>=0)
                 ) {
                     //replace with table formatted playertostring
-                    str += parsedTableString(sorted[i]) + "\n";
+                    str += parsedTableString(sorted[i], 1) + "\n";
                 }
             }
             else {
