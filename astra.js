@@ -201,6 +201,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             message: remove(args[0])
                         });
                         break;
+                    case 'addpic':
+                        addPicture(args);
+                        bot.sendMessage({
+                            to: channelID,
+                            message: "Successfully attached picture to the "+getFaBy("discordID", userID)+" family."
+                        });
+                        break;
                 }
             }
             if (channelID == ventusBotChannel) {
@@ -695,7 +702,11 @@ function add(args, userID) {
     }
     return "error <@110143617699430400>";
 }
-
+function addPicture(args,id){
+    
+    var ventus = getJSON(guildName);
+    ventus[getFaBy("id",id)]["img"] = args[0];
+}
 function getClassName(id) {
     if(id==-2){
         return "Caster";
@@ -705,7 +716,7 @@ function getClassName(id) {
 function getClassId(str) {
     str = str.toLowerCase();
     // multiclass types 
-    if(str.startsWith("cast")){
+    if(str.startsWith("cast")||str.startsWith("mag")){
         return -2;
     }
     //   logger.info(classnames.length+" "+classnicks.length);
