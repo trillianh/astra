@@ -712,7 +712,7 @@ function add(args, userID) {
 }
 function addPicture(args,id){
     var ventus = getJSON(guildName);
-    var fam = getFaBy("id",id);
+    var fam = getFaBy("discordid",id);
     if(fam=="-1"){
         return 0;
     }
