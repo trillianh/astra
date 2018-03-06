@@ -719,6 +719,7 @@ function getClassId(str) {
 }
 function matcha(arr, str) {
     // >=0 is match
+    str = str.toString();
     for (var i = 0; i < arr.length; i++) {
         if (str.match(arr[i].toString()) != null) {
             return i;
