@@ -57,6 +57,7 @@ const classnames = [
     "Warrior",
     "Witch",
     "Wizard"];
+
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(logger.transports.Console, {
@@ -696,11 +697,17 @@ function add(args, userID) {
 }
 
 function getClassName(id) {
+    if(id==-2){
+        return "Caster";
+    }
     return classnames[id];
 }
 function getClassId(str) {
     str = str.toLowerCase();
-
+    // multiclass types 
+    if(str.startsWith("cast")){
+        return -2;
+    }
     //   logger.info(classnames.length+" "+classnicks.length);
     for (var i = 0; i < classnames.length; i++) {
         if (matcha(classnicks[i].split(","), str) > -1) {
@@ -711,6 +718,7 @@ function getClassId(str) {
     return -1;
 }
 function matcha(arr, str) {
+    // >=0 is match
     for (var i = 0; i < arr.length; i++) {
         if (str.match(arr[i]) != null) {
             return i;
@@ -860,18 +868,26 @@ function list(args) {
         }
         else {
             //list all args[0] by gs
-            str = listt("gs", getClassId(args[0]));
+            if(args[0].toLowerCase().startsWith("cast")){
+                str = listt("gs", -2);
+            }else{
+                str = listt("gs", getClassId(args[0]));
+            }
         }
     }
     else if (args.length == 2) {
         arg1 = args[0].toString().toLowerCase();
         arg2 = args[1].toString().toLowerCase();
+        var cid;
         if (matcha(["ap", "dp", "level", "gs"], arg1) > -1) {
-            str = listt(arg1, getClassId(arg2));
+            metric = arg1;
+            cid = getClassId(arg2);
         }
         else {
-            str = listt(arg2, getClassId(arg1));
+            metric = arg2;
+            cid = getClassId(arg1);
         }
+        str = listt(metric, cid);
     }
     else{
     str = listt("gs", -1);
@@ -895,7 +911,6 @@ function listn(metric) {
     return "Error <@110143617699430400>";
 }
 function listt(metric, cid) {
-    cid = cid.toString().toLowerCase();
     metric = metric.toString().toLowerCase();
     if (matcha(["lvl", "levl", "lv", "lev", "growth"], metric) >= 0) {
         metric = "level";
@@ -930,7 +945,11 @@ function listt(metric, cid) {
     for (var i = 0; i < sorted.length; i++) {
         try {
             if (cid != null) {
-                if (sorted[i]["classid"] == cid) {
+                // if is the class, or is 
+                if (
+                    sorted[i]["classid"] == cid || 
+                    (cid == -2&&matcha([13,14],sorted[i]["classid"])>=0)
+                ) {
                     //replace with table formatted playertostring
                     str += parsedTableString(sorted[i]) + "\n";
                 }
