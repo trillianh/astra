@@ -706,6 +706,7 @@ function getClassId(str) {
     str = str.toLowerCase();
     // multiclass types 
     if(str.startsWith("cast")){
+        logger.info("-2");
         return -2;
     }
     //   logger.info(classnames.length+" "+classnicks.length);
@@ -868,11 +869,7 @@ function list(args) {
         }
         else {
             //list all args[0] by gs
-            if(args[0].toLowerCase().startsWith("cast")){
-                str = listt("gs", -2);
-            }else{
                 str = listt("gs", getClassId(args[0]));
-            }
         }
     }
     else if (args.length == 2) {
