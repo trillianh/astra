@@ -944,7 +944,7 @@ function listt(metric, cid) {
                 // if is the class, or is 
                 if (
                     sorted[i]["classid"] == cid || 
-                    (cid == -2 && matcha([13,14],sorted[i]["classid"])>=0)
+                    (cid == -2 && matcha(["13","14"],sorted[i]["classid"])>=0)
                 ) {
                     //replace with table formatted playertostring
                     str += parsedTableString(sorted[i]) + "\n";
