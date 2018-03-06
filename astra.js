@@ -720,7 +720,7 @@ function getClassId(str) {
 function matcha(arr, str) {
     // >=0 is match
     for (var i = 0; i < arr.length; i++) {
-        if (str.match(arr[i]) != null) {
+        if (str.match(arr[i].toString()) != null) {
             return i;
         }
     }
@@ -944,7 +944,7 @@ function listt(metric, cid) {
                 // if is the class, or is 
                 if (
                     sorted[i]["classid"] == cid || 
-                    (cid == -2&&matcha([13,14],sorted[i]["classid"])>=0)
+                    (cid == -2 && matcha([13,14],sorted[i]["classid"])>=0)
                 ) {
                     //replace with table formatted playertostring
                     str += parsedTableString(sorted[i]) + "\n";
