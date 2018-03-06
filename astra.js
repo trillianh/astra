@@ -706,7 +706,6 @@ function getClassId(str) {
     str = str.toLowerCase();
     // multiclass types 
     if(str.startsWith("cast")){
-        logger.info("-2");
         return -2;
     }
     //   logger.info(classnames.length+" "+classnicks.length);
@@ -916,7 +915,7 @@ function listt(metric, cid) {
         return "\"" + metric + "\" is not a valid metric for comparison.";
     }
     var str = "Guild Member Rankings sorted by **" + ((metric == "level") ? "Level" : metric.toUpperCase()) + "**\n";
-    if (cid >= 0) { //filter only classes
+    if (cid != -1) { //filter only classes
         str = "**" + getClassName(cid) + "** Rankings sorted by **" + ((metric == "level") ? "Level" : metric.toUpperCase()) + "**\n";
     }
     else {
