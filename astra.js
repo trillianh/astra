@@ -58,6 +58,9 @@ const classnames = [
     "Witch",
     "Wizard"];
 
+const groupnames = [
+    "Caster",
+    "Blader"];
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(logger.transports.Console, {
@@ -202,10 +205,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         });
                         break;
                     case 'addpic':
-                        addPicture(args);
+                        errorlevel = addPicture(args,userID);
                         bot.sendMessage({
                             to: channelID,
-                            message: "Successfully attached picture to the "+getFaBy("discordID", userID)+" family."
+                            message: (errorlevel<0)?"Successfully attached picture to the "+getFaBy("discordID", userID)+" family.":"Error adding picture <@110143617699430400>"
                         });
                         break;
                 }
@@ -496,7 +499,7 @@ function getFaBy(key, value) {
             return ventus[k]["fa"];
         }
     }
-    return -1;
+    return "-1";
 }
 function update(args, userID) {
     //ap dp level
@@ -538,7 +541,8 @@ function update(args, userID) {
         ventus[family]["dp"] = parseInt(args[1+iso]);
         ventus[family]["level"] = parseInt(args[2+iso]);
         ventus[family]["gs"] = parseInt(args[0+iso]) + parseInt(args[1+iso]);
-        fs.writeFile(path.join(pathbase, guildName + '.json'), JSON.stringify(ventus), 'utf8');
+
+        save(ventus);
     }
     catch (err) {
         logger.info(userID);
@@ -588,7 +592,7 @@ function reroll(args, userID) {
         ventus[family]["level"] = parseInt(args[3]);
         ventus[family]["classid"] = getClassId(args[4]);
         ventus[family]["gs"] = parseInt(args[1]) + parseInt(args[2]);
-        fs.writeFile(path.join(pathbase, guildName + '.json'), JSON.stringify(ventus), 'utf8');
+        save(ventus);
     }
     catch (err) {
         logger.info(userID);
@@ -597,6 +601,10 @@ function reroll(args, userID) {
     return "Rerolled the " + getFaBy("discordid", userID) + " family to " + getClassName(getClassId(args[4])) + " successfully.";
 }
 var fs = require('fs');
+function save(str){
+    fs.writeFile(path.join(pathbase, guildName + '.json'), JSON.stringify(str), 'utf8');
+    return 1;
+}
 function addAdmin(args) {
     
     if (args[5] == null) {
@@ -642,7 +650,7 @@ function addAdmin(args) {
         //var tostring = newAccount.fa+"("+newAccount.ch+") AP:"+newAccount.ap+" DP:"+newAccount.dp+" GS:"+newAccount.gs+" Level:"+newAccount.level+" Class: "+newAccount.classid;
         logger.info("starting add");
         ventus[newAccount.fa.toLowerCase()] = newAccount;
-        fs.writeFile(path.join(pathbase, guildName + '.json'), JSON.stringify(ventus), 'utf8');
+        save(ventus);
         return "The " + ventus[newAccount.fa.toLowerCase()]["fa"] + " family has been added and linked to <@" + did + ">";
     }
 
@@ -697,15 +705,20 @@ function add(args, userID) {
         //var tostring = newAccount.fa+"("+newAccount.ch+") AP:"+newAccount.ap+" DP:"+newAccount.dp+" GS:"+newAccount.gs+" Level:"+newAccount.level+" Class: "+newAccount.classid;
         logger.info("starting add");
         ventus[newAccount.fa.toLowerCase()] = newAccount;
-        fs.writeFile(path.join(pathbase, guildName + '.json'), JSON.stringify(ventus), 'utf8');
+        save(ventus);
         return "added the " + args[0] + " family successfully.";
     }
     return "error <@110143617699430400>";
 }
 function addPicture(args,id){
-    
     var ventus = getJSON(guildName);
-    ventus[getFaBy("id",id)]["img"] = args[0];
+    var fam = getFaBy("id",id);
+    if(fam=="-1"){
+        return 0;
+    }
+    ventus[fam]["img"] = args[0];
+    save(ventus);
+    return -1;
 }
 function getClassName(id) {
     if(id==-2){
@@ -847,7 +860,7 @@ function remove(str, userID) {
             if (ventus[str]) {
                 var ret = "Member " + getById("fa", userID) + " has removed their family.";
                 delete ventus[str];
-                fs.writeFile(path.join(pathbase, guildName + '.json'), JSON.stringify(ventus), 'utf8');
+                save(ventus);
                 return ret;
             }
             else {
@@ -858,7 +871,7 @@ function remove(str, userID) {
     else { //officer remove
         if (ventus[str]) {
             delete ventus[str];
-            fs.writeFile(path.join(pathbase, guildName + '.json'), JSON.stringify(ventus), 'utf8');
+            save(ventus);
             return "Officer " + getById("fa", userID) + " has removed the " + str + " family.";
         }
         else {
