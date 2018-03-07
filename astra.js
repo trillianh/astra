@@ -646,7 +646,7 @@ function addAdmin(args) {
         }
         var did = args[6].match(/[0-9]+/)[0];
         logger.info("initialize newaccount");
-        var newAccount = { "fa": args[0], "ch": args[1], "ap": parseInt(args[2]), "dp": parseInt(args[3]), "gs": gs, "level": parseInt(args[4]), "classid": classid, "discordid": did }
+        var newAccount = { "fa": args[0], "ch": args[1], "ap": parseInt(args[2]), "dp": parseInt(args[3]), "gs": gs, "level": parseInt(args[4]), "classid": classid, "discordid": did, "img":"" }
         //var tostring = newAccount.fa+"("+newAccount.ch+") AP:"+newAccount.ap+" DP:"+newAccount.dp+" GS:"+newAccount.gs+" Level:"+newAccount.level+" Class: "+newAccount.classid;
         logger.info("starting add");
         ventus[newAccount.fa.toLowerCase()] = newAccount;
@@ -701,7 +701,7 @@ function add(args, userID) {
             return "I'm not sure what class that is.";
         }
         logger.info("initialize newaccount");
-        var newAccount = { "fa": args[0], "ch": args[1], "ap": parseInt(args[2]), "dp": parseInt(args[3]), "gs": gs, "level": parseInt(args[4]), "classid": classid, "discordid": uid }
+        var newAccount = { "fa": args[0], "ch": args[1], "ap": parseInt(args[2]), "dp": parseInt(args[3]), "gs": gs, "level": parseInt(args[4]), "classid": classid, "discordid": uid, "img":"" }
         //var tostring = newAccount.fa+"("+newAccount.ch+") AP:"+newAccount.ap+" DP:"+newAccount.dp+" GS:"+newAccount.gs+" Level:"+newAccount.level+" Class: "+newAccount.classid;
         logger.info("starting add");
         ventus[newAccount.fa.toLowerCase()] = newAccount;
@@ -712,7 +712,7 @@ function add(args, userID) {
 }
 function addPicture(args,id){
     var ventus = getJSON(guildName);
-    var fam = getFaBy("discordid",id);
+    var fam = getFaBy("id",id);
     if(fam=="-1"){
         return 0;
     }
