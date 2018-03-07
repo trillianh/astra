@@ -179,7 +179,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     case 'get':
                         bot.sendMessage({
                             to: channelID,
-                            message: getPlayer(args)
+                            message: getPlayer(args,userID)
                         });
                         break;
                     case 'test':
@@ -256,7 +256,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         case 'get':
                             bot.sendMessage({
                                 to: channelID,
-                                message: getPlayer(args)
+                                message: getPlayer(args,userID)
                             });
                             break;
                         case 'help':
@@ -762,9 +762,12 @@ function getStat(stat, data) {
         return "undefined";
     }
 }
-function getPlayer(args) {
+function getPlayer(args,id) {
+    var player= ventus[getById("fa",id)];
     var ventus = getJSON(guildName);
-    var player = ventus[args[0].toLowerCase()];
+    if(args[0]){
+        player = ventus[args[0].toLowerCase()];
+    }
     return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**";
 }
 function playerToString(fa) {
