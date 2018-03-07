@@ -763,8 +763,8 @@ function getStat(stat, data) {
     }
 }
 function getPlayer(args,id) {
-    var player = ventus[getById("fa",id).toLowerCase()];
     var ventus = getJSON(guildName);
+    var player = ventus[getById("fa",id).toLowerCase()];
     if(args[0]){
         player = ventus[args[0].toLowerCase()];
     }
