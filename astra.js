@@ -716,7 +716,7 @@ function addPicture(args,id){
     if(fam=="-1"){
         return 0;
     }
-    ventus[fam]["img"] = args[0];
+    ventus.fa["img"] = args[0];
     save(ventus);
     return -1;
 }
