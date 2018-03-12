@@ -15,6 +15,7 @@ const guildName = "ventus";
 const MESSAGE_CHAR_LIMIT = 2000;
 const ventusBotChannel = 385971798539370496;
 const trillianAstra = 387326440607186947;
+const mongourl = "mongodb://heroku_9xr0zzvk:63ovduvq6k4covn40vmri07cjl@ds053300.mlab.com:53300/heroku_9xr0zzvk";
 const pathbase = ".";//"C:\\Users\\astra\\Desktop\\ventus";
 const officers = [
     "229422191362441216",
@@ -395,7 +396,7 @@ function cut(str, cutStart, cutEnd) {
 }
 function parseLifeskill(str) {
     var tier = str.match(/[^0-9]+/)[0];
-    var level = parseInt(str.match(/[0-9]+/));
+    var level = parseInt(str.match(/[0-9]+/)[0]);
     logger.info(tier + " " + level);
     if (tier.startsWith("g")) {
         level += 80;
@@ -601,8 +602,34 @@ function reroll(args, userID) {
     return "Rerolled the " + getFaBy("discordid", userID) + " family to " + getClassName(getClassId(args[4])) + " successfully.";
 }
 var fs = require('fs');
+function createdb(){
+    mongodb.connect(mongourl, function(err, db) {
+        if (err) throw err;
+        console.log("Database created!");
+        db.close();
+    });
+}
+function insert(){
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("mydb");
+        var ventus = JSON.parse(fs.readFileSync(path.join(pathbase, gname + '.json'), "utf8"));
+        dbo.collection("customers").insertOne(ventus, function(err, res) {
+          if (err) throw err;
+          console.log("1 document inserted");
+          db.close();
+        });
+      });
+}
 function save(str){
     fs.writeFile(path.join(pathbase, guildName + '.json'), JSON.stringify(str), 'utf8');
+    /*
+    var thedata = JSON.parse(fs.readFileSync(path.join(pathbase, gname + '.json'), "utf8"));
+    mongodb.connect(mongourl, function(err,db){
+        if (err) throw err;
+        var dbo = db.db("mydb");
+        dbo.collection("gsbot").updateOne()
+    });*/
     return 1;
 }
 function addAdmin(args) {
