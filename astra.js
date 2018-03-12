@@ -183,14 +183,11 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             message: getPlayer(args,userID)
                         });
                         break;
-                    case 'test':
-                        messageQueue = ['a','b','c'];
-                        if(messageQueue.length>0){
-                            bot.sendMessage({
-                                to:channelID,
-                                message: messageQueue.shift()
-                            });
-                        }
+                    case 'lsga':
+                        bot.sendMessage({
+                            to: channelID,
+                            message: lsga(args)
+                        });
                         break;
                     case 'list':
                         list(args);
