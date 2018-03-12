@@ -394,7 +394,7 @@ function cut(str, cutStart, cutEnd) {
 function parseLifeskill(str) {
     var tier = str.match(/[^0-9]+/)[0];
     var level = parseInt(str.match(/[0-9]+/)[0]);
-    logger.info(tier + " " + level);
+    logger.info("tier:" +tier + " level:" + level);
     if (tier.startsWith("g")) {
         level += 80;
     }
