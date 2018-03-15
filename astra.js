@@ -739,7 +739,7 @@ function add(args, userID) {
 }
 function addPicture(args,id){
     var ventus = getJSON(guildName);
-    var fam = getById("fa",id);
+    var fam = getById("fa",id).toLowerCase();
     if(fam=="-1"){
         return 0;
     }
