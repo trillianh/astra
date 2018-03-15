@@ -743,7 +743,7 @@ function addPicture(args,id){
     if(fam=="-1"){
         return 0;
     }
-    logger.info("family: "fam);
+    logger.info("family: "+fam);
     ventus[fam]["img"] = args[0];
     save(ventus);
     return -1;
