@@ -794,8 +794,9 @@ function getPlayer(args,id) {
     var ventus = getJSON(guildName);
     var player = ventus[getById("fa",id).toLowerCase()]; //no args = get message sender's info
     if(args[0]){
-        for(var c in ventus){
-            if(c["fa"].startsWith(args[0].toLowerCase())||c["ch"].startsWith(args[0].toLowerCase())){
+        for(var fa in ventus){
+            if(ventus[fa]["fa"].startsWith(args[0].toLowerCase())||
+               ventus[fa]["fa"].startsWith(args[0].toLowerCase())){
                 player = c;
                 break;
             }
