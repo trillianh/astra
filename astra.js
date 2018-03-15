@@ -485,6 +485,7 @@ function trade(args) {
 }
 function getById(key, userID) {
     var ventus = getJSON(guildName);
+    logger.info(userID);
     for (var k in ventus) {
         if (ventus[k]["discordid"] == userID) {
             return ventus[k][key];
