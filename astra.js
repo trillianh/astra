@@ -794,11 +794,11 @@ function getPlayer(args,id) {
     var ventus = getJSON(guildName);
     var player = ventus[getById("fa",id).toLowerCase()]; //no args = get message sender's info
     if(args[0]){
-        if(matcha(ventus,args[0])>-1){
-            player = ventus[args[0].toLowerCase()];
-        }
-        else{
-            player = ventus[getFaBy("ch",args[0])];
+        for(var c in ventus){
+            if(c["fa"].startsWith(args[0].toLowerCase())||c["ch"].startsWith(args[0].toLowerCase())){
+                player = c;
+                break;
+            }
         }
     }
     return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**";
