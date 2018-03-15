@@ -392,6 +392,7 @@ function cut(str, cutStart, cutEnd) {
     return str.substr(0, cutStart) + str.substr(cutEnd + 1);
 }
 function parseLifeskill(str) {
+    //lifeskill name of any format to int
     var tier = str.match(/[^0-9]+/)[0];
     var level = parseInt(str.match(/[0-9]+/)[0]);
     logger.info("tier:" +tier + " level:" + level);
@@ -416,11 +417,12 @@ function parseLifeskill(str) {
     return level;
 }
 function lifeskillToString(start) {
-    var int = parseInt(start);
-    logger.info(Math.floor((int - 1) / 10));
+    //lifeskill level of int format to string
+    var level = parseInt(start);
+    logger.info(Math.floor((level - 1) / 10));
     var lstnames = ["Beginner", "Apprentice", "Skilled", "Professional", "Artisan"];
     if (start < 51) {
-        return lstnames[Math.floor((int - 1) / 10)] + " " + (int % 9);
+        return lstnames[Math.floor((level - 1) / 10)] + " " + (level % 9);
     }
     else if (start < 81) {
         return "Master " + (start - 50);
@@ -740,7 +742,8 @@ function addPicture(args,id){
     if(fam=="-1"){
         return 0;
     }
-    ventus[fam]['img'] = args[0];
+    logger.info("family: "fam);
+    ventus[fam]["img"] = args[0];
     save(ventus);
     return -1;
 }
@@ -788,9 +791,14 @@ function getStat(stat, data) {
 }
 function getPlayer(args,id) {
     var ventus = getJSON(guildName);
-    var player = ventus[getById("fa",id).toLowerCase()];
+    var player = ventus[getById("fa",id).toLowerCase()]; //no args = get message sender's info
     if(args[0]){
-        player = ventus[args[0].toLowerCase()];
+        if(matcha(ventus,args[0])>-1){
+            player = ventus[args[0].toLowerCase()];
+        }
+        else{
+            player = ventus[getFaBy("ch",args[0])];
+        }
     }
     return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**";
 }
