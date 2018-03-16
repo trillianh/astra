@@ -176,39 +176,53 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             to: channelID,
                             message: channelID
                         });
-                        break;
+                    break;
                     case 'get':
                         bot.sendMessage({
                             to: channelID,
                             message: getPlayer(args,userID)
                         });
-                        break;
+                    break;
                     case 'lsga':
                         bot.sendMessage({
                             to: channelID,
                             message: lsga(args)
                         });
-                        break;
+                    break;
                     case 'list':
                         list(args);
                         bot.sendMessage({
                             to: channelID,
                             message: messageQueue.shift()
                         });
-                        break;
+                    break;
                     case 'remove':
                         bot.sendMessage({
                             to: channelID,
                             message: remove(args[0])
                         });
-                        break;
+                    break;
                     case 'addpic':
                         errorlevel = addPicture(args,userID);
                         bot.sendMessage({
                             to: channelID,
                             message: (errorlevel<0)?"Successfully attached picture to the "+getFaBy("discordID", userID)+" family.":"Error adding picture <@110143617699430400>"
                         });
-                        break;
+                    break;
+                    case 'create':
+                        createdb();
+                        bot.sendMessage({
+                            to: channelID,
+                            message: "created"
+                        });
+                    break;
+                    case 'insert':
+                        insert();
+                        bot.sendMessage({
+                            to: channelID,
+                            message: "inserted"
+                        });
+                    break;
                 }
             }
             if (channelID == ventusBotChannel) {
@@ -605,7 +619,7 @@ var fs = require('fs');
 function createdb(){
     mongodb.connect(mongourl, function(err, db) {
         if (err) throw err;
-        console.log("Database created!");
+        logger.info("Database created!");
         db.close();
     });
 }
@@ -613,10 +627,10 @@ function insert(){
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("mydb");
-        var ventus = JSON.parse(fs.readFileSync(path.join(pathbase, gname + '.json'), "utf8"));
-        dbo.collection("customers").insertOne(ventus, function(err, res) {
+        var gsbot = getJSON(guildName);
+        dbo.collection("gs").insertOne(gsbot, function(err, res) {
           if (err) throw err;
-          console.log("1 document inserted");
+          logger.info("1 document inserted");
           db.close();
         });
       });
@@ -744,7 +758,8 @@ function addPicture(args,id){
         return 0;
     }
     logger.info("family: "+fam);
-    ventus[fam]["img"] = args[0];
+    var player = ventus[fam];
+    player.img = args[0].toString();
     save(ventus);
     return -1;
 }
@@ -802,7 +817,7 @@ function getPlayer(args,id) {
             }
         }
     }
-    return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**";
+    return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**"+player.img;
 }
 function playerToString(fa) {
     player = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"))[fa + ""];
@@ -1045,7 +1060,7 @@ function help(args) {
             r = "member: `.add family character ap dp level class`\nofficer: `.add family character ap dp level class discordID`\nAdds a new family to the guild.";
             break;
         case 'get':
-            r = "`.get family`\nGets details of a family in the guild.";
+            r = "`.get family` `.get character`\nGets details of a family in the guild.";
             break;
         case 'list':
             r = "`.list metric`\n`.list class`\n`.list metric class`\n`.list class metric`\n Lists members in certain ways.";
