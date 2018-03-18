@@ -111,6 +111,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     message: "<:FeelsGoodMan:386215991975084033>"
                 });
             }
+            if(cmd.startsWith("roll") && userID != 385936309463678976){
+                bot.sendMessage({
+                    to: channelID,
+                    message: roll(args)
+                });
+            }
             if (message.toLowerCase().includes("ty astra") && userID != 385936309463678976) {
                 bot.sendMessage({
                     to: channelID,
