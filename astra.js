@@ -210,7 +210,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     break;
                     case 'addpic':
                         var fam = addPicture(args,userID);
-                        logger.info("getfam "+fam.length);
                         bot.sendMessage({
                             to: channelID,
                             message: (fam.length>3)?"Successfully attached picture to the "+fam+" family.":"Error adding picture <@110143617699430400>"
@@ -795,7 +794,6 @@ function addPicture(args,id){
     if(fam=="-1"){
         return 0;
     }
-    logger.info("family: "+ventus[fam]["fa"]);
     ventus[fam]["img"] = args[0].toString();
     var family = ventus[fam]["fa"].toString();
     save(ventus);
