@@ -858,7 +858,7 @@ function getPlayer(args,id) {
             if(ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())||
                ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())){
                 logger.info("found");
-                player = c;
+                player = ventus[fa];
                 break;
             }
         }
