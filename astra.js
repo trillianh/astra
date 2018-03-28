@@ -210,6 +210,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     break;
                     case 'addpic':
                         var fam = addPicture(args,userID);
+                        logger.info("getfam"+fam);
                         bot.sendMessage({
                             to: channelID,
                             message: (fam.length<3)?"Successfully attached picture to the "+fam+" family.":"Error adding picture <@110143617699430400>"
