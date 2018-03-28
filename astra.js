@@ -851,6 +851,7 @@ function getStat(stat, data) {
 function getPlayer(args,id) {
     var ventus = getJSON(guildName);
     var player = ventus[getById("fa",id).toLowerCase()]; //no args = get message sender's info
+    logger.info("arg: "+args[0]);
     if(args[0]){
         for(var fa in ventus){
             if(ventus[fa]["fa"].startsWith(args[0].toLowerCase())||
