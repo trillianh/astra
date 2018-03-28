@@ -862,6 +862,12 @@ function getPlayer(args,id) {
                 player = ventus[fa];
                 break;
             }
+            if(ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())||
+               ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())){
+                logger.info("found");
+                player = ventus[fa];
+                break;
+            }
         }
     }
     return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**\n"+player.img;
