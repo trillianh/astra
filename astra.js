@@ -851,7 +851,7 @@ function getStat(stat, data) {
 }
 function getPlayer(args,id) {
     var ventus = getJSON(guildName);
-    var player = ventus[getById("fa",id.toString()).toLowerCase()]; //no args = get message sender's info
+    var player = 1; //no args = get message sender's info
     logger.info("arg: "+args[0]);
     if(args[0]){
         logger.info("finding");
@@ -868,6 +868,9 @@ function getPlayer(args,id) {
                 player = ventus[fa];
                 break;
             }
+        }
+        if(player=1){
+            return "Player not found.";
         }
     }
     return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**\n"+player.img;
