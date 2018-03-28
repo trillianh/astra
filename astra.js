@@ -511,10 +511,11 @@ function trade(args) {
 
 }
 function getById(key, userID) {
+    var uid = userID.toString();
     var ventus = getJSON(guildName);
     logger.info(userID);
     for (var k in ventus) {
-        if (ventus[k]["discordid"] == userID) {
+        if (ventus[k]["discordid"].toString().match(uid)) {
             return ventus[k][key];
         }
     }
@@ -850,7 +851,7 @@ function getStat(stat, data) {
 }
 function getPlayer(args,id) {
     var ventus = getJSON(guildName);
-    var player = ventus[getById("fa",id).toLowerCase()]; //no args = get message sender's info
+    var player = ventus[getById("fa",id.toString()).toLowerCase()]; //no args = get message sender's info
     logger.info("arg: "+args[0]);
     if(args[0]){
         logger.info("finding");
