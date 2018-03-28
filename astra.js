@@ -795,8 +795,7 @@ function addPicture(args,id){
         return 0;
     }
     logger.info("family: "+fam);
-    var player = ventus[fam];
-    player.img = args[0].toString();
+    ventus[fam]["img"] = args[0].toString();
     save(ventus);
     return -1;
 }
