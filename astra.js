@@ -265,6 +265,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                                 message: update(args, userID)
                             });
                             break;
+                        case 'addpic':
+                            var fam = addPicture(args,userID);
+                            bot.sendMessage({
+                                to: channelID,
+                                message: (fam.length>3)?"Successfully attached picture to the "+fam+" family.":"Error adding picture <@110143617699430400>"
+                            });
+                            break;
                         case 'reroll':
                             bot.sendMessage({
                                 to: channelID,
