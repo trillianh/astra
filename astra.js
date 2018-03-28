@@ -854,17 +854,14 @@ function getPlayer(args,id) {
     var player = 1; //no args = get message sender's info
     logger.info("arg: "+args[0]);
     if(args[0]){
-        logger.info("finding");
         for(var fa in ventus){
             if(ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())||
                ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())){
-                logger.info("found");
                 player = ventus[fa];
                 break;
             }
             if(ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())||
                ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())){
-                logger.info("found");
                 player = ventus[fa];
                 break;
             }
@@ -1135,6 +1132,9 @@ function help(args) {
             break;
         case 'lsga':
             r = "`.lsga` \nLifeSkill Levelups to Guild Activity calculator.";
+            break;
+        case 'addpic':
+            r = "`.addpic url`\nAdds a picture to your account. Must be a URL(imgur, etc)";
             break;
         //add help
     }
