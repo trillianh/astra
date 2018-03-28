@@ -222,11 +222,11 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             message: "created"
                         });
                     break;
-                    case 'insert':
-                        insert();
+                    case 'saveb':
+                        savebeta(getJSON(guildName));
                         bot.sendMessage({
                             to: channelID,
-                            message: "inserted"
+                            message: "saved"
                         });
                     break;
                 }
@@ -635,7 +635,7 @@ function insert(){
         var dbo = db.db("mydb");
         var gsbot = getJSON(guildName);
         dbo.collection("gs").insertOne(gsbot, function(err, res) {
-          if (err) throw err;
+          if (err){ throw err};
           logger.info("1 document inserted");
           db.close();
         });
@@ -644,13 +644,44 @@ function insert(){
 function save(str){
     fs.writeFile(path.join(pathbase, guildName + '.json'), JSON.stringify(str), 'utf8');
     /*
+    //get json from ephemeral
     var thedata = JSON.parse(fs.readFileSync(path.join(pathbase, gname + '.json'), "utf8"));
+    //save to mongo
     mongodb.connect(mongourl, function(err,db){
         if (err) throw err;
         var dbo = db.db("mydb");
         dbo.collection("gsbot").updateOne()
     });*/
     return 1;
+}
+function savebeta(str){
+    fs.writeFile(path.join(pathbase, guildName + '.json'), JSON.stringify(str), 'utf8');
+    
+    //get json from ephemeral
+    var thedata = str;
+    //save to mongo
+    mongodb.connect(mongourl, function(err,db){
+        if (err) throw err;
+        var dbo = db.db("mydb");
+        dbo.collection("gsbot").updateOne({},thedata,function(err,res){
+            logger.info("1 document updated");
+        });
+    });
+    return 1;
+}
+
+function getJSON(gname){
+    /*
+    //get json from mongo
+    var ventus = 
+    dbo.collection("gs").find(query).toArray(function(err, result) {
+    if (err) throw err;
+        console.log(result);
+        db.close();
+    });
+    return ventus;
+    */
+    return JSON.parse(fs.readFileSync(path.join(pathbase, gname + '.json'), "utf8"));
 }
 function addAdmin(args) {
     
@@ -903,9 +934,6 @@ function getInfo(type){
     return re;
 }
 
-function getJSON(gname){
-    return JSON.parse(fs.readFileSync(path.join(pathbase, gname + '.json'), "utf8"));
-}
 
 function remove(str, userID) {
     str = str.toString().toLowerCase();
