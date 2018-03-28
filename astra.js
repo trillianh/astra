@@ -1104,7 +1104,7 @@ function roll(args) {
 }
 //help command
 function help(args) {
-    var r = "cc add update reroll help remove roll lsga list info get \nex. `.help add`";
+    var r = "commands: cc add update reroll help remove roll lsga list info get addpic \nex. `.help add`";
     switch (args[0]) {
         case 'add':
             r = "member: `.add family character ap dp level class`\nofficer: `.add family character ap dp level class discordID`\nAdds a new family to the guild.";
