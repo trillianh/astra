@@ -797,7 +797,7 @@ function addPicture(args,id){
     logger.info("family: "+fam);
     ventus[fam]["img"] = args[0].toString();
     save(ventus);
-    return ventus[fam]["fa"];
+    return ventus[fam]['fa'].toString();
 }
 function getClassName(id) {
     if(id==-2){
