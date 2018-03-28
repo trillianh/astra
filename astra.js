@@ -853,9 +853,10 @@ function getPlayer(args,id) {
     var player = ventus[getById("fa",id).toLowerCase()]; //no args = get message sender's info
     logger.info("arg: "+args[0]);
     if(args[0]){
+        logger.info("finding");
         for(var fa in ventus){
-            if(ventus[fa]["fa"].startsWith(args[0].toLowerCase())||
-               ventus[fa]["fa"].startsWith(args[0].toLowerCase())){
+            if(ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())||
+               ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())){
                 logger.info("found");
                 player = c;
                 break;
