@@ -209,7 +209,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         });
                     break;
                     case 'addpic':
+                    var errorlevel = -1;
+                    try{
                         errorlevel = addPicture(args,userID);
+                    }catch(err){
+
+                    }
                         bot.sendMessage({
                             to: channelID,
                             message: (errorlevel<0)?"Successfully attached picture to the "+getFaBy("discordID", userID)+" family.":"Error adding picture <@110143617699430400>"
