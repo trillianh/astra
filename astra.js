@@ -209,15 +209,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         });
                     break;
                     case 'addpic':
-                    var errorlevel = -1;
-                    try{
-                        errorlevel = addPicture(args,userID);
-                    }catch(err){
-
-                    }
+                        var fam = addPicture(args,userID);
                         bot.sendMessage({
                             to: channelID,
-                            message: (errorlevel<0)?"Successfully attached picture to the "+getFaBy("discordID", userID)+" family.":"Error adding picture <@110143617699430400>"
+                            message: (fam.length<3)?"Successfully attached picture to the "+fam+" family.":"Error adding picture <@110143617699430400>"
                         });
                     break;
                     case 'create':
@@ -802,7 +797,7 @@ function addPicture(args,id){
     logger.info("family: "+fam);
     ventus[fam]["img"] = args[0].toString();
     save(ventus);
-    return -1;
+    return ventus[fam]["fa"];
 }
 function getClassName(id) {
     if(id==-2){
