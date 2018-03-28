@@ -794,10 +794,11 @@ function addPicture(args,id){
     if(fam=="-1"){
         return 0;
     }
-    logger.info("family: "+fam);
+    logger.info("family: "+ventus[fam]["fa"]);
     ventus[fam]["img"] = args[0].toString();
+    var family = ventus[fam]["fa"].toString();
     save(ventus);
-    return ventus[fam]['fa'].toString();
+    return family;
 }
 function getClassName(id) {
     if(id==-2){
