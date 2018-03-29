@@ -1,3 +1,5 @@
+import { Channel } from 'discord.io';
+
 
 var Discord = require('discord.io');
 var logger = require('winston');
@@ -14,6 +16,7 @@ var messageQueue = [];
 const guildName = "ventus";
 const MESSAGE_CHAR_LIMIT = 2000;
 const ventusBotChannel = 385971798539370496;
+const ventusServer = 384475247723806722;
 const trillianAstra = 387326440607186947;
 const mongourl = "mongodb://heroku_9xr0zzvk:63ovduvq6k4covn40vmri07cjl@ds053300.mlab.com:53300/heroku_9xr0zzvk";
 const pathbase = ".";//"C:\\Users\\astra\\Desktop\\ventus";
@@ -215,11 +218,15 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             message: (fam.length>3)?"Successfully attached picture to the "+fam+" family.":"Error adding picture <@110143617699430400>"
                         });
                     break;
-                    case 'create':
-                        createdb();
+                    case 'test':
+                         members = bot.channels[channelID].members[];
+                         var memberstr = "";
+                         for(var i in members){
+                            memberstr += members[i].id+" ";
+                         }
                         bot.sendMessage({
                             to: channelID,
-                            message: "created"
+                            message: memberstr
                         });
                     break;
                     case 'saveb':
@@ -330,7 +337,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         case 'info':
                             bot.sendMessage({
                                 to: channelID,
-                                message: info()
+                                message: info(Channel)
                             });
                             break;
 
@@ -874,6 +881,10 @@ function getPlayer(args,id) {
     }
     return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**\n"+player.img;
 }
+function checkRemoved(channel){
+    var ventus = getJSON(guildName);
+    return;
+}
 function playerToString(fa) {
     player = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"))[fa + ""];
     return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**";
@@ -900,6 +911,7 @@ function info() {
     var lowestName;
     var highestName;
     var json = getJSON(guildName);
+    var discordids = {};
     for (var key in json) {
         ct++;
         avg += (isNaN(parseInt(json[key]["gs"]))) ? 0 : parseInt(json[key]["gs"]);
@@ -912,6 +924,7 @@ function info() {
             highest = currentGS;
             highestName = json[key]["fa"] + "(" + json[key]["ch"] + ")";
         }
+        discordids.add(json[key]["discordid"]);
     }
     avg = avg / ct;
     avg = avg.toPrecision(5);
