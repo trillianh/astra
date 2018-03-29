@@ -356,7 +356,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                                 var sidstring = "";
                                 for(var i in smembers){
                                     sids.push(smembers[i].id);
-                                    sidstring+=smembers[i].username+" ";
+                                    sidstring+=smembers[i].id+" ";
                                 }
                                 logger.info("users "+sidstring);
                                 logger.info("length "+sids.length);
