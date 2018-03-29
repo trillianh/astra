@@ -218,12 +218,17 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     case 'test':
                         var serverid = "111012506331267072";
                          smembers = bot.servers[serverid].members;
-                         logger.info(smembers.length);
-                         var memberstr = "";
+                         var sids = [];
                          for(var i in smembers){
-                             if(bot.servers[serverid].channels[trillianAstra].members[smembers[i]]){
-                                memberstr += smembers[i].id+" ";
-                             }
+                            sids.add(smembers[i].id);
+                         }
+                         logger.info(smembers.length);
+                         var ventus = getJSON(guildName);
+                         var memberstr = "";
+                         for(var fa in ventus){
+                            if(matcha(sids,ventus[fa]["id"])>-1){
+                                memberstr+=ventus[fa]["fa"]+" ";
+                            }
                          }
                         bot.sendMessage({
                             to: channelID,
