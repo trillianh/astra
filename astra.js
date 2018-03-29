@@ -226,7 +226,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                          var ventus = getJSON(guildName);
                          var memberstr = "";
                          for(var fa in ventus){
-                            if(matcha(sids,ventus[fa]["id"])>-1){
+                            if(matcha(sids,ventus[fa]["discordid"])>-1){
                                 memberstr+=ventus[fa]["fa"]+" ";
                             }
                          }
