@@ -852,14 +852,11 @@ function getStat(stat, data) {
 function getPlayer(args,id) {
     var ventus = getJSON(guildName);
     var player = 1; //no args = get message sender's info
-    logger.info("arg: "+args[0]);
     if(args[0]){
-        logger.info("finding");
         for(var fa in ventus){
             if(ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())||
                ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())){
                 player = ventus[fa];
-                logger.info("found "+ventus[fa]["fa"]+" "+ventus[fa]["ch"]);
                 break;
             }
         }
@@ -867,7 +864,14 @@ function getPlayer(args,id) {
             return "Player not found.";
         }
     }
-    logger.info();
+    else{
+        for(var fa in ventus){
+            if(ventus[fa][discordid]==id){
+                player = ventus[fa];
+                break;
+            }
+        }
+    }
     return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**\n"+player.img;
 }
 function playerToString(fa) {
