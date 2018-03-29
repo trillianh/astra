@@ -883,7 +883,7 @@ function getPlayer(args,id) {
 }
 function checkRemoved(channel){
     var ventus = getJSON(guildName);
-    return;
+    return 1;
 }
 function playerToString(fa) {
     player = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"))[fa + ""];
@@ -911,7 +911,6 @@ function info() {
     var lowestName;
     var highestName;
     var json = getJSON(guildName);
-    var discordids = {};
     for (var key in json) {
         ct++;
         avg += (isNaN(parseInt(json[key]["gs"]))) ? 0 : parseInt(json[key]["gs"]);
@@ -924,7 +923,6 @@ function info() {
             highest = currentGS;
             highestName = json[key]["fa"] + "(" + json[key]["ch"] + ")";
         }
-        discordids.add(json[key]["discordid"]);
     }
     avg = avg / ct;
     avg = avg.toPrecision(5);
