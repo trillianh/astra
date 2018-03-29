@@ -220,7 +220,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                          smembers = bot.servers[serverid].members;
                          var sids = [];
                          for(var i in smembers){
-                            sids.add(smembers[i].id);
+                            sids.push(smembers[i].id);
                          }
                          logger.info(smembers.length);
                          var ventus = getJSON(guildName);
