@@ -216,10 +216,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         });
                     break;
                     case 'test':
-                         members = bot.channels[channelID].members;
+                        var serverid = 111012506331267072;
+                         smembers = bot.servers[serverid].members;
+                         logger.info(smembers.length);
                          var memberstr = "";
-                         for(var i in members){
-                            memberstr += members[i].id+" ";
+                         for(var i in smembers){
+                            memberstr += smembers[i].id+" ";
                          }
                         bot.sendMessage({
                             to: channelID,
