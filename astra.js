@@ -216,7 +216,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         });
                     break;
                     case 'test':
-                         members = bot.channels[channelID].members[];
+                         members = bot.channels[channelID].members;
                          var memberstr = "";
                          for(var i in members){
                             memberstr += members[i].id+" ";
