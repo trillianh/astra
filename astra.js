@@ -863,7 +863,7 @@ function getPlayer(args,id) {
                 break;
             }
         }
-        if(player=1){
+        if(player==1){
             return "Player not found.";
         }
     }
