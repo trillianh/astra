@@ -856,11 +856,6 @@ function getPlayer(args,id) {
     if(args[0]){
         for(var fa in ventus){
             if(ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())||
-               ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())){
-                player = ventus[fa];
-                break;
-            }
-            if(ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())||
                ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())){
                 player = ventus[fa];
                 break;
@@ -870,6 +865,7 @@ function getPlayer(args,id) {
             return "Player not found.";
         }
     }
+    logger.info()
     return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**\n"+player.img;
 }
 function playerToString(fa) {
