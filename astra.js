@@ -216,26 +216,15 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         });
                     break;
                     case 'test':
-                        var serverid = "384475247723806722"; //384475247723806722
-                         smembers = bot.servers[serverid].members;
-                         var sids = [];
-                         var sidstring = "";
-                         for(var i in smembers){
-                            sids.push(smembers[i].id);
-                            sidstring+=smembers[i].username;
-                         }
-                         logger.info("users "+sidstring);
-                         logger.info("length "+sids.length);
                          var ventus = getJSON(guildName);
                          var memberstr = "";
                          for(var fa in ventus){
-                            if(matcha(sids,ventus[fa]["discordid"])>-1){
-                                memberstr+=ventus[fa]["fa"]+" ";
-                            }
+                            memberstr+=ventus[fa]["discordid"]+" ";
                          }
+                         logger.info(memberstr);
                         bot.sendMessage({
                             to: channelID,
-                            message: sids.length+" "
+                            message: 1
                         });
                     break;
                     case 'saveb':
