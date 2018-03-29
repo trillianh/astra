@@ -222,17 +222,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                          for(var i in smembers){
                             sids.push(smembers[i].id);
                          }
-                         logger.info(smembers.length);
+                         logger.info("length "+sids.length);
                          var ventus = getJSON(guildName);
                          var memberstr = "";
                          for(var fa in ventus){
-                             try{
                             if(matcha(sids,ventus[fa]["id"])>-1){
                                 memberstr+=ventus[fa]["fa"]+" ";
                             }
-                        }catch(err){
-
-                        }
                          }
                         bot.sendMessage({
                             to: channelID,
