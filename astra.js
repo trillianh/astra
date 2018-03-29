@@ -216,7 +216,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         });
                     break;
                     case 'test':
-                        var serverid = 111012506331267072;
+                        var serverid = "111012506331267072";
                          smembers = bot.servers[serverid].members;
                          logger.info(smembers.length);
                          var memberstr = "";
