@@ -866,7 +866,7 @@ function getPlayer(args,id) {
     }
     else{
         for(var fa in ventus){
-            if(ventus[fa][discordid]==id){
+            if(ventus[fa]["discordid"]==id){
                 player = ventus[fa];
                 break;
             }
