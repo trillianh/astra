@@ -349,7 +349,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                                 for(var i in smembers){
                                     var currentID = smembers[i].id.toString().substring(0,15);
                                     for(var fa in ventus){
-                                        if(ventus[fa]["discordid"].startsWith(currentID)&&!ventus[fa]["discordid"]==smembers[i].id){
+                                        if(ventus[fa]["discordid"].startsWith(currentID)&&ventus[fa]["discordid"]!=smembers[i].id){
                                             reps += ventus[fa]["fa"]+", ";
                                             bugs++;
                                         }
