@@ -216,8 +216,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         });
                     break;
                     case 'test':
-                        var serverid = "111012506331267072";
-                         smembers = bot.servers[ventusServer].members;
+                        var serverid = "111012506331267072"; //384475247723806722
+                         smembers = bot.servers[serverid].members;
                          var sids = [];
                          var sidstring = "";
                          for(var i in smembers){
