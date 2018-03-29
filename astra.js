@@ -357,6 +357,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                                     sids.push(smembers[i].id);
                                     sidstring+=smembers[i].id+" ";
                                 }
+                                logger.info(reps);
                                 bot.sendMessage({
                                     to: channelID,
                                     message: bugs
