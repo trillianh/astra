@@ -340,25 +340,26 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             break;
                         case 'test':
                                 var serverid = "384475247723806722"; //384475247723806722
+                                var ventus = getJSON(guildName);
                                 smembers = bot.servers[serverid].members;
                                 var sids = [];
                                 var sidstring = "";
+                                var reps = "";
+                                var bugs = 0;
                                 for(var i in smembers){
+                                    var currentID = smembers[i].id.toString().substring(0,15);
+                                    for(var fa in ventus){
+                                        if(ventus[fa]["discordid"].startsWith(currentID)&&!ventus[fa]["discordid"]==smembers[i].id){
+                                            reps += ventus[fa]["fa"]+", ";
+                                            bugs++;
+                                        }
+                                    }
                                     sids.push(smembers[i].id);
                                     sidstring+=smembers[i].id+" ";
                                 }
-                                logger.info("users "+sidstring);
-                                logger.info("length "+sids.length);
-                                var ventus = getJSON(guildName);
-                                var memberstr = "";
-                                for(var fa in ventus){
-                                    if(matcha(sids,ventus[fa]["discordid"])>-1){
-                                        memberstr+=ventus[fa]["fa"]+" ";
-                                    }
-                                }
                                 bot.sendMessage({
                                     to: channelID,
-                                    message: sids.length+" "
+                                    message: bugs
                                 });
                             break;
                         // add more commands here
@@ -510,6 +511,8 @@ function lsga(args) {
         str = activity + " guild activity gained from levelling up a lifeskill from " + startName + " to " + endName + ".";
     }
     return str;
+}
+function fixjson(){
 }
 function bargain(args) {
     str = "`.bargain tradeLevel`";
