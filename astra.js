@@ -219,9 +219,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         var serverid = "111012506331267072";
                          smembers = bot.servers[ventusServer].members;
                          var sids = [];
+                         var sidstring = "";
                          for(var i in smembers){
                             sids.push(smembers[i].id);
+                            sidstring+=smembers[i].username;
                          }
+                         logger.info("users "+sidstring);
                          logger.info("length "+sids.length);
                          var ventus = getJSON(guildName);
                          var memberstr = "";
