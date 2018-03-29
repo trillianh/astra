@@ -221,7 +221,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                          logger.info(smembers.length);
                          var memberstr = "";
                          for(var i in smembers){
-                             if(channel.members[smembers[i]]){
+                             if(bot.channels[trillianAstra].members[smembers[i]]){
                                 memberstr += smembers[i].id+" ";
                              }
                          }
