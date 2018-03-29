@@ -1,6 +1,3 @@
-import { Channel } from 'discord.io';
-
-
 var Discord = require('discord.io');
 var logger = require('winston');
 var bot_token = process.env.token;
