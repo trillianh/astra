@@ -335,7 +335,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         case 'info':
                             bot.sendMessage({
                                 to: channelID,
-                                message: info(Channel)
+                                message: info()
                             });
                             break;
                         case 'test':
