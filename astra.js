@@ -221,7 +221,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                          logger.info(smembers.length);
                          var memberstr = "";
                          for(var i in smembers){
-                            memberstr += smembers[i].id+" ";
+                             if(channel.members[smembers[i]]){
+                                memberstr += smembers[i].id+" ";
+                             }
                          }
                         bot.sendMessage({
                             to: channelID,
