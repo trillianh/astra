@@ -15,7 +15,7 @@ const MESSAGE_CHAR_LIMIT = 2000;
 const ventusBotChannel = 385971798539370496;
 const ventusServer = 384475247723806722;
 const trillianAstra = 387326440607186947;
-const mongourl = "mongodb://heroku_9xr0zzvk:63ovduvq6k4covn40vmri07cjl@ds053300.mlab.com:53300/heroku_9xr0zzvk";
+const mongourl = process.enf.MONGODB_URI;
 const pathbase = ".";//"C:\\Users\\astra\\Desktop\\ventus";
 const officers = [
     "229422191362441216",
