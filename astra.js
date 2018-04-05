@@ -1,6 +1,11 @@
+import {
+  BOT_TOKEN,
+  CHANNEL_ID
+} from './constants/config.js';
+
 var Discord = require('discord.io');
 var logger = require('winston');
-var bot_token = process.env.token;
+
 var osu_token = process.env.osuapi;
 //var auth = require('./auth.json');
 var path = require('path');
@@ -11,9 +16,9 @@ var mongodb = require('mongodb');
 var messageQueue = [];
 //LIFO
 const guildName = "ventus";
+
 const MESSAGE_CHAR_LIMIT = 2000;
-const ventusBotChannel = 385971798539370496;
-const ventusServer = 384475247723806722;
+
 const trillianAstra = 387326440607186947;
 const mongourl = process.env.MONGODB_URI;
 const pathbase = ".";//"C:\\Users\\astra\\Desktop\\ventus";
@@ -70,7 +75,7 @@ logger.add(logger.transports.Console, {
 logger.level = 'debug';
 // Initialize Discord Bot
 var bot = new Discord.Client({
-    token: bot_token,
+    token: BOT_TOKEN,
     autorun: true,
     autoReconnect: true
 });
@@ -86,6 +91,7 @@ bot.on('ready', function (evt) {
 bot.on('disconnect', function (erMsg, code) {
     logger.info('Disconnected');
     logger.info(code + " " + erMsg);
+    logger.info(BOT_TOKEN);
     bot.connect();
 });
 
@@ -245,7 +251,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     break;
                 }
             }
-            if (channelID == ventusBotChannel) {
+            if (channelID == CHANNEL_ID) {
                 //VENTUS BOT CH COMMANDS
                 logger.info(message);
                 if (message.substring(0, 1) == '.') {
