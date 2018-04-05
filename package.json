@@ -20,6 +20,6 @@
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel -d ./build ./app -s",
     "build": "npm run clean && npm run build-babel",
-    "run": "npm run build && node -r dotenv/config ./build/astra.js"
+    "startup": "npm run build && node -r dotenv/config ./build/astra.js"
   }
 }
