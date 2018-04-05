@@ -1,1 +1,1 @@
-worker: node astra.js
+worker: npm run startup

@@ -1,19 +1,24 @@
-var Discord = require('discord.io');
-var logger = require('winston');
-var bot_token = process.env.token;
-var osu_token = process.env.osuapi;
-//var auth = require('./auth.json');
-var path = require('path');
-var https = require('https');
-var mongodb = require('mongodb');
-//var request = require('sync-request');
+import {
+  BOT_TOKEN,
+  CHANNEL_ID
+} from './constants/config.js';
 
-var messageQueue = [];
+const Discord = require('discord.io');
+const logger = require('winston');
+
+const osu_token = process.env.osuapi;
+//let auth = require('./auth.json');
+const path = require('path');
+const https = require('https');
+const mongodb = require('mongodb');
+//let request = require('sync-request');
+
+let messageQueue = [];
 //LIFO
 const guildName = "ventus";
+
 const MESSAGE_CHAR_LIMIT = 2000;
-const ventusBotChannel = 385971798539370496;
-const ventusServer = 384475247723806722;
+
 const trillianAstra = 387326440607186947;
 const mongourl = process.env.MONGODB_URI;
 const pathbase = ".";//"C:\\Users\\astra\\Desktop\\ventus";
@@ -69,8 +74,8 @@ logger.add(logger.transports.Console, {
 });
 logger.level = 'debug';
 // Initialize Discord Bot
-var bot = new Discord.Client({
-    token: bot_token,
+const bot = new Discord.Client({
+    token: BOT_TOKEN,
     autorun: true,
     autoReconnect: true
 });
@@ -86,6 +91,7 @@ bot.on('ready', function (evt) {
 bot.on('disconnect', function (erMsg, code) {
     logger.info('Disconnected');
     logger.info(code + " " + erMsg);
+    logger.info(BOT_TOKEN);
     bot.connect();
 });
 
@@ -98,10 +104,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
            message = message.replace("  "," ");
         }
         
-        var args = message.substring(1).split(' ');
-        var cmd = args[0].toLowerCase();
+        let args = message.substring(1).split(' ');
+        let cmd = args[0].toLowerCase();
         args = args.splice(1);
-        var cm = message.substring(4);
+        let cm = message.substring(4);
 
         if (userID != 385936309463678976) {
             //GLOBAL
@@ -137,8 +143,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             }
             if (message.toLowerCase().includes("https://osu.ppy.sh/b/") && userID != 385936309463678976) {
                 message = message + " ";
-                beatmapid = message.substring(message.indexOf("sh/b/") + 5, message.length);
-                var endofid = (beatmapid.match(/[^0-9]/)[0] == null) ? beatmapid.length : beatmapid.indexOf(beatmapid.match(/[^0-9]/)[0]);
+                let beatmapid = message.substring(message.indexOf("sh/b/") + 5, message.length);
+                let endofid = (beatmapid.match(/[^0-9]/)[0] == null) ? beatmapid.length : beatmapid.indexOf(beatmapid.match(/[^0-9]/)[0]);
                 beatmapid = beatmapid.substring(0, endofid);
                 httpsGet(osuBeatmapInfo(beatmapid), function (res) {
                     bot.sendMessage({
@@ -211,7 +217,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     case 'addpic':
                     
                         if(args.length>0){
-                            var fam = addPicture(args,userID);
+                            let fam = addPicture(args,userID);
                             bot.sendMessage({
                                 to: channelID,
                                 message: (fam.length>3)?"Successfully attached picture to the "+fam+" family.":"Error adding picture <@110143617699430400>"
@@ -225,9 +231,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         }
                     break;
                     case 'test':
-                         var ventus = getJSON(guildName);
-                         var memberstr = "";
-                         for(var fa in ventus){
+                         let ventus = getJSON(guildName);
+                         let memberstr = "";
+                         for(let fa in ventus){
                             memberstr+=ventus[fa]["discordid"]+" ";
                          }
                          logger.info(memberstr);
@@ -245,12 +251,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     break;
                 }
             }
-            if (channelID == ventusBotChannel) {
+            if (channelID == CHANNEL_ID) {
                 //VENTUS BOT CH COMMANDS
                 logger.info(message);
                 if (message.substring(0, 1) == '.') {
-                    var args = message.substring(1).split(' ');
-                    var cmd = args[0].toLowerCase();
+                    let args = message.substring(1).split(' ');
+                    let cmd = args[0].toLowerCase();
                     args = args.splice(1);
                     switch (cmd) {
                         case 'cc':
@@ -280,7 +286,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             });
                             break;
                         case 'addpic':
-                            var fam = addPicture(args,userID);
+                            let fam = addPicture(args,userID);
                             bot.sendMessage({
                                 to: channelID,
                                 message: (fam.length>3)?"Successfully attached picture to the "+fam+" family.":"Error adding picture <@110143617699430400>"
@@ -348,16 +354,16 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             });
                             break;
                         case 'test':
-                                var serverid = "384475247723806722"; //384475247723806722
-                                var ventus = getJSON(guildName);
-                                smembers = bot.servers[serverid].members;
-                                var sids = [];
-                                var sidstring = "";
-                                var reps = "";
-                                var bugs = 0;
-                                for(var i in smembers){
-                                    var currentID = smembers[i].id.toString().substring(0,15);
-                                    for(var fa in ventus){
+                                let serverid = "384475247723806722"; //384475247723806722
+                                let ventus = getJSON(guildName);
+                                let smembers = bot.servers[serverid].members;
+                                let sids = [];
+                                let sidstring = "";
+                                let reps = "";
+                                let bugs = 0;
+                                for(let i in smembers){
+                                    let currentID = smembers[i].id.toString().substring(0,15);
+                                    for(let fa in ventus){
                                         if(ventus[fa]["discordid"].startsWith(currentID)&&ventus[fa]["discordid"]!=smembers[i].id){
                                             reps += ventus[fa]["fa"]+", ";
                                             bugs++;
@@ -398,7 +404,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
 
 function osuBeatmapInfo(bid) {
-    var url = "https://osu.ppy.sh/api/get_beatmaps";
+    let url = "https://osu.ppy.sh/api/get_beatmaps";
     url = buildUrl(url, {
         "k": osu_token,
         "b": bid,
@@ -412,9 +418,9 @@ function backup(){
     
 }
 function buildUrl(url, parameters) {
-    var qs = "";
-    for (var key in parameters) {
-        var value = parameters[key];
+    let qs = "";
+    for (let key in parameters) {
+        let value = parameters[key];
         qs += encodeURIComponent(key) + "=" + encodeURIComponent(value) + "&";
     }
     if (qs.length > 0) {
@@ -424,13 +430,13 @@ function buildUrl(url, parameters) {
     return url;
 }
 function httpGet(theUrl) {
-    var xmlHttp = new XMLHttpRequest();
+    let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", theUrl, false); // false for synchronous request
     xmlHttp.send(null);
     return xmlHttp.responseText;
 }
 function httpsGet(url, callback) {
-    var asdf;
+    let asdf;
     https.get(url, (res) => {
         logger.log('statusCode:', res.statusCode);
         logger.log('headers:', res.headers);
@@ -458,8 +464,8 @@ function cut(str, cutStart, cutEnd) {
 }
 function parseLifeskill(str) {
     //lifeskill name of any format to int
-    var tier = str.match(/[^0-9]+/)[0];
-    var level = parseInt(str.match(/[0-9]+/)[0]);
+    let tier = str.match(/[^0-9]+/)[0];
+    let level = parseInt(str.match(/[0-9]+/)[0]);
     logger.info("tier:" +tier + " level:" + level);
     if (tier.startsWith("g")) {
         level += 80;
@@ -483,9 +489,9 @@ function parseLifeskill(str) {
 }
 function lifeskillToString(start) {
     //lifeskill level of int format to string
-    var level = parseInt(start);
+    let level = parseInt(start);
     logger.info(Math.floor((level - 1) / 10));
-    var lstnames = ["Beginner", "Apprentice", "Skilled", "Professional", "Artisan"];
+    let lstnames = ["Beginner", "Apprentice", "Skilled", "Professional", "Artisan"];
     if (start < 51) {
         return lstnames[Math.floor((level - 1) / 10)] + " " + (level % 9);
     }
@@ -495,14 +501,14 @@ function lifeskillToString(start) {
     return "Guru " + (start - 80);
 }
 function lsga(args) {
-    str = "`.lsga StartingLifeskillLevel EndingLifeskillLevel`";
-    var lstnames = ["Beginner", "Apprentice", "Skilled", "Professional", "Artisan", "Master"];
+    let str = "`.lsga StartingLifeskillLevel EndingLifeskillLevel`";
+    let lstnames = ["Beginner", "Apprentice", "Skilled", "Professional", "Artisan", "Master"];
     if (args[1] == null) {
 
     }
     else {
-        var start = 1;
-        var end = 1;
+        let start = 1;
+        let end = 1;
         if (args[1].match(/[^0-9]/) != null || args[0].match(/[^0-9]/) != null) {
             start = parseLifeskill(args[0]);
             end = parseLifeskill(args[1]);
@@ -511,9 +517,9 @@ function lsga(args) {
             start = parseInt(args[0]);
             end = parseInt(args[1]);
         }
-        var startName = lifeskillToString(start);
-        var endName = lifeskillToString(end);
-        var activity = 6;
+        let startName = lifeskillToString(start);
+        let endName = lifeskillToString(end);
+        let activity = 6;
         while (start < end) {
             activity += start * 6;
             start++;
@@ -525,22 +531,22 @@ function lsga(args) {
 function fixjson(){
 }
 function bargain(args) {
-    str = "`.bargain tradeLevel`";
+    let str = "`.bargain tradeLevel`";
     if (args[0] == null) {
 
     }
     else {
-        var key = ["cal", "med", "bal", "ser", "brass", "bronze", "steel", "iron", "copper"];
-        var value = ["Calpheon", "Mediah", "Balenos", "Serendia", "Brass Ingot", "Bronze Ingot", "Steel Ingot", "Iron Ore", "Copper Ore"];
-        var itemValue = (args[1]) ? args[1] : -1;
-        var tradeLevel = 0;
+        let key = ["cal", "med", "bal", "ser", "brass", "bronze", "steel", "iron", "copper"];
+        let value = ["Calpheon", "Mediah", "Balenos", "Serendia", "Brass Ingot", "Bronze Ingot", "Steel Ingot", "Iron Ore", "Copper Ore"];
+        let itemValue = (args[1]) ? args[1] : -1;
+        let tradeLevel = 0;
         if (args[0].match(/[^0-9]/) != null) {
             tradeLevel = parseLifeskill(args[0]);
         }
         else {
             tradeLevel = parseInt(args[0]);
         }
-        var bargainBonus = 105 + tradeLevel * 0.5;
+        let bargainBonus = 105 + tradeLevel * 0.5;
         str = "At trading " + lifeskillToString(tradeLevel) + ", you have a " + bargainBonus + "% bargain bonus.";
     }
     return str;
@@ -551,10 +557,10 @@ function trade(args) {
 
 }
 function getById(key, userID) {
-    var uid = userID.toString();
-    var ventus = getJSON(guildName);
+    let uid = userID.toString();
+    let ventus = getJSON(guildName);
     logger.info(userID);
-    for (var k in ventus) {
+    for (let k in ventus) {
         if (ventus[k]["discordid"].toString().match(uid)) {
             return ventus[k][key];
         }
@@ -562,8 +568,8 @@ function getById(key, userID) {
     return -1;
 }
 function getFaBy(key, value) {
-    var ventus = getJSON(guildName);
-    for (var k in ventus) {
+    let ventus = getJSON(guildName);
+    for (let k in ventus) {
         if (ventus[k][key] == value) {
             return ventus[k]["fa"];
         }
@@ -572,7 +578,7 @@ function getFaBy(key, value) {
 }
 function update(args, userID) {
     //ap dp level
-    var iso = 0;
+    let iso = 0;
     logger.info(args.length);
     if (args.length != 3) {
         if (args.length == 0) {
@@ -598,9 +604,9 @@ function update(args, userID) {
     else if (args[2].match(/[^0-9]/) != null) {
         return "Level must be a number.\n\"" + args[5].match(/[^0-9]/)[0] + "\"";
     }
-    var ventus = getJSON(guildName);
+    let ventus = getJSON(guildName);
     try {
-        var family = getFaBy("discordid", userID).toLowerCase();
+        let family = getFaBy("discordid", userID).toLowerCase();
     }
     catch (err) {
         return "User not found.";
@@ -623,7 +629,7 @@ function update(args, userID) {
 function reroll(args, userID) {
     //char ap dp level class
 
-    var ventus = getJSON(guildName);
+    let ventus = getJSON(guildName);
     //if char exists
 
     if (args[4] == null || args[5]) {
@@ -652,8 +658,8 @@ function reroll(args, userID) {
     else if (args[4].match(/[^a-zA-Z_]/) != null) {
         return "Class name cannot contain special characters. \n\"" + args[5].match(/[^a-zA-Z_]/)[0] + "\"";
     }
-    var ventus = getJSON(guildName);
-    var family = getFaBy("discordid", userID).toLowerCase();
+    ventus = getJSON(guildName);
+    let family = getFaBy("discordid", userID).toLowerCase();
     try {
         ventus[family]["ch"] = args[0];
         ventus[family]["ap"] = parseInt(args[1]);
@@ -669,7 +675,7 @@ function reroll(args, userID) {
     }
     return "Rerolled the " + getFaBy("discordid", userID) + " family to " + getClassName(getClassId(args[4])) + " successfully.";
 }
-var fs = require('fs');
+let fs = require('fs');
 function createdb(){
     mongodb.connect(mongourl, function(err, db) {
         if (err) throw err;
@@ -680,8 +686,8 @@ function createdb(){
 function insert(){
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
-        var dbo = db.db("mydb");
-        var gsbot = getJSON(guildName);
+        let dbo = db.db("mydb");
+        let gsbot = getJSON(guildName);
         dbo.collection("gs").insertOne(gsbot, function(err, res) {
           if (err){ throw err};
           logger.info("1 document inserted");
@@ -693,11 +699,11 @@ function save(str){
     fs.writeFile(path.join(pathbase, guildName + '.json'), JSON.stringify(str), 'utf8');
     /*
     //get json from ephemeral
-    var thedata = JSON.parse(fs.readFileSync(path.join(pathbase, gname + '.json'), "utf8"));
+    let thedata = JSON.parse(fs.readFileSync(path.join(pathbase, gname + '.json'), "utf8"));
     //save to mongo
     mongodb.connect(mongourl, function(err,db){
         if (err) throw err;
-        var dbo = db.db("mydb");
+        let dbo = db.db("mydb");
         dbo.collection("gsbot").updateOne()
     });*/
     return 1;
@@ -706,11 +712,11 @@ function savebeta(str){
     fs.writeFile(path.join(pathbase, guildName + '.json'), JSON.stringify(str), 'utf8');
     
     //get json from ephemeral
-    var thedata = str;
+    let thedata = str;
     //save to mongo
     mongodb.connect(mongourl, function(err,db){
         if (err) throw err;
-        var dbo = db.db("mydb");
+        let dbo = db.db("mydb");
         dbo.collection("gsbot").updateOne({},thedata,function(err,res){
             logger.info("1 document updated");
         });
@@ -721,7 +727,7 @@ function savebeta(str){
 function getJSON(gname){
     /*
     //get json from mongo
-    var ventus = 
+    let ventus = 
     dbo.collection("gs").find(query).toArray(function(err, result) {
     if (err) throw err;
         console.log(result);
@@ -760,20 +766,20 @@ function addAdmin(args) {
         }
         
     }
-    var ventus = getJSON(guildName);
+    let ventus = getJSON(guildName);
     if (ventus[args[0]]) {
         return "The " + ventus[args[0]]["fa"] + " family already exists.";
     }
     else {
-        var gs = parseInt(args[2]) + parseInt(args[3]);
-        var classid = getClassId(args[5]);
+        let gs = parseInt(args[2]) + parseInt(args[3]);
+        let classid = getClassId(args[5]);
         if (classid == -1) {
             return "I'm not sure what class that is.";
         }
-        var did = args[6].match(/[0-9]+/)[0];
+        let did = args[6].match(/[0-9]+/)[0];
         logger.info("initialize newaccount");
-        var newAccount = { "fa": args[0], "ch": args[1], "ap": parseInt(args[2]), "dp": parseInt(args[3]), "gs": gs, "level": parseInt(args[4]), "classid": classid, "discordid": did, "img":"" }
-        //var tostring = newAccount.fa+"("+newAccount.ch+") AP:"+newAccount.ap+" DP:"+newAccount.dp+" GS:"+newAccount.gs+" Level:"+newAccount.level+" Class: "+newAccount.classid;
+        let newAccount = { "fa": args[0], "ch": args[1], "ap": parseInt(args[2]), "dp": parseInt(args[3]), "gs": gs, "level": parseInt(args[4]), "classid": classid, "discordid": did, "img":"" }
+        //let tostring = newAccount.fa+"("+newAccount.ch+") AP:"+newAccount.ap+" DP:"+newAccount.dp+" GS:"+newAccount.gs+" Level:"+newAccount.level+" Class: "+newAccount.classid;
         logger.info("starting add");
         ventus[newAccount.fa.toLowerCase()] = newAccount;
         save(ventus);
@@ -815,20 +821,20 @@ function add(args, userID) {
         return "Class name cannot contain special characters. \n\"" + args[5].match(/[^a-zA-Z_]/)[0] + "\"";
     }
 
-    var ventus = getJSON(guildName);
+    let ventus = getJSON(guildName);
     if (ventus[args[0]]) {
         return "The " + ventus[args[0]]["fa"] + " family already exists.";
     }
     else {
-        var gs = parseInt(args[2]) + parseInt(args[3]);
-        var classid = getClassId(args[5]);
-        var uid = userID;
+        let gs = parseInt(args[2]) + parseInt(args[3]);
+        let classid = getClassId(args[5]);
+        let uid = userID;
         if (classid == -1) {
             return "I'm not sure what class that is.";
         }
         logger.info("initialize newaccount");
-        var newAccount = { "fa": args[0], "ch": args[1], "ap": parseInt(args[2]), "dp": parseInt(args[3]), "gs": gs, "level": parseInt(args[4]), "classid": classid, "discordid": uid, "img":"" }
-        //var tostring = newAccount.fa+"("+newAccount.ch+") AP:"+newAccount.ap+" DP:"+newAccount.dp+" GS:"+newAccount.gs+" Level:"+newAccount.level+" Class: "+newAccount.classid;
+        let newAccount = { "fa": args[0], "ch": args[1], "ap": parseInt(args[2]), "dp": parseInt(args[3]), "gs": gs, "level": parseInt(args[4]), "classid": classid, "discordid": uid, "img":"" }
+        //let tostring = newAccount.fa+"("+newAccount.ch+") AP:"+newAccount.ap+" DP:"+newAccount.dp+" GS:"+newAccount.gs+" Level:"+newAccount.level+" Class: "+newAccount.classid;
         logger.info("starting add");
         ventus[newAccount.fa.toLowerCase()] = newAccount;
         save(ventus);
@@ -837,13 +843,13 @@ function add(args, userID) {
     return "error <@110143617699430400>";
 }
 function addPicture(args,id){
-    var ventus = getJSON(guildName);
-    var fam = getById("fa",id).toLowerCase();
+    let ventus = getJSON(guildName);
+    let fam = getById("fa",id).toLowerCase();
     if(fam=="-1"){
         return 0;
     }
     ventus[fam]["img"] = args[0].toString();
-    var family = ventus[fam]["fa"].toString();
+    let family = ventus[fam]["fa"].toString();
     save(ventus);
     return family;
 }
@@ -860,7 +866,7 @@ function getClassId(str) {
         return -2;
     }
     //   logger.info(classnames.length+" "+classnicks.length);
-    for (var i = 0; i < classnames.length; i++) {
+    for (let i = 0; i < classnames.length; i++) {
         if (matcha(classnicks[i].split(","), str) > -1) {
             return i;
         }
@@ -871,7 +877,7 @@ function getClassId(str) {
 function matcha(arr, str) {
     // >=0 is match
     str = str.toString();
-    for (var i = 0; i < arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
         if (str.match(arr[i].toString()) != null) {
             return i;
         }
@@ -890,10 +896,10 @@ function getStat(stat, data) {
     }
 }
 function getPlayer(args,id) {
-    var ventus = getJSON(guildName);
-    var player = 1; //no args = get message sender's info
+    let ventus = getJSON(guildName);
+    let player = 1; //no args = get message sender's info
     if(args[0]){
-        for(var fa in ventus){
+        for(let fa in ventus){
             if(ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())||
                ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())){
                 player = ventus[fa];
@@ -905,7 +911,7 @@ function getPlayer(args,id) {
         }
     }
     else{
-        for(var fa in ventus){
+        for(let fa in ventus){
             if(ventus[fa]["discordid"]==id){
                 player = ventus[fa];
                 break;
@@ -915,36 +921,36 @@ function getPlayer(args,id) {
     return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**\n"+player.img;
 }
 function checkRemoved(channel){
-    var ventus = getJSON(guildName);
+    let ventus = getJSON(guildName);
     return 1;
 }
 function playerToString(fa) {
-    player = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"))[fa + ""];
+    let player = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"))[fa + ""];
     return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**";
 }
 function parsedToString(player) {
     return player["fa"] + "(" + player["ch"] + ") - AP:**" + player["ap"] + "** DP:**" + player["dp"] + "** GS:**" + player["gs"] + "** Level:**" + player["level"] + "** Class: **" + getClassName(player.classid) + "**";
 }
 function parsedTableString(player, addClassName) {
-    var name = player["fa"] + "(" + player["ch"] + ")";
-    var ap = player["ap"] + "";
-    var dp = player["dp"] + "";
-    var gs = player["gs"] + "";
-    var level = player["level"] + "";
-    var namepad = 30;
+    let name = player["fa"] + "(" + player["ch"] + ")";
+    let ap = player["ap"] + "";
+    let dp = player["dp"] + "";
+    let gs = player["gs"] + "";
+    let level = player["level"] + "";
+    let namepad = 30;
     return name.padEnd(namepad) + " " + ap.padEnd(4) + " | " + dp.padEnd(4) + " | " + gs.padEnd(4) + " | " + level.padEnd(3) + " | " + ((addClassName == 1) ? getClassName(player.classid) : "");
 
 
 }
 function info() {
-    var avg = 0;
-    var ct = 0;
-    var lowest = 700;
-    var highest = 0;
-    var lowestName;
-    var highestName;
-    var json = getJSON(guildName);
-    for (var key in json) {
+    let avg = 0;
+    let ct = 0;
+    let lowest = 700;
+    let highest = 0;
+    let lowestName;
+    let highestName;
+    let json = getJSON(guildName);
+    for (let key in json) {
         ct++;
         avg += (isNaN(parseInt(json[key]["gs"]))) ? 0 : parseInt(json[key]["gs"]);
         currentGS = parseInt(json[key]["gs"]);
@@ -959,20 +965,20 @@ function info() {
     }
     avg = avg / ct;
     avg = avg.toPrecision(5);
-    lowestStr = ("Lowest GS: **" + lowest + "** ").padEnd(15) + lowestName + "\n";
-    highestStr = ("Highest GS: **" + highest + "** ").padEnd(15) + highestName + "\n";
+    let lowestStr = ("Lowest GS: **" + lowest + "** ").padEnd(15) + lowestName + "\n";
+    let highestStr = ("Highest GS: **" + highest + "** ").padEnd(15) + highestName + "\n";
     return "Members: **" + ct + "**\nAverage: **" + avg + "**\n" + lowestStr + highestStr;
 
 }
 function getInfo(type){
-    var avg = 0;
-    var ct = 0;
-    var lowest = 700;
-    var highest = 0;
-    var lowestName;
-    var highestName;
-    var json = getJSON(guildName);
-    for (var key in json) {
+    let avg = 0;
+    let ct = 0;
+    let lowest = 700;
+    let highest = 0;
+    let lowestName;
+    let highestName;
+    let json = getJSON(guildName);
+    for (let key in json) {
         ct++;
         avg += (isNaN(parseInt(json[key]["gs"]))) ? 0 : parseInt(json[key]["gs"]);
         currentGS = parseInt(json[key]["gs"]);
@@ -987,9 +993,9 @@ function getInfo(type){
     }
     avg = avg / ct;
     avg = avg.toPrecision(5);
-    lowestStr = ("Lowest GS: **" + lowest + "** ").padEnd(15) + lowestName + "\n";
-    highestStr = ("Highest GS: **" + highest + "** ").padEnd(15) + highestName + "\n";
-    var re = avg;
+    let lowestStr = ("Lowest GS: **" + lowest + "** ").padEnd(15) + lowestName + "\n";
+    let highestStr = ("Highest GS: **" + highest + "** ").padEnd(15) + highestName + "\n";
+    let re = avg;
     if(type=="count"){
         re = ct;
     }
@@ -999,14 +1005,14 @@ function getInfo(type){
 
 function remove(str, userID) {
     str = str.toString().toLowerCase();
-    var ventus = getJSON(guildName);
+    let ventus = getJSON(guildName);
     if (matcha(officers, userID) == -1) {
         if (getById("fa", userID).toString().toLowerCase() != str) { // if attempted remove is not your own
             return "You can only remove your own family, " + getById("fa", userID) + ".";
         }
         else { //default 
             if (ventus[str]) {
-                var ret = "Member " + getById("fa", userID) + " has removed their family.";
+                let ret = "Member " + getById("fa", userID) + " has removed their family.";
                 delete ventus[str];
                 save(ventus);
                 return ret;
@@ -1029,7 +1035,7 @@ function remove(str, userID) {
     return "error";
 }
 function list(args) {
-    str = "";
+    let str = "";
     if (args.length == 1) {
 
         if (matcha(["lvl", "levl", "lv", "lev", "growth"], args[0]) >= 0) {
@@ -1047,7 +1053,7 @@ function list(args) {
     else if (args.length == 2) {
         arg1 = args[0].toString().toLowerCase();
         arg2 = args[1].toString().toLowerCase();
-        var cid;
+        let cid;
         if (matcha(["ap", "dp", "level", "gs"], arg1) > -1) {
             metric = arg1;
             cid = getClassId(arg2);
@@ -1062,8 +1068,8 @@ function list(args) {
     str = listt("gs", -1);
     }
     while(str.length>MESSAGE_CHAR_LIMIT-3){
-        capped = str.substring(0,MESSAGE_CHAR_LIMIT-3); //rough cut ex "asdf\nasd"
-        lastline = capped.lastIndexOf('\n'); //find most recent newline ex "4"
+        let capped = str.substring(0,MESSAGE_CHAR_LIMIT-3); //rough cut ex "asdf\nasd"
+        let lastline = capped.lastIndexOf('\n'); //find most recent newline ex "4"
         capped = capped.substring(0,lastline)+"```"; //clean cut ex "asdf"
         messageQueue.push(capped); //add to messageQueue ex ["asdf"]
         str = "```"+str.substring(lastline,str.length); //put the rest back in str "\nasd"
@@ -1087,7 +1093,7 @@ function listt(metric, cid) {
     else if (matcha(["ap", "dp", "level", "gs"], metric) < 0) {
         return "\"" + metric + "\" is not a valid metric for comparison.";
     }
-    var str = "Guild Member Rankings sorted by **" + ((metric == "level") ? "Level" : metric.toUpperCase()) + "**\n";
+    let str = "Guild Member Rankings sorted by **" + ((metric == "level") ? "Level" : metric.toUpperCase()) + "**\n";
     if (cid != -1) { //filter only classes
         str = "**" + getClassName(cid) + "** Rankings sorted by **" + ((metric == "level") ? "Level" : metric.toUpperCase()) + "**\n";
     }
@@ -1095,15 +1101,17 @@ function listt(metric, cid) {
         cid = null;
     }
 
-    var sorted = new Array();
+    let sorted = new Array();
 
-    var json = getJSON(guildName);
-    for (var key in json) {
+    let json = getJSON(guildName);
+    let i;
+    let j;
+    for (let key in json) {
         sorted.push(json[key]);
     }
-    for (var i = 1; i < sorted.length; i++) {
-        var temp = sorted[i];
-        for (var j = i - 1; j >= 0 && parseInt(sorted[j][metric]) < parseInt(temp[metric]); j--) {
+    for (let i = 1; i < sorted.length; i++) {
+        let temp = sorted[i];
+        for (let j = i - 1; j >= 0 && parseInt(sorted[j][metric]) < parseInt(temp[metric]); j--) {
             sorted[j + 1] = sorted[j];
         }
         sorted[j + 1] = temp;
@@ -1111,7 +1119,7 @@ function listt(metric, cid) {
     str += "```Family(Character)              AP     DP     GS     LVL    Class\n________________________________________________________________\n";
     //add ascend/decend functionality here
     //sorted should be full of objects at this point
-    for (var i = 0; i < sorted.length; i++) {
+    for (let i = 0; i < sorted.length; i++) {
         try {
             if (cid != null) {
                 // if is the class, or is 
@@ -1150,7 +1158,7 @@ function roll(args) {
 }
 //help command
 function help(args) {
-    var r = "commands: cc add update reroll help remove roll lsga list info get addpic \nex. `.help add`";
+    let r = "commands: cc add update reroll help remove roll lsga list info get addpic \nex. `.help add`";
     switch (args[0]) {
         case 'add':
             r = "member: `.add family character ap dp level class`\nofficer: `.add family character ap dp level class discordID`\nAdds a new family to the guild.";
