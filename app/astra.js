@@ -658,7 +658,7 @@ function reroll(args, userID) {
     else if (args[4].match(/[^a-zA-Z_]/) != null) {
         return "Class name cannot contain special characters. \n\"" + args[5].match(/[^a-zA-Z_]/)[0] + "\"";
     }
-    let ventus = getJSON(guildName);
+    ventus = getJSON(guildName);
     let family = getFaBy("discordid", userID).toLowerCase();
     try {
         ventus[family]["ch"] = args[0];
@@ -860,7 +860,7 @@ function getClassName(id) {
     return classnames[id];
 }
 function getClassId(str) {
-    let str = str.toLowerCase();
+    str = str.toLowerCase();
     // multiclass types 
     if(str.startsWith("cast")||str.startsWith("mag")){
         return -2;
@@ -876,7 +876,7 @@ function getClassId(str) {
 }
 function matcha(arr, str) {
     // >=0 is match
-    let str = str.toString();
+    str = str.toString();
     for (let i = 0; i < arr.length; i++) {
         if (str.match(arr[i].toString()) != null) {
             return i;
@@ -1004,7 +1004,7 @@ function getInfo(type){
 
 
 function remove(str, userID) {
-    let str = str.toString().toLowerCase();
+    str = str.toString().toLowerCase();
     let ventus = getJSON(guildName);
     if (matcha(officers, userID) == -1) {
         if (getById("fa", userID).toString().toLowerCase() != str) { // if attempted remove is not your own
@@ -1070,7 +1070,7 @@ function list(args) {
     while(str.length>MESSAGE_CHAR_LIMIT-3){
         let capped = str.substring(0,MESSAGE_CHAR_LIMIT-3); //rough cut ex "asdf\nasd"
         let lastline = capped.lastIndexOf('\n'); //find most recent newline ex "4"
-        let capped = capped.substring(0,lastline)+"```"; //clean cut ex "asdf"
+        capped = capped.substring(0,lastline)+"```"; //clean cut ex "asdf"
         messageQueue.push(capped); //add to messageQueue ex ["asdf"]
         str = "```"+str.substring(lastline,str.length); //put the rest back in str "\nasd"
     }
@@ -1104,6 +1104,8 @@ function listt(metric, cid) {
     let sorted = new Array();
 
     let json = getJSON(guildName);
+    let i;
+    let j;
     for (let key in json) {
         sorted.push(json[key]);
     }
