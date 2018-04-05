@@ -1035,7 +1035,7 @@ function remove(str, userID) {
     return "error";
 }
 function list(args) {
-    str = "";
+    let str = "";
     if (args.length == 1) {
 
         if (matcha(["lvl", "levl", "lv", "lev", "growth"], args[0]) >= 0) {
