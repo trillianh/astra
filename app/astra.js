@@ -1,7 +1,7 @@
 import {
   BOT_TOKEN,
   CHANNEL_ID
-} from '../constants/config.js';
+} from './constants/config.js';
 
 var Discord = require('discord.io');
 var logger = require('winston');
