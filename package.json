@@ -5,8 +5,17 @@
   "main": "astra.js",
   "author": "trillian",
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-export-extensions": "^6.8.0",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
     "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+    "dotenv": "^5.0.1",
     "mongodb": "^3.0.1",
     "winston": "^2.4.0"
+  },
+  "scripts": {
+    "start": "node --require dotenv/config --require \"babel-register\" astra.js"
   }
 }
