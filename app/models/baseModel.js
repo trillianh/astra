@@ -33,11 +33,25 @@ class BaseModel {
     });
   };
 
-  static find(args, collectionName) {
+  static findOne(args, collectionName) {
     return MongoClient.connect(MONGO_DB_HOST).then((client) => {
       const db = client.db(DB_NAME);
       const collection = db.collection(collectionName);
-      const records = collection.find(args).toArray();
+      const record = collection.findOne(args);
+
+      client.close();
+
+      return record;
+    }).then((records) => {
+      return record;
+    });
+  };
+
+  static find(query, sort = {},collectionName) {
+    return MongoClient.connect(MONGO_DB_HOST).then((client) => {
+      const db = client.db(DB_NAME);
+      const collection = db.collection(collectionName);
+      const records = collection.find(query).sort(sort).toArray();
 
       client.close();
 
@@ -45,7 +59,7 @@ class BaseModel {
     }).then((records) => {
       return records;
     });
-  };
+  }
 
   static update(query, args, collectionName) {
     // Need to find the record of interest using a unique ID like discordID(?)

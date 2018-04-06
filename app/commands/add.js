@@ -6,6 +6,8 @@ function add(args, discordId, callback) {
   // Need some kind of validation to check for valid
   // character attributes
   return Character.create(_getCharacterAttrs(args, discordId)).then((result) => {
+    // Probably format the result
+    console.log(result);
     callback(result);
   });
 };

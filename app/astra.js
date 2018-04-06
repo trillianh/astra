@@ -373,12 +373,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             });
                             break;
                         case 'list':
-                          Character.find({name: 'a'}).then((records) => { console.log(records)} );
-                          let messages = list(args);
-                          bot.sendMessage({
+                          list(args, (results) => {
+                            bot.sendMessage({
                               to: channelID,
-                              message: messages.shift()
-                          });
+                              message: 'this is the list'
+                            });
+                          })
                           break;
                         case 'info':
                             bot.sendMessage({

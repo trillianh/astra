@@ -21,8 +21,12 @@ class Character extends BaseModel {
     return super.create(args, COLLECTION_NAME);
   }
 
-  static find(args) {
-    return super.find(args, COLLECTION_NAME);
+  static findOne(args) {
+    return super.findOne(args, COLLECTION_NAME);
+  }
+
+  static find(query, sort) {
+    return super.find(query, sort, COLLECTION_NAME);
   }
 
   static update(id, args) {
