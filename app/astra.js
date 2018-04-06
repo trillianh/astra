@@ -1,7 +1,39 @@
 import {
   BOT_TOKEN,
-  CHANNEL_ID
-} from './constants/config.js';
+  CHANNEL_ID,
+  MONGO_DB_HOST
+} from './constants/config';
+
+import {
+  Character
+} from './models/character';
+
+import {
+  list
+} from './commands/list';
+
+import {
+  add
+} from './commands/add';
+
+// This is a hack to define padEnd function for String
+// ES7 removes fomr its specs
+if (!String.prototype.padEnd) {
+    String.prototype.padEnd = function padEnd(targetLength,padString) {
+        targetLength = targetLength>>0; //floor if number or convert non-number to 0;
+        padString = String((typeof padString !== 'undefined' ? padString : ' '));
+        if (this.length > targetLength) {
+            return String(this);
+        }
+        else {
+            targetLength = targetLength-this.length;
+            if (targetLength > padString.length) {
+                padString += padString.repeat(targetLength/padString.length); //append to original to ensure we are longer than needed
+            }
+            return String(this) + padString.slice(0,targetLength);
+        }
+    };
+}
 
 const Discord = require('discord.io');
 const logger = require('winston');
@@ -20,7 +52,6 @@ const guildName = "ventus";
 const MESSAGE_CHAR_LIMIT = 2000;
 
 const trillianAstra = 387326440607186947;
-const mongourl = process.env.MONGODB_URI;
 const pathbase = ".";//"C:\\Users\\astra\\Desktop\\ventus";
 const officers = [
     "229422191362441216",
@@ -202,10 +233,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         });
                     break;
                     case 'list':
-                        list(args);
+                        const messages = list(args);
                         bot.sendMessage({
                             to: channelID,
-                            message: messageQueue.shift()
+                            message: messages
                         });
                     break;
                     case 'remove':
@@ -273,12 +304,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             });
                             break;
                         case 'add':
-                            logger.info("add");
+                          add(args, userID, (result) => {
                             bot.sendMessage({
-                                to: channelID,
-                                message: add(args, userID)
+                              to: channelID,
+                              message: 'Character created'
                             });
-                            break;
+                          });
+                          break;
                         case 'update':
                             bot.sendMessage({
                                 to: channelID,
@@ -341,12 +373,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             });
                             break;
                         case 'list':
-                            list(args);
-                            bot.sendMessage({
-                                to: channelID,
-                                message: messageQueue.shift()
-                            });
-                            break;
+                          Character.find({name: 'a'}).then((records) => { console.log(records)} );
+                          let messages = list(args);
+                          bot.sendMessage({
+                              to: channelID,
+                              message: messages.shift()
+                          });
+                          break;
                         case 'info':
                             bot.sendMessage({
                                 to: channelID,
@@ -677,7 +710,7 @@ function reroll(args, userID) {
 }
 let fs = require('fs');
 function createdb(){
-    mongodb.connect(mongourl, function(err, db) {
+    mongodb.connect(MONGO_DB_HOST, function(err, db) {
         if (err) throw err;
         logger.info("Database created!");
         db.close();
@@ -701,7 +734,7 @@ function save(str){
     //get json from ephemeral
     let thedata = JSON.parse(fs.readFileSync(path.join(pathbase, gname + '.json'), "utf8"));
     //save to mongo
-    mongodb.connect(mongourl, function(err,db){
+    mongodb.connect(MONGO_DB_HOST, function(err,db){
         if (err) throw err;
         let dbo = db.db("mydb");
         dbo.collection("gsbot").updateOne()
@@ -714,7 +747,7 @@ function savebeta(str){
     //get json from ephemeral
     let thedata = str;
     //save to mongo
-    mongodb.connect(mongourl, function(err,db){
+    mongodb.connect(MONGO_DB_HOST, function(err,db){
         if (err) throw err;
         let dbo = db.db("mydb");
         dbo.collection("gsbot").updateOne({},thedata,function(err,res){
@@ -787,7 +820,20 @@ function addAdmin(args) {
     }
 
 }
-function add(args, userID) {
+
+function getCharacterAttrs(args) {
+    return {
+        level: parseInt(args[4]),
+        awk_ap: parseInt(args[2]),
+        dp: parseInt(args[3]),
+        family_name: args[0],
+        character_name: args[1],
+        class_name: args[5],
+        gear_score: parseInt(args[2]) + parseInt(args[3])
+    };
+}
+
+function xadd(args, userID) {
     if (getById("fa", userID) != -1) {
         if (args[6]) {
             if (matcha(officers, userID) > -1) {
@@ -1034,48 +1080,7 @@ function remove(str, userID) {
     }
     return "error";
 }
-function list(args) {
-    let str = "";
-    if (args.length == 1) {
 
-        if (matcha(["lvl", "levl", "lv", "lev", "growth"], args[0]) >= 0) {
-            args[0] = "level";
-        }
-        if (matcha(["ap", "dp", "level", "gs"], args[0]) > -1) {
-            //sort all by args[0]
-            str = listt(args[0], -1);
-        }
-        else {
-            //list all args[0] by gs
-                str = listt("gs", getClassId(args[0]));
-        }
-    }
-    else if (args.length == 2) {
-        arg1 = args[0].toString().toLowerCase();
-        arg2 = args[1].toString().toLowerCase();
-        let cid;
-        if (matcha(["ap", "dp", "level", "gs"], arg1) > -1) {
-            metric = arg1;
-            cid = getClassId(arg2);
-        }
-        else {
-            metric = arg2;
-            cid = getClassId(arg1);
-        }
-        str = listt(metric, cid);
-    }
-    else{
-    str = listt("gs", -1);
-    }
-    while(str.length>MESSAGE_CHAR_LIMIT-3){
-        let capped = str.substring(0,MESSAGE_CHAR_LIMIT-3); //rough cut ex "asdf\nasd"
-        let lastline = capped.lastIndexOf('\n'); //find most recent newline ex "4"
-        capped = capped.substring(0,lastline)+"```"; //clean cut ex "asdf"
-        messageQueue.push(capped); //add to messageQueue ex ["asdf"]
-        str = "```"+str.substring(lastline,str.length); //put the rest back in str "\nasd"
-    }
-    messageQueue.push(str);
-}
 function listn(metric) {
     if (metric.length == 0) {
         return listt("all", -1);
