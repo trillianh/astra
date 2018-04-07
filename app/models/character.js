@@ -19,19 +19,19 @@ const ATTRIBUTES = [
 class Character extends BaseModel {
   static create(args) {
     return super.create(args, COLLECTION_NAME);
-  }
+  };
 
   static findOne(args) {
     return super.findOne(args, COLLECTION_NAME);
-  }
+  };
 
   static find(query, sort) {
     return super.find(query, sort, COLLECTION_NAME);
-  }
+  };
 
-  static update(id, args) {
-    return super.update({ id: id }, args, COLLECTION_NAME);
-  }
+  static findAndUpdate(query, args, options = {}) {
+    return super.findAndUpdate(query, args, options, COLLECTION_NAME);
+  };
 };
 
 export {

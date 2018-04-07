@@ -42,7 +42,7 @@ class BaseModel {
       client.close();
 
       return record;
-    }).then((records) => {
+    }).then((record) => {
       return record;
     });
   };
@@ -61,9 +61,18 @@ class BaseModel {
     });
   }
 
-  static update(query, args, collectionName) {
-    // Need to find the record of interest using a unique ID like discordID(?)
-    // Return a promise with update
+  static findAndUpdate(query, args, options, collectionName) {
+    return MongoClient.connect(MONGO_DB_HOST).then((client) => {
+      const db = client.db(DB_NAME);
+      const collection = db.collection(collectionName);
+      const record = collection.findOneAndUpdate(query, args, options);
+
+      client.close();
+
+      return record;
+    }).then((record) => {
+      return record;
+    });
   };
 };
 
