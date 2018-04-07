@@ -26,6 +26,10 @@ import {
   update
 } from './commands/update';
 
+import {
+  reroll
+} from './commands/reroll';
+
 // This is a hack to define padEnd function for String
 // ES7 removes from its specs
 if (!String.prototype.padEnd) {
@@ -49,17 +53,12 @@ const Discord = require('discord.js');
 const logger = require('winston');
 
 const osu_token = process.env.osuapi;
-//let auth = require('./auth.json');
+
 const path = require('path');
 const https = require('https');
 const mongodb = require('mongodb');
-//let request = require('sync-request');
 
-let messageQueue = [];
-//LIFO
 const guildName = "ventus";
-
-const MESSAGE_CHAR_LIMIT = 2000;
 
 const trillianAstra = 387326440607186947;
 const pathbase = ".";//"C:\\Users\\astra\\Desktop\\ventus";
@@ -70,50 +69,39 @@ const officers = [
     "110565709414690816",
     "100711732757938176",
     "233826421489795072",
-    "163807302061785088"];
-const classnicks = [
-    "zerker,zerk,berserker,zk,giant", //0
-    "dk,drk,darkknight,batman,darknight,brucewayne,dark",
-    "kuno,kunoichi",
-    "mae,bae,baehwa,maehwa,plum,meihua,maewah,maewha",
-    "musa,blader,beyblade",
-    "mystic,femstriker,mys",
-    "ninja,naruto,hokage",
-    "ranger,deadclass,bowmaster,dualblade,archer,elf",
-    "sorc,sorceress,rwby",
-    "striker,jojo,stroker",
-    "tamer,loli,ellin,tame",
-    "valk,valkyrie,lifeskiller",
-    "warrior,kajitrainer,warr",
-    "witch,hermione,ginny",
-    "wiz,wizard,wizzy,shiny,harrypotter,wizerd"];
+    "163807302061785088"
+];
 
-const classnames = [
-    "Berserker",
-    "Dark Knight",
-    "Kunoichi",
-    "Maehwa",
-    "Musa",
-    "Mystic",
-    "Ninja",
-    "Ranger",
-    "Sorceress",
-    "Striker",
-    "Tamer",
-    "Valkyrie",
-    "Warrior",
-    "Witch",
-    "Wizard"];
+const classnicks = [
+  "zerker,zerk,berserker,zk,giant",
+  "dk,drk,darkknight,batman,darknight,brucewayne,dark",
+  "kuno,kunoichi",
+  "mae,bae,baehwa,maehwa,plum,meihua,maewah,maewha",
+  "musa,blader,beyblade",
+  "mystic,femstriker,mys",
+  "ninja,naruto,hokage",
+  "ranger,deadclass,bowmaster,dualblade,archer,elf",
+  "sorc,sorceress,rwby",
+  "striker,jojo,stroker",
+  "tamer,loli,ellin,tame",
+  "valk,valkyrie,lifeskiller",
+  "warrior,kajitrainer,warr",
+  "witch,hermione,ginny",
+  "wiz,wizard,wizzy,shiny,harrypotter,wizerd"
+];
 
 const groupnames = [
-    "Caster",
-    "Blader"];
+  "Caster",
+  "Blader"
+];
+
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(logger.transports.Console, {
-    colorize: true
+  colorize: true
 });
 logger.level = 'debug';
+
 // Initialize Discord Bot
 const bot = new Discord.Client();
 
@@ -131,8 +119,9 @@ bot.on('disconnect', function (erMsg, code) {
 });
 
 bot.on('message', messageObj => {
-  let message =  messageObj.content;
+  let message = messageObj.content;
   let discordId = messageObj.member.id;
+  const channelId = messageObj.channel.id;
 
   try {
     while(message.includes("  ")){
@@ -144,7 +133,8 @@ bot.on('message', messageObj => {
     args = args.splice(1);
     let cm = message.substring(4);
 
-    if (message.substring(0, 1) == '.') {
+    // channel specific commands
+    if (channelId == CHANNEL_ID && message.substring(0, 1) == '.') {
       let args = message.substring(1).split(' ');
       let cmd = args[0].toLowerCase();
       args = args.splice(1);
@@ -170,6 +160,13 @@ bot.on('message', messageObj => {
             messageObj.channel.send(results);
           })
           break;
+        case 'reroll':
+          reroll(args, discordId, (result) => {
+            messageObj.channel.send(result);
+          });
+          break;
+        default:
+          
       }
     }
   } catch(err) {
@@ -662,55 +659,6 @@ function getFaBy(key, value) {
     return "-1";
 }
 
-function reroll(args, userID) {
-    //char ap dp level class
-
-    let ventus = getJSON(guildName);
-    //if char exists
-
-    if (args[4] == null || args[5]) {
-        return "incorrect format: `.reroll characterName ap dp level class`";
-    }
-    else if (getFaBy("ch", args[0].toLowerCase()) != -1) {
-        if (getFaBy("ch", args[0].toLowerCase()) != getById("fa", userID)) {
-            return "You are not the " + getFaBy("ch", args[0].toLowerCase()) + " family.";
-        }
-        else {
-            return "Use the `.update` command to update your gs.";
-        }
-    }
-    else if (args[0].match(/[^0-9a-zA-Z_]/) != null) {
-        return "Character name cannot contain special characters.\n\"" + args[5].match(/[^0-9a-zA-Z_]/)[0] + "\"";
-    }
-    else if (args[1].match(/[^0-9]/) != null) {
-        return "AP must be a number.\n\"" + args[5].match(/[^0-9]/)[0] + "\"";
-    }
-    else if (args[2].match(/[^0-9]/) != null) {
-        return "DP must be a number.\n\"" + args[5].match(/[^0-9]/)[0] + "\"";
-    }
-    else if (args[3].match(/[^0-9]/) != null) {
-        return "Level must be a number.\n\"" + args[5].match(/[^0-9]/)[0] + "\"";
-    }
-    else if (args[4].match(/[^a-zA-Z_]/) != null) {
-        return "Class name cannot contain special characters. \n\"" + args[5].match(/[^a-zA-Z_]/)[0] + "\"";
-    }
-    ventus = getJSON(guildName);
-    let family = getFaBy("discordid", userID).toLowerCase();
-    try {
-        ventus[family]["ch"] = args[0];
-        ventus[family]["ap"] = parseInt(args[1]);
-        ventus[family]["dp"] = parseInt(args[2]);
-        ventus[family]["level"] = parseInt(args[3]);
-        ventus[family]["classid"] = getClassId(args[4]);
-        ventus[family]["gs"] = parseInt(args[1]) + parseInt(args[2]);
-        save(ventus);
-    }
-    catch (err) {
-        logger.info(userID);
-        return -1;
-    }
-    return "Rerolled the " + getFaBy("discordid", userID) + " family to " + getClassName(getClassId(args[4])) + " successfully.";
-}
 let fs = require('fs');
 function createdb(){
     mongodb.connect(MONGO_DB_HOST, function(err, db) {

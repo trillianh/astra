@@ -11,6 +11,7 @@ import {
 } from '../constants/bdo';
 
 import {
+  capitalize,
   indexOf
 } from 'lodash';
 
@@ -59,14 +60,14 @@ function _validLevel(value) {
 };
 
 function _validClass(className) {
-  return className && indexOf(CLASSES, className) > -1;
+  return className && indexOf(CLASSES, capitalize(className)) > -1;
 };
 
 function _getCharacterAttrs(args, discordId) {
   return {
     awk_ap: parseInt(args[2]),
     character_name: args[1],
-    class_name: args[5],
+    class_name: capitalize(args[5]),
     discord_id: discordId,
     dp: parseInt(args[3]),
     family_name: args[0],
