@@ -74,6 +74,20 @@ class BaseModel {
       return record;
     });
   };
+
+  static deleteOne(query, options, collectionname) {
+    return MongoClient.connect(MONGO_DB_HOST).then((client) => {
+      const db = client.db(DB_NAME);
+      const collection = db.collection(collectionName);
+      const record = collection.deleteOne(query, options);
+
+      client.close();
+
+      return record;
+    }).then((record) => {
+      return record;
+    });
+  };
 };
 
 export {

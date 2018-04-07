@@ -953,38 +953,6 @@ function getInfo(type){
     return re;
 }
 
-function remove(str, userID) {
-    str = str.toString().toLowerCase();
-    let ventus = getJSON(guildName);
-    if (matcha(officers, userID) == -1) {
-        if (getById("fa", userID).toString().toLowerCase() != str) { // if attempted remove is not your own
-            return "You can only remove your own family, " + getById("fa", userID) + ".";
-        }
-        else { //default 
-            if (ventus[str]) {
-                let ret = "Member " + getById("fa", userID) + " has removed their family.";
-                delete ventus[str];
-                save(ventus);
-                return ret;
-            }
-            else {
-                return str + " family not found.";
-            }
-        }
-    }
-    else { //officer remove
-        if (ventus[str]) {
-            delete ventus[str];
-            save(ventus);
-            return "Officer " + getById("fa", userID) + " has removed the " + str + " family.";
-        }
-        else {
-            return str + " family not found.";
-        }
-    }
-    return "error";
-}
-
 //roll command
 function roll(args) {
     if (isNaN(args[0])) {

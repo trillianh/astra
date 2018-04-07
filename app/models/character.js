@@ -32,6 +32,10 @@ class Character extends BaseModel {
   static findAndUpdate(query, args, options = {}) {
     return super.findAndUpdate(query, args, options, COLLECTION_NAME);
   };
+
+  static deleteOne(query, options = {}) {
+    return super.deleteOne(query, options, COLLECTION_NAME);
+  };
 };
 
 export {
