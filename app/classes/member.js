@@ -26,6 +26,10 @@ import {
   help
 } from '../commands/help';
 
+import {
+  cc
+} from '../commands/cc';
+
 class Member {
   static perform(command, discordId, args, replyCallback) {
     switch(command) {
@@ -43,6 +47,9 @@ class Member {
         break;
       case 'reroll':
         reroll(args, replyCallback);
+        break;
+      case 'cc':
+        cc(discordId, replyCallback);
         break;
       default:
         help(args, replyCallback);
