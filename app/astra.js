@@ -16,6 +16,14 @@ import {
   add
 } from './commands/add';
 
+import {
+  get 
+} from './commands/get';
+
+import {
+  update
+} from './commands/update';
+
 // This is a hack to define padEnd function for String
 // ES7 removes fomr its specs
 if (!String.prototype.padEnd) {
@@ -307,16 +315,18 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                           add(args, userID, (result) => {
                             bot.sendMessage({
                               to: channelID,
-                              message: 'Character created'
+                              message: result
                             });
                           });
                           break;
                         case 'update':
+                          update(args, userID, (message) => {
                             bot.sendMessage({
-                                to: channelID,
-                                message: update(args, userID)
+                              to: channelID,
+                              message: message
                             });
-                            break;
+                          });
+                          break;
                         case 'addpic':
                             let fam = addPicture(args,userID);
                             bot.sendMessage({
@@ -331,11 +341,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             });
                             break;
                         case 'get':
+                          get(userID, (message) => {
                             bot.sendMessage({
-                                to: channelID,
-                                message: getPlayer(args,userID)
+                              to: channelID,
+                              message: message
                             });
-                            break;
+                          });
+                          break;
                         case 'help':
                             bot.sendMessage({
                                 to: channelID,
@@ -376,7 +388,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                           list(args, (results) => {
                             bot.sendMessage({
                               to: channelID,
-                              message: 'this is the list'
+                              message: results
                             });
                           })
                           break;
@@ -608,55 +620,6 @@ function getFaBy(key, value) {
         }
     }
     return "-1";
-}
-function update(args, userID) {
-    //ap dp level
-    let iso = 0;
-    logger.info(args.length);
-    if (args.length != 3) {
-        if (args.length == 0) {
-            return "`.update ap dp level`";
-        }
-        else {
-            if (args.length==4&&matcha(officers, userID) > -1) {
-                iso = 1;
-                userID = args[0].match(/[0-9]+/)[0];
-            }
-            else {
-                return "`.update ap dp level`";
-            }
-        }
-
-    }
-    else if (args[0].match(/[^0-9]/) != null) {
-        return "AP must be a number.\n\"" + args[5].match(/[^0-9]/)[0] + "\"";
-    }
-    else if (args[1].match(/[^0-9]/) != null) {
-        return "DP must be a number.\n\"" + args[5].match(/[^0-9]/)[0] + "\"";
-    }
-    else if (args[2].match(/[^0-9]/) != null) {
-        return "Level must be a number.\n\"" + args[5].match(/[^0-9]/)[0] + "\"";
-    }
-    let ventus = getJSON(guildName);
-    try {
-        let family = getFaBy("discordid", userID).toLowerCase();
-    }
-    catch (err) {
-        return "User not found.";
-    }
-    try {
-        ventus[family]["ap"] = parseInt(args[0+iso]);
-        ventus[family]["dp"] = parseInt(args[1+iso]);
-        ventus[family]["level"] = parseInt(args[2+iso]);
-        ventus[family]["gs"] = parseInt(args[0+iso]) + parseInt(args[1+iso]);
-
-        save(ventus);
-    }
-    catch (err) {
-        logger.info(userID);
-        return -1;
-    }
-    return "Updated the " + ventus[family]["fa"] + " family successfully.";
 }
 
 function reroll(args, userID) {
@@ -1081,73 +1044,6 @@ function remove(str, userID) {
     return "error";
 }
 
-function listn(metric) {
-    if (metric.length == 0) {
-        return listt("all", -1);
-    }
-    else {
-        return listt(metric[0], -1);
-    }
-    return "Error <@110143617699430400>";
-}
-function listt(metric, cid) {
-    metric = metric.toString().toLowerCase();
-    if (matcha(["lvl", "levl", "lv", "lev", "growth"], metric) >= 0) {
-        metric = "level";
-    }
-    else if (matcha(["ap", "dp", "level", "gs"], metric) < 0) {
-        return "\"" + metric + "\" is not a valid metric for comparison.";
-    }
-    let str = "Guild Member Rankings sorted by **" + ((metric == "level") ? "Level" : metric.toUpperCase()) + "**\n";
-    if (cid != -1) { //filter only classes
-        str = "**" + getClassName(cid) + "** Rankings sorted by **" + ((metric == "level") ? "Level" : metric.toUpperCase()) + "**\n";
-    }
-    else {
-        cid = null;
-    }
-
-    let sorted = new Array();
-
-    let json = getJSON(guildName);
-    let i;
-    let j;
-    for (let key in json) {
-        sorted.push(json[key]);
-    }
-    for (let i = 1; i < sorted.length; i++) {
-        let temp = sorted[i];
-        for (let j = i - 1; j >= 0 && parseInt(sorted[j][metric]) < parseInt(temp[metric]); j--) {
-            sorted[j + 1] = sorted[j];
-        }
-        sorted[j + 1] = temp;
-    }
-    str += "```Family(Character)              AP     DP     GS     LVL    Class\n________________________________________________________________\n";
-    //add ascend/decend functionality here
-    //sorted should be full of objects at this point
-    for (let i = 0; i < sorted.length; i++) {
-        try {
-            if (cid != null) {
-                // if is the class, or is 
-                if (
-                    sorted[i]["classid"] == cid || 
-                    (cid == -2 && matcha(["13","14"],sorted[i]["classid"])>=0)
-                ) {
-                    //replace with table formatted playertostring
-                    str += parsedTableString(sorted[i], 1) + "\n";
-                }
-            }
-            else {
-                //replace with table formatted playertostring
-                str += parsedTableString(sorted[i], 1) + "\n";
-            }
-        }
-        catch (err) {
-            logger.info(err + " error");
-        }
-    }
-    str += "```";
-    return str;
-}
 //roll command
 function roll(args) {
     if (isNaN(args[0])) {
