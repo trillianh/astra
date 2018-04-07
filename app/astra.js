@@ -119,7 +119,7 @@ bot.on('message', messageObj => {
       let cmd = args[0].toLowerCase();
       args = args.splice(1);
 
-      Member.perform(cmd, args, discordId, (result) => {
+      Member.perform(cmd, discordId, args, (result) => {
         messageObj.channel.send(result);
       });
     }
