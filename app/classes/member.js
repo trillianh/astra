@@ -22,6 +22,10 @@ import {
   reroll
 } from '../commands/reroll';
 
+import {
+  help
+} from '../commands/help';
+
 class Member {
   static perform(command, discordId, args, replyCallback) {
     switch(command) {
@@ -41,7 +45,7 @@ class Member {
         reroll(args, replyCallback);
         break;
       default:
-        
+        help(args, replyCallback);
     }
   };
 };

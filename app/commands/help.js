@@ -1,4 +1,4 @@
-function help(args) {
+function help(args, callback) {
   let r = "commands: cc add update reroll help remove roll lsga list info get addpic \nex. `.help add`";
   switch (args[0]) {
       case 'add':
@@ -8,7 +8,7 @@ function help(args) {
           r = "`.get family` `.get character`\nGets details of a family in the guild.";
           break;
       case 'list':
-          r = "`.list metric`\n`.list class`\n`.list metric class`\n`.list class metric`\n Lists members in certain ways.";
+          r = "`.list {class} {over|under} {value} {attr} {asc|desc}`\n`.list {attr} {over|under} {value}`";
           break;
       case 'update':
           r = "member: `.update ap dp level`\nofficer: `.update discordID ap dp level`\nUpdates your GS and level.";
@@ -33,7 +33,8 @@ function help(args) {
           break;
       //add help
   }
-  return r;
+  
+  callback(r);
 }
 
 export { help };

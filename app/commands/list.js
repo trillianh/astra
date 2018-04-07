@@ -40,7 +40,6 @@ const OPERATOR_MAPPING = {
 function list(args, callback) {
   const queryObj = _buildQuery(args);
 
-  console.log(queryObj);
   return Character.find(queryObj.query, queryObj.sortOption).then((results) => {
     const table = buildTable(results);
 
