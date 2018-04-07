@@ -6,7 +6,8 @@ import { update } from '../commands/update';
 import { reroll } from '../commands/reroll';
 import { help } from '../commands/help';
 import { cc } from '../commands/cc';
-import { remove } from '../commands/remove'
+import { remove } from '../commands/remove';
+import { roll } from '../commands/roll';
 
 class Member {
   static perform(command, discordId, args, replyCallback) {
@@ -28,6 +29,9 @@ class Member {
         break;
       case 'remove':
         remove(discordId, replyCallback);
+        break;
+      case 'roll':
+        roll(args, replyCallback);
         break;
       case 'cc':
         cc(discordId, replyCallback);
