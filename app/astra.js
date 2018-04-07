@@ -793,38 +793,7 @@ function xadd(args, userID) {
     }
     return "error <@110143617699430400>";
 }
-function addPicture(args,id){
-    let ventus = getJSON(guildName);
-    let fam = getById("fa",id).toLowerCase();
-    if(fam=="-1"){
-        return 0;
-    }
-    ventus[fam]["img"] = args[0].toString();
-    let family = ventus[fam]["fa"].toString();
-    save(ventus);
-    return family;
-}
-function getClassName(id) {
-    if(id==-2){
-        return "Caster";
-    }
-    return classnames[id];
-}
-function getClassId(str) {
-    str = str.toLowerCase();
-    // multiclass types 
-    if(str.startsWith("cast")||str.startsWith("mag")){
-        return -2;
-    }
-    //   logger.info(classnames.length+" "+classnicks.length);
-    for (let i = 0; i < classnames.length; i++) {
-        if (matcha(classnicks[i].split(","), str) > -1) {
-            return i;
-        }
-        // logger.info(i+": "+classnicks[i]+" "+matcha(classnicks[i].split(","),str));
-    }
-    return -1;
-}
+
 function matcha(arr, str) {
     // >=0 is match
     str = str.toString();
@@ -846,6 +815,7 @@ function getStat(stat, data) {
         return "undefined";
     }
 }
+
 function getPlayer(args,id) {
     let ventus = getJSON(guildName);
     let player = 1; //no args = get message sender's info
@@ -871,28 +841,7 @@ function getPlayer(args,id) {
     }
     return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**\n"+player.img;
 }
-function checkRemoved(channel){
-    let ventus = getJSON(guildName);
-    return 1;
-}
-function playerToString(fa) {
-    let player = JSON.parse(fs.readFileSync(path.join(pathbase, guildName + '.json'), "utf8"))[fa + ""];
-    return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**";
-}
-function parsedToString(player) {
-    return player["fa"] + "(" + player["ch"] + ") - AP:**" + player["ap"] + "** DP:**" + player["dp"] + "** GS:**" + player["gs"] + "** Level:**" + player["level"] + "** Class: **" + getClassName(player.classid) + "**";
-}
-function parsedTableString(player, addClassName) {
-    let name = player["fa"] + "(" + player["ch"] + ")";
-    let ap = player["ap"] + "";
-    let dp = player["dp"] + "";
-    let gs = player["gs"] + "";
-    let level = player["level"] + "";
-    let namepad = 30;
-    return name.padEnd(namepad) + " " + ap.padEnd(4) + " | " + dp.padEnd(4) + " | " + gs.padEnd(4) + " | " + level.padEnd(3) + " | " + ((addClassName == 1) ? getClassName(player.classid) : "");
 
-
-}
 function info() {
     let avg = 0;
     let ct = 0;
@@ -921,6 +870,7 @@ function info() {
     return "Members: **" + ct + "**\nAverage: **" + avg + "**\n" + lowestStr + highestStr;
 
 }
+
 function getInfo(type){
     let avg = 0;
     let ct = 0;
@@ -951,18 +901,4 @@ function getInfo(type){
         re = ct;
     }
     return re;
-}
-
-//roll command
-function roll(args) {
-    if (isNaN(args[0])) {
-        return Math.floor(Math.random() * 101);
-    }
-    if (isNaN(args[1])) {
-        return Math.floor(Math.random() * parseInt(args[0]));
-    }
-    else if (parseInt(args[1]) == 0) {
-        return "0";
-    }
-    return parseInt(args[0]) + Math.floor(Math.random() * (parseInt(args[1]) - parseInt(args[0]) + 1));
 }

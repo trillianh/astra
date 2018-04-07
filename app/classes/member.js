@@ -8,12 +8,16 @@ import { help } from '../commands/help';
 import { cc } from '../commands/cc';
 import { remove } from '../commands/remove';
 import { roll } from '../commands/roll';
+import { addpic } from '../commands/addPic';
 
 class Member {
   static perform(command, discordId, args, replyCallback) {
     switch(command) {
       case 'add':
         add(args, discordId, replyCallback);
+        break;
+      case 'addpic':
+        addpic(args, discordId, replyCallback);
         break;
       case 'get':
         get(discordId, replyCallback);
@@ -36,8 +40,11 @@ class Member {
       case 'cc':
         cc(discordId, replyCallback);
         break;
-      default:
+      case 'help':
         help(args, replyCallback);
+        break;
+      default:
+        replyCallback('Invalid Command try .help');
     }
   };
 };
