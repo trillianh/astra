@@ -2,6 +2,15 @@ import {
   Character
 } from '../models/character';
 
+import {
+  buildTable,
+  paginateTable
+} from '../common/messageFormatHelper';
+
+import {
+  forEach
+} from 'lodash';
+
 const SORTABLE_ATTRS_MAPPING = {
   lvl: 'level',
   aap: 'awk_ap',
@@ -9,16 +18,17 @@ const SORTABLE_ATTRS_MAPPING = {
   dp: 'dp',
   family: 'family_name',
   character: 'character_name',
-  gs: 'gear_score'
+  gs: 'gear_score',
+  class: 'class_name'
 };
 
 function list(args, callback) {
-  const sortOption = _getSortOption(args);
-
-  console.log(sortOption);
   return Character.find({}, _getSortOption(args)).then((results) => {
-    console.log(results);
-    callback(results);
+    const table = buildTable(results);
+
+    forEach(table, (page) => {
+      callback(page);
+    });
   });
 };
 
