@@ -3,12 +3,12 @@ import {
 } from '../models/character';
 
 import {
-  buildTable,
-  paginateTable
+  buildTable
 } from '../common/messageFormatHelper';
 
 import {
-  forEach
+  forEach,
+  map
 } from 'lodash';
 
 const SORTABLE_ATTRS_MAPPING = {
@@ -26,8 +26,8 @@ function list(args, callback) {
   return Character.find({}, _getSortOption(args)).then((results) => {
     const table = buildTable(results);
 
-    forEach(table, (page) => {
-      callback(page);
+    forEach(table, async (page) => {
+      await callback(page);
     });
   });
 };

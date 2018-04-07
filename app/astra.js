@@ -1,3 +1,5 @@
+import "babel-polyfill";
+
 import {
   BOT_TOKEN,
   CHANNEL_ID,
@@ -25,7 +27,7 @@ import {
 } from './commands/update';
 
 // This is a hack to define padEnd function for String
-// ES7 removes fomr its specs
+// ES7 removes from its specs
 if (!String.prototype.padEnd) {
     String.prototype.padEnd = function padEnd(targetLength,padString) {
         targetLength = targetLength>>0; //floor if number or convert non-number to 0;
@@ -43,7 +45,7 @@ if (!String.prototype.padEnd) {
     };
 }
 
-const Discord = require('discord.io');
+const Discord = require('discord.js');
 const logger = require('winston');
 
 const osu_token = process.env.osuapi;
@@ -113,19 +115,13 @@ logger.add(logger.transports.Console, {
 });
 logger.level = 'debug';
 // Initialize Discord Bot
-const bot = new Discord.Client({
-    token: BOT_TOKEN,
-    autorun: true,
-    autoReconnect: true
+const bot = new Discord.Client();
+
+bot.on('ready', function () {
+  logger.info('Connected');
 });
 
-bot.on('ready', function (evt) {
-    logger.info('Connected');
-    logger.info('Logged in as: ');
-    logger.info(bot.username + ' - (' + bot.id + ')');
-});
-
-
+bot.login(BOT_TOKEN);
 
 bot.on('disconnect', function (erMsg, code) {
     logger.info('Disconnected');
@@ -134,318 +130,362 @@ bot.on('disconnect', function (erMsg, code) {
     bot.connect();
 });
 
+bot.on('message', messageObj => {
+  let message =  messageObj.content;
+  let discordId = messageObj.member.id;
 
-bot.on('message', function (user, userID, channelID, message, evt) {
-    // Our bot needs to know if it will execute a command
-    // It will listen for messages that will start with `!`
-    try {
-        while(message.includes("  ")){
-           message = message.replace("  "," ");
-        }
-        
-        let args = message.substring(1).split(' ');
-        let cmd = args[0].toLowerCase();
-        args = args.splice(1);
-        let cm = message.substring(4);
-
-        if (userID != 385936309463678976) {
-            //GLOBAL
-            if (message.toLowerCase().replace(" ", "").includes("feelsgoodman") && userID != 385936309463678976) {
-                bot.sendMessage({
-                    to: channelID,
-                    message: "<:FeelsGoodMan:386215991975084033>"
-                });
-            }
-            if(message.startsWith(".roll") && userID != 385936309463678976){
-                bot.sendMessage({
-                    to: channelID,
-                    message: roll(args)
-                });
-            }
-            if (message.toLowerCase().includes("ty astra") && userID != 385936309463678976) {
-                bot.sendMessage({
-                    to: channelID,
-                    message: "np"
-                });
-            }
-            if (message.toLowerCase().includes("thx astra") && userID != 385936309463678976) {
-                bot.sendMessage({
-                    to: channelID,
-                    message: "np"
-                });
-            }
-            if (message.toLowerCase().includes("hi astra") && userID != 385936309463678976) {
-                bot.sendMessage({
-                    to: channelID,
-                    message: "hi!"
-                });
-            }
-            if (message.toLowerCase().includes("https://osu.ppy.sh/b/") && userID != 385936309463678976) {
-                message = message + " ";
-                let beatmapid = message.substring(message.indexOf("sh/b/") + 5, message.length);
-                let endofid = (beatmapid.match(/[^0-9]/)[0] == null) ? beatmapid.length : beatmapid.indexOf(beatmapid.match(/[^0-9]/)[0]);
-                beatmapid = beatmapid.substring(0, endofid);
-                httpsGet(osuBeatmapInfo(beatmapid), function (res) {
-                    bot.sendMessage({
-                        to: channelID,
-                        message: "`" + res[0]["title"] + " - " + res[0]["artist"] + " (" + Math.floor(parseInt(res[0]["total_length"]) / 60) + ":" + (parseInt(res[0]["total_length"]) % 60) + ")`  Stars:`" + parseFloat(res[0]["difficultyrating"]).toPrecision(3) + "`  AR:`" + res[0]["diff_approach"] + "`  Creator:`" + res[0]["creator"] + "`"
-                    });
-                });
-            }
-
-            if (userID == 110143617699430400) {
-                //trillian
-                if (message.toLowerCase() == ".restart") {
-                    bot.sendMessage({
-                        to: channelID,
-                        message: "Restarting!"
-                    });
-                    bot.disconnect();
-                }
-                if(message.toLowerCase().startsWith(".msg")){
-                    bot.sendMessage({
-                        to: args[0],
-                        message: args[1]
-                    });
-                }
-                if(message.toLowerCase().startsWith(".backup")){
-                    bot.uploadFile({
-                        to: 110143617699430400,
-                        file: path.join(pathbase, guildName + '.json'),
-                        message: "here's json"
-                    });
-                }
-            }
-            
-            if (channelID == trillianAstra) {
-                //TEST REALM
-                logger.info(message);
-                switch (cmd) {
-                    case 'msg':
-                        logger.info(cm + " .")
-                        bot.sendMessage({
-                            to: channelID,
-                            message: channelID
-                        });
-                    break;
-                    case 'get':
-                        bot.sendMessage({
-                            to: channelID,
-                            message: getPlayer(args,userID)
-                        });
-                    break;
-                    case 'lsga':
-                        bot.sendMessage({
-                            to: channelID,
-                            message: lsga(args)
-                        });
-                    break;
-                    case 'list':
-                        const messages = list(args);
-                        bot.sendMessage({
-                            to: channelID,
-                            message: messages
-                        });
-                    break;
-                    case 'remove':
-                        bot.sendMessage({
-                            to: channelID,
-                            message: remove(args[0])
-                        });
-                    break;
-                    case 'addpic':
-                    
-                        if(args.length>0){
-                            let fam = addPicture(args,userID);
-                            bot.sendMessage({
-                                to: channelID,
-                                message: (fam.length>3)?"Successfully attached picture to the "+fam+" family.":"Error adding picture <@110143617699430400>"
-                            });
-                        }
-                        else{
-                            bot.sendMessage({
-                                to: channelID,
-                                message: "Please use a URL to attach picture."
-                            });
-                        }
-                    break;
-                    case 'test':
-                         let ventus = getJSON(guildName);
-                         let memberstr = "";
-                         for(let fa in ventus){
-                            memberstr+=ventus[fa]["discordid"]+" ";
-                         }
-                         logger.info(memberstr);
-                        bot.sendMessage({
-                            to: channelID,
-                            message: 1
-                        });
-                    break;
-                    case 'saveb':
-                        savebeta(getJSON(guildName));
-                        bot.sendMessage({
-                            to: channelID,
-                            message: "saved"
-                        });
-                    break;
-                }
-            }
-            if (channelID == CHANNEL_ID) {
-                //VENTUS BOT CH COMMANDS
-                logger.info(message);
-                if (message.substring(0, 1) == '.') {
-                    let args = message.substring(1).split(' ');
-                    let cmd = args[0].toLowerCase();
-                    args = args.splice(1);
-                    switch (cmd) {
-                        case 'cc':
-                            setTimeout(function () {
-                                bot.sendMessage({
-                                    to: channelID,
-                                    message: "<@" + userID + "> Your channel change cooldown is up!"
-                                });
-                            }, 15 * 60 * 1000);
-
-                            bot.sendMessage({
-                                to: channelID,
-                                message: "Started channel change timer."
-                            });
-                            break;
-                        case 'add':
-                          add(args, userID, (result) => {
-                            bot.sendMessage({
-                              to: channelID,
-                              message: result
-                            });
-                          });
-                          break;
-                        case 'update':
-                          update(args, userID, (message) => {
-                            bot.sendMessage({
-                              to: channelID,
-                              message: message
-                            });
-                          });
-                          break;
-                        case 'addpic':
-                            let fam = addPicture(args,userID);
-                            bot.sendMessage({
-                                to: channelID,
-                                message: (fam.length>3)?"Successfully attached picture to the "+fam+" family.":"Error adding picture <@110143617699430400>"
-                            });
-                            break;
-                        case 'reroll':
-                            bot.sendMessage({
-                                to: channelID,
-                                message: reroll(args, userID)
-                            });
-                            break;
-                        case 'get':
-                          get(userID, (message) => {
-                            bot.sendMessage({
-                              to: channelID,
-                              message: message
-                            });
-                          });
-                          break;
-                        case 'help':
-                            bot.sendMessage({
-                                to: channelID,
-                                message: help(args)
-                            });
-                            break;
-                        case 'remove':
-                            bot.sendMessage({
-                                to: channelID,
-                                message: remove(args[0], userID)
-                            });
-                            break;
-                        case 'roll':
-                            bot.sendMessage({
-                                to: channelID,
-                                message: roll(args)
-                            });
-                            break;
-                        case 'lsga':
-                            bot.sendMessage({
-                                to: channelID,
-                                message: lsga(args)
-                            });
-                            break;
-                        case 'bargain':
-                            bot.sendMessage({
-                                to: channelID,
-                                message: bargain(args)
-                            });
-                            break;
-                        case 'lslvl':
-                            bot.sendMessage({
-                                to: channelID,
-                                message: "Lifeskill level " + parseLifeskill(args[0])
-                            });
-                            break;
-                        case 'list':
-                          list(args, (results) => {
-                            bot.sendMessage({
-                              to: channelID,
-                              message: results
-                            });
-                          })
-                          break;
-                        case 'info':
-                            bot.sendMessage({
-                                to: channelID,
-                                message: info()
-                            });
-                            break;
-                        case 'test':
-                                let serverid = "384475247723806722"; //384475247723806722
-                                let ventus = getJSON(guildName);
-                                let smembers = bot.servers[serverid].members;
-                                let sids = [];
-                                let sidstring = "";
-                                let reps = "";
-                                let bugs = 0;
-                                for(let i in smembers){
-                                    let currentID = smembers[i].id.toString().substring(0,15);
-                                    for(let fa in ventus){
-                                        if(ventus[fa]["discordid"].startsWith(currentID)&&ventus[fa]["discordid"]!=smembers[i].id){
-                                            reps += ventus[fa]["fa"]+", ";
-                                            bugs++;
-                                        }
-                                    }
-                                    sids.push(smembers[i].id);
-                                    sidstring+=smembers[i].id+" ";
-                                }
-                                logger.info(reps);
-                                bot.sendMessage({
-                                    to: channelID,
-                                    message: bugs
-                                });
-                            break;
-                        // add more commands here
-                    }
-                }
-            }
-        }
-        else if(userID==385936309463678976){
-            if(messageQueue.length>0){
-                bot.sendMessage({
-                    to: channelID,
-                    message: messageQueue.shift()
-                });
-            }
-        }
+  try {
+    while(message.includes("  ")){
+      message = message.replace("  "," ");
     }
 
-    catch (err) {
-        logger.info(err);
-        bot.sendMessage({
-            to: trillianAstra,
-            message: "Error <@110143617699430400> \n" + err
-        });
+    let args = message.substring(1).split(' ');
+    let cmd = args[0].toLowerCase();
+    args = args.splice(1);
+    let cm = message.substring(4);
+
+    if (message.substring(0, 1) == '.') {
+      let args = message.substring(1).split(' ');
+      let cmd = args[0].toLowerCase();
+      args = args.splice(1);
+
+      switch(cmd) {
+        case 'add':
+          add(args, discordId, (result) => {
+            messageObj.channel.send(result);
+          });
+          break;
+        case 'get':
+          get(discordId, (result) => {
+            messageObj.channel.send(result);
+          });
+          break;
+        case 'update':
+          update(args, discordId, (result) => {
+            messageObj.channel.send(result);
+          });
+          break;
+        case 'list':
+          list(args, (results) => {
+            messageObj.channel.send(results);
+          })
+          break;
+      }
     }
+  } catch(err) {
+    logger.info(err);
+  }
 });
+
+// bot.on('message', messageObj => {
+//     // Our bot needs to know if it will execute a command
+//     // It will listen for messages that will start with `!`
+//     let message = messageObj.content;
+//     let userID = messageObj.member.id;
+    
+//     try {
+//         while(message.includes("  ")){
+//            message = message.replace("  "," ");
+//         }
+        
+//         let args = message.substring(1).split(' ');
+//         let cmd = args[0].toLowerCase();
+//         args = args.splice(1);
+//         let cm = message.substring(4);
+
+//         if (userID != 385936309463678976) {
+//             //GLOBAL
+//             if (message.toLowerCase().replace(" ", "").includes("feelsgoodman") && userID != 385936309463678976) {
+//                 bot.sendMessage({
+//                     to: channelID,
+//                     message: "<:FeelsGoodMan:386215991975084033>"
+//                 });
+//             }
+//             if(message.startsWith(".roll") && userID != 385936309463678976){
+//                 bot.sendMessage({
+//                     to: channelID,
+//                     message: roll(args)
+//                 });
+//             }
+//             if (message.toLowerCase().includes("ty astra") && userID != 385936309463678976) {
+//                 bot.sendMessage({
+//                     to: channelID,
+//                     message: "np"
+//                 });
+//             }
+//             if (message.toLowerCase().includes("thx astra") && userID != 385936309463678976) {
+//                 bot.sendMessage({
+//                     to: channelID,
+//                     message: "np"
+//                 });
+//             }
+//             if (message.toLowerCase().includes("hi astra") && userID != 385936309463678976) {
+//                 bot.sendMessage({
+//                     to: channelID,
+//                     message: "hi!"
+//                 });
+//             }
+//             if (message.toLowerCase().includes("https://osu.ppy.sh/b/") && userID != 385936309463678976) {
+//                 message = message + " ";
+//                 let beatmapid = message.substring(message.indexOf("sh/b/") + 5, message.length);
+//                 let endofid = (beatmapid.match(/[^0-9]/)[0] == null) ? beatmapid.length : beatmapid.indexOf(beatmapid.match(/[^0-9]/)[0]);
+//                 beatmapid = beatmapid.substring(0, endofid);
+//                 httpsGet(osuBeatmapInfo(beatmapid), function (res) {
+//                     bot.sendMessage({
+//                         to: channelID,
+//                         message: "`" + res[0]["title"] + " - " + res[0]["artist"] + " (" + Math.floor(parseInt(res[0]["total_length"]) / 60) + ":" + (parseInt(res[0]["total_length"]) % 60) + ")`  Stars:`" + parseFloat(res[0]["difficultyrating"]).toPrecision(3) + "`  AR:`" + res[0]["diff_approach"] + "`  Creator:`" + res[0]["creator"] + "`"
+//                     });
+//                 });
+//             }
+
+//             if (userID == 110143617699430400) {
+//                 //trillian
+//                 if (message.toLowerCase() == ".restart") {
+//                     bot.sendMessage({
+//                         to: channelID,
+//                         message: "Restarting!"
+//                     });
+//                     bot.disconnect();
+//                 }
+//                 if(message.toLowerCase().startsWith(".msg")){
+//                     bot.sendMessage({
+//                         to: args[0],
+//                         message: args[1]
+//                     });
+//                 }
+//                 if(message.toLowerCase().startsWith(".backup")){
+//                     bot.uploadFile({
+//                         to: 110143617699430400,
+//                         file: path.join(pathbase, guildName + '.json'),
+//                         message: "here's json"
+//                     });
+//                 }
+//             }
+            
+//             if (channelID == trillianAstra) {
+//                 //TEST REALM
+//                 logger.info(message);
+//                 switch (cmd) {
+//                     case 'msg':
+//                         logger.info(cm + " .")
+//                         bot.sendMessage({
+//                             to: channelID,
+//                             message: channelID
+//                         });
+//                     break;
+//                     case 'get':
+//                         bot.sendMessage({
+//                             to: channelID,
+//                             message: getPlayer(args,userID)
+//                         });
+//                     break;
+//                     case 'lsga':
+//                         bot.sendMessage({
+//                             to: channelID,
+//                             message: lsga(args)
+//                         });
+//                     break;
+//                     case 'list':
+//                         const messages = list(args);
+//                         bot.sendMessage({
+//                             to: channelID,
+//                             message: messages
+//                         });
+//                     break;
+//                     case 'remove':
+//                         bot.sendMessage({
+//                             to: channelID,
+//                             message: remove(args[0])
+//                         });
+//                     break;
+//                     case 'addpic':
+                    
+//                         if(args.length>0){
+//                             let fam = addPicture(args,userID);
+//                             bot.sendMessage({
+//                                 to: channelID,
+//                                 message: (fam.length>3)?"Successfully attached picture to the "+fam+" family.":"Error adding picture <@110143617699430400>"
+//                             });
+//                         }
+//                         else{
+//                             bot.sendMessage({
+//                                 to: channelID,
+//                                 message: "Please use a URL to attach picture."
+//                             });
+//                         }
+//                     break;
+//                     case 'test':
+//                          let ventus = getJSON(guildName);
+//                          let memberstr = "";
+//                          for(let fa in ventus){
+//                             memberstr+=ventus[fa]["discordid"]+" ";
+//                          }
+//                          logger.info(memberstr);
+//                         bot.sendMessage({
+//                             to: channelID,
+//                             message: 1
+//                         });
+//                     break;
+//                     case 'saveb':
+//                         savebeta(getJSON(guildName));
+//                         bot.sendMessage({
+//                             to: channelID,
+//                             message: "saved"
+//                         });
+//                     break;
+//                 }
+//             }
+//             if (channelID == CHANNEL_ID) {
+//                 //VENTUS BOT CH COMMANDS
+//                 logger.info(message);
+//                 if (message.substring(0, 1) == '.') {
+//                     let args = message.substring(1).split(' ');
+//                     let cmd = args[0].toLowerCase();
+//                     args = args.splice(1);
+//                     switch (cmd) {
+//                         case 'cc':
+//                             setTimeout(function () {
+//                                 bot.sendMessage({
+//                                     to: channelID,
+//                                     message: "<@" + userID + "> Your channel change cooldown is up!"
+//                                 });
+//                             }, 15 * 60 * 1000);
+
+//                             bot.sendMessage({
+//                                 to: channelID,
+//                                 message: "Started channel change timer."
+//                             });
+//                             break;
+//                         case 'add':
+//                           add(args, userID, (result) => {
+//                             bot.sendMessage({
+//                               to: channelID,
+//                               message: result
+//                             });
+//                           });
+//                           break;
+//                         case 'get':
+//                           get(userID, (message) => {
+//                             messageObj.channel.send(message);
+//                           });
+//                           break;
+//                         case 'update':
+//                           update(args, userID, (message) => {
+//                             bot.sendMessage({
+//                               to: channelID,
+//                               message: message
+//                             });
+//                           });
+//                           break;
+//                         case 'list':
+//                           list(args, (results) => {
+//                             bot.sendMessage({
+//                               to: channelID,
+//                               message: results
+//                             });
+//                           })
+//                           break;
+//                         case 'addpic':
+//                             let fam = addPicture(args,userID);
+//                             bot.sendMessage({
+//                                 to: channelID,
+//                                 message: (fam.length>3)?"Successfully attached picture to the "+fam+" family.":"Error adding picture <@110143617699430400>"
+//                             });
+//                             break;
+//                         case 'reroll':
+//                             bot.sendMessage({
+//                                 to: channelID,
+//                                 message: reroll(args, userID)
+//                             });
+//                             break;
+                        
+//                         case 'help':
+//                             bot.sendMessage({
+//                                 to: channelID,
+//                                 message: help(args)
+//                             });
+//                             break;
+//                         case 'remove':
+//                             bot.sendMessage({
+//                                 to: channelID,
+//                                 message: remove(args[0], userID)
+//                             });
+//                             break;
+//                         case 'roll':
+//                             bot.sendMessage({
+//                                 to: channelID,
+//                                 message: roll(args)
+//                             });
+//                             break;
+//                         case 'lsga':
+//                             bot.sendMessage({
+//                                 to: channelID,
+//                                 message: lsga(args)
+//                             });
+//                             break;
+//                         case 'bargain':
+//                             bot.sendMessage({
+//                                 to: channelID,
+//                                 message: bargain(args)
+//                             });
+//                             break;
+//                         case 'lslvl':
+//                             bot.sendMessage({
+//                                 to: channelID,
+//                                 message: "Lifeskill level " + parseLifeskill(args[0])
+//                             });
+//                             break;
+//                         case 'info':
+//                             bot.sendMessage({
+//                                 to: channelID,
+//                                 message: info()
+//                             });
+//                             break;
+//                         case 'test':
+//                                 let serverid = "384475247723806722"; //384475247723806722
+//                                 let ventus = getJSON(guildName);
+//                                 let smembers = bot.servers[serverid].members;
+//                                 let sids = [];
+//                                 let sidstring = "";
+//                                 let reps = "";
+//                                 let bugs = 0;
+//                                 for(let i in smembers){
+//                                     let currentID = smembers[i].id.toString().substring(0,15);
+//                                     for(let fa in ventus){
+//                                         if(ventus[fa]["discordid"].startsWith(currentID)&&ventus[fa]["discordid"]!=smembers[i].id){
+//                                             reps += ventus[fa]["fa"]+", ";
+//                                             bugs++;
+//                                         }
+//                                     }
+//                                     sids.push(smembers[i].id);
+//                                     sidstring+=smembers[i].id+" ";
+//                                 }
+//                                 logger.info(reps);
+//                                 bot.sendMessage({
+//                                     to: channelID,
+//                                     message: bugs
+//                                 });
+//                             break;
+//                         // add more commands here
+//                     }
+//                 }
+//             }
+//         }
+//         else if(userID==385936309463678976){
+//             if(messageQueue.length>0){
+//                 bot.sendMessage({
+//                     to: channelID,
+//                     message: messageQueue.shift()
+//                 });
+//             }
+//         }
+//     }
+
+//     catch (err) {
+//       logger.info(err);
+//       messageObj.channel.send(err);
+//     }
+// });
 
 
 function osuBeatmapInfo(bid) {

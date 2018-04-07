@@ -5,10 +5,11 @@ import {
   map
 } from 'lodash';
 
+const MESSAGE_FORMAT_SYM = '```';
+
 function buildTable(records) {
   const table = [];
 
-  table.push("```");
   table.push(
     'Family (Character)'.padEnd(30) + ' ' +
     'AP'.padEnd(6) + ' ' +
@@ -24,8 +25,6 @@ function buildTable(records) {
     table.push(_buildTableRow(record));
   });
 
-  table.push("```");
-
   return paginateTable(table);
 };
 
@@ -34,13 +33,17 @@ const ROWS_PER_PAGE = 20;
 function paginateTable(table) {
   const paginatedTable = chunk(table, ROWS_PER_PAGE);
 
+  forEach(paginatedTable, (page) => {
+    page.unshift(MESSAGE_FORMAT_SYM);
+    page.push(MESSAGE_FORMAT_SYM);
+  });
+
   return map(paginatedTable, (page) => {
     return page.join('');
   });
 }
 
 function _buildTableRow(record) {
-    console.log(record);
   const fullName = `${record.family_name} (${record.character_name})`;
 
   return (
