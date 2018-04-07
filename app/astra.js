@@ -7,28 +7,8 @@ import {
 } from './constants/config';
 
 import {
-  Character
-} from './models/character';
-
-import {
-  list
-} from './commands/list';
-
-import {
-  add
-} from './commands/add';
-
-import {
-  get 
-} from './commands/get';
-
-import {
-  update
-} from './commands/update';
-
-import {
-  reroll
-} from './commands/reroll';
+  Member
+} from './classes/member';
 
 // This is a hack to define padEnd function for String
 // ES7 removes from its specs
@@ -139,35 +119,9 @@ bot.on('message', messageObj => {
       let cmd = args[0].toLowerCase();
       args = args.splice(1);
 
-      switch(cmd) {
-        case 'add':
-          add(args, discordId, (result) => {
-            messageObj.channel.send(result);
-          });
-          break;
-        case 'get':
-          get(discordId, (result) => {
-            messageObj.channel.send(result);
-          });
-          break;
-        case 'update':
-          update(args, discordId, (result) => {
-            messageObj.channel.send(result);
-          });
-          break;
-        case 'list':
-          list(args, (results) => {
-            messageObj.channel.send(results);
-          })
-          break;
-        case 'reroll':
-          reroll(args, discordId, (result) => {
-            messageObj.channel.send(result);
-          });
-          break;
-        default:
-          
-      }
+      Member.perform(cmd, args, discordId, (result) => {
+        messageObj.channel.send(result);
+      });
     }
   } catch(err) {
     logger.info(err);
@@ -999,7 +953,6 @@ function getInfo(type){
     return re;
 }
 
-
 function remove(str, userID) {
     str = str.toString().toLowerCase();
     let ventus = getJSON(guildName);
@@ -1044,43 +997,4 @@ function roll(args) {
         return "0";
     }
     return parseInt(args[0]) + Math.floor(Math.random() * (parseInt(args[1]) - parseInt(args[0]) + 1));
-}
-//help command
-function help(args) {
-    let r = "commands: cc add update reroll help remove roll lsga list info get addpic \nex. `.help add`";
-    switch (args[0]) {
-        case 'add':
-            r = "member: `.add family character ap dp level class`\nofficer: `.add family character ap dp level class discordID`\nAdds a new family to the guild.";
-            break;
-        case 'get':
-            r = "`.get family` `.get character`\nGets details of a family in the guild.";
-            break;
-        case 'list':
-            r = "`.list metric`\n`.list class`\n`.list metric class`\n`.list class metric`\n Lists members in certain ways.";
-            break;
-        case 'update':
-            r = "member: `.update ap dp level`\nofficer: `.update discordID ap dp level`\nUpdates your GS and level.";
-            break;
-        case 'reroll':
-            r = "`.reroll character ap dp level class`\nUpdates with a new character reroll.";
-            break;
-        case 'remove':
-            r = "`.remove family`\nRemoves yourself from the guild, or removes anyone if you're an officer";
-            break;
-        case 'roll':
-            r = "`.roll range`\n`roll min max`\n RNG";
-            break;
-        case 'cc':
-            r = "`.cc` \nTags you in 15 minutes.";
-            break;
-        case 'lsga':
-            r = "`.lsga` \nLifeSkill Levelups to Guild Activity calculator.";
-            break;
-        case 'addpic':
-            r = "`.addpic url`\nAdds a picture to your account. Must be a URL(imgur, etc)";
-            break;
-        //add help
-    }
-    return r;
-
 }
