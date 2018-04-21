@@ -105,9 +105,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var cmd = args[0].toLowerCase();
         args = args.splice(1);
         var cm = message.substring(4);
+        var date =  new Date(date);
         var embed = {
             description:  getPlayer(args,userID),
-            timestamp: new Date(),
+            timestamp: getPlayerDate(args,userID),
             footer: {
               icon_url: "https://cdn.discordapp.com/icons/384475247723806722/b533ead0317374a01adf83f1eeae5582.png",
               text: "Last updated"
@@ -224,6 +225,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         bot.sendMessage({
                             to: channelID,
                             message: channelID
+                        });
+                    break;
+                    case 'update':
+                        bot.sendMessage({
+                            to: channelID,
+                            message: update(args, userID)
                         });
                     break;
                     case 'get':
@@ -642,6 +649,7 @@ function update(args, userID) {
         return "Level must be a number.\n\"" + args[5].match(/[^0-9]/)[0] + "\"";
     }
     var ventus = getJSON(guildName);
+    var date = new Date();
     try {
         var family = getFaBy("discordid", userID).toLowerCase();
     }
@@ -652,6 +660,7 @@ function update(args, userID) {
         ventus[family]["ap"] = parseInt(args[0+iso]);
         ventus[family]["dp"] = parseInt(args[1+iso]);
         ventus[family]["level"] = parseInt(args[2+iso]);
+        ventus[family]["date"] = date;
         ventus[family]["gs"] = parseInt(args[0+iso]) + parseInt(args[1+iso]);
 
         save(ventus);
@@ -1106,6 +1115,31 @@ function getPlayerImg(args,id) {
         }
     }
     return player.img;
+}
+function getPlayerDate(args,id) {
+    var ventus = getJSON(guildName);
+    var player = 1; //no args = get message sender's info
+    if(args[0]){
+        for(var fa in ventus){
+            if(ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())||
+               ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())){
+                player = ventus[fa];
+                break;
+            }
+        }
+        if(player==1){
+            return "Player not found.";
+        }
+    }
+    else{
+        for(var fa in ventus){
+            if(ventus[fa]["discordid"]==id){
+                player = ventus[fa];
+                break;
+            }
+        }
+    }
+    return player.date;
 }
 function checkRemoved(channel){
     var ventus = getJSON(guildName);
