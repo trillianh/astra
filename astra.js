@@ -357,7 +357,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         case 'get':
                             bot.sendMessage({
                                 to: channelID,
-                                message: embed
+                                embed: embed
                             });
                             break;
                         case 'help':
