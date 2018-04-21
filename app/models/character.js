@@ -2,8 +2,8 @@ import {
   BaseModel
 } from './baseModel';
 
-const COLLECTION_NAME = 'characters';
-const ATTRIBUTES = [
+export const COLLECTION_NAME = 'characters';
+export const ATTRIBUTES = [
   'level',
   'awk_ap',
   'ap',
