@@ -345,7 +345,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         case 'get':
                             bot.sendMessage({
                                 to: channelID,
-                                message: getPlayer(args,userID)
+                                message: embed
                             });
                             break;
                         case 'help':
