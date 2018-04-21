@@ -1,5 +1,7 @@
 var Discord = require('discord.io');
 var logger = require('winston');
+var dotenv = require('dotenv');
+dotenv.config();
 var bot_token = process.env.token;
 var osu_token = process.env.osuapi;
 //var auth = require('./auth.json');
@@ -15,6 +17,7 @@ const MESSAGE_CHAR_LIMIT = 2000;
 const ventusBotChannel = 385971798539370496;
 const ventusServer = 384475247723806722;
 const trillianAstra = 387326440607186947;
+const smooverAstra = 281947577702678528;
 const mongourl = process.env.MONGODB_URI;
 const pathbase = ".";//"C:\\Users\\astra\\Desktop\\ventus";
 const officers = [
@@ -102,6 +105,29 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var cmd = args[0].toLowerCase();
         args = args.splice(1);
         var cm = message.substring(4);
+        var embed = {
+            description: getPlayer(args,userID),
+            timestamp: new Date(),
+            footer: {
+              icon_url: "https://cdn.discordapp.com/embed/avatars/0.png",
+              text: "Last updated"
+            },
+            image: {
+              url: getPlayerImg(args,userID)
+            },
+            fields: [
+              {
+                name: "<:thonkang:219069250692841473>",
+                value: "these last two",
+                inline: true
+              },
+              {
+                name: "<:thonkang:219069250692841473>",
+                value: "are inline fields",
+                inline: true
+              }
+            ]
+          }
 
         if (userID != 385936309463678976) {
             //GLOBAL
@@ -172,7 +198,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 }
             }
             
-            if (channelID == trillianAstra) {
+            if (channelID == trillianAstra || smooverAstra) {
                 //TEST REALM
                 logger.info(message);
                 switch (cmd) {
@@ -186,7 +212,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     case 'get':
                         bot.sendMessage({
                             to: channelID,
-                            message: getPlayer(args,userID)
+                            embed: embed
                         });
                     break;
                     case 'lsga':
@@ -912,7 +938,32 @@ function getPlayer(args,id) {
             }
         }
     }
-    return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**\n"+player.img;
+    return player.fa + "(" + player.ch + ") - AP:**" + player.ap + "** DP:**" + player.dp + "** GS:**" + player.gs + "** Level:**" + player.level + "** Class: **" + getClassName(player.classid) + "**";
+}
+function getPlayerImg(args,id) {
+    var ventus = getJSON(guildName);
+    var player = 1; //no args = get message sender's info
+    if(args[0]){
+        for(var fa in ventus){
+            if(ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())||
+               ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())){
+                player = ventus[fa];
+                break;
+            }
+        }
+        if(player==1){
+            return "Player not found.";
+        }
+    }
+    else{
+        for(var fa in ventus){
+            if(ventus[fa]["discordid"]==id){
+                player = ventus[fa];
+                break;
+            }
+        }
+    }
+    return player.img;
 }
 function checkRemoved(channel){
     var ventus = getJSON(guildName);
