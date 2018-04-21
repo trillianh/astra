@@ -227,24 +227,11 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         });
                     break;
                     case 'update':
-                         bot.sendMessage({
-                            to: channelID,
-                            message: update(args, userID)
-                         });
-                    break;
-                    case 'add':
-                         logger.info("add");
-                         bot.sendMessage({
-                            to: channelID,
-                            message: add(args, userID)
-                    });
-                    break;
-                    case 'remove':
                           bot.sendMessage({
-                                to: channelID,
-                                message: remove(args[0], userID)
-                        });
-                    break;
+                          to: channelID,
+                          message: update(args, userID)
+                          });
+                          break;
                     case 'get':
                         bot.sendMessage({
                             to: channelID,
@@ -718,14 +705,12 @@ function reroll(args, userID) {
     }
     var ventus = getJSON(guildName);
     var family = getFaBy("discordid", userID).toLowerCase();
-    var date = new Date();
     try {
         ventus[family]["ch"] = args[0];
         ventus[family]["ap"] = parseInt(args[1]);
         ventus[family]["dp"] = parseInt(args[2]);
         ventus[family]["level"] = parseInt(args[3]);
         ventus[family]["classid"] = getClassId(args[4]);
-        ventus[family]["date"] = date;
         ventus[family]["gs"] = parseInt(args[1]) + parseInt(args[2]);
         save(ventus);
     }
@@ -889,12 +874,11 @@ function add(args, userID) {
         var gs = parseInt(args[2]) + parseInt(args[3]);
         var classid = getClassId(args[5]);
         var uid = userID;
-        var date = new Date();
         if (classid == -1) {
             return "I'm not sure what class that is.";
         }
         logger.info("initialize newaccount");
-        var newAccount = { "fa": args[0], "ch": args[1], "ap": parseInt(args[2]), "dp": parseInt(args[3]), "gs": gs, "level": parseInt(args[4]), "classid": classid, "discordid": uid, "img":"", "date": date }
+        var newAccount = { "fa": args[0], "ch": args[1], "ap": parseInt(args[2]), "dp": parseInt(args[3]), "gs": gs, "level": parseInt(args[4]), "classid": classid, "discordid": uid, "img":"" }
         //var tostring = newAccount.fa+"("+newAccount.ch+") AP:"+newAccount.ap+" DP:"+newAccount.dp+" GS:"+newAccount.gs+" Level:"+newAccount.level+" Class: "+newAccount.classid;
         logger.info("starting add");
         ventus[newAccount.fa.toLowerCase()] = newAccount;
@@ -909,12 +893,9 @@ function addPicture(args,id){
     if(fam=="-1"){
         return 0;
     }
-    var date = new Date();
-    ventus[fam]["date"] = date;     //update time when someone last updated
     ventus[fam]["img"] = args[0].toString();
     var family = ventus[fam]["fa"].toString();
     save(ventus);
-
     return family;
 }
 function getClassName(id) {
