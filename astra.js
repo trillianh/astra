@@ -17,7 +17,7 @@ const MESSAGE_CHAR_LIMIT = 2000;
 const ventusBotChannel = 385971798539370496;
 const ventusServer = 384475247723806722;
 const trillianAstra = 387326440607186947;
-const smooverAstra = 281947577702678528;
+//const smooverAstra = 281947577702678528;
 const mongourl = process.env.MONGODB_URI;
 const pathbase = ".";//"C:\\Users\\astra\\Desktop\\ventus";
 const officers = [
@@ -215,7 +215,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 }
             }
             
-            if (channelID == trillianAstra || smooverAstra) {
+            if (channelID == trillianAstra) {
                 //TEST REALM
                 logger.info(message);
                 switch (cmd) {
@@ -339,12 +339,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             bot.sendMessage({
                                 to: channelID,
                                 message: reroll(args, userID)
-                            });
-                            break;
-                        case 'get':
-                            bot.sendMessage({
-                                to: channelID,
-                                embed: embed
                             });
                             break;
                         case 'help':
