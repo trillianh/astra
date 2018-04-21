@@ -231,12 +231,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                           to: channelID,
                           message: update(args, userID)
                           });
-                          break;
-                    case 'get':
-                        bot.sendMessage({
-                            to: channelID,
-                            embed: embed
-                        });
                     break;
                     case 'lsga':
                         bot.sendMessage({
@@ -339,6 +333,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             bot.sendMessage({
                                 to: channelID,
                                 message: reroll(args, userID)
+                            });
+                            break;
+                        case 'get':
+                            bot.sendMessage({
+                                to: channelID,
+                                embed: embed
                             });
                             break;
                         case 'help':
