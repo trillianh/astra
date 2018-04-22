@@ -13,8 +13,7 @@ export const ATTRIBUTES = [
   'character_name',
   'gear_score',
   'image_url',
-  'discord_id',
-  'date'
+  'discord_id'
 ]
 
 class Character extends BaseModel {
