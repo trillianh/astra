@@ -9,6 +9,7 @@ import { cc } from '../commands/cc';
 import { remove } from '../commands/remove';
 import { roll } from '../commands/roll';
 import { addpic } from '../commands/addpic';
+import { info } from '../commands/info';
 
 class Member {
   static perform(command, discordId, args, replyCallback) {
@@ -42,6 +43,9 @@ class Member {
         break;
       case 'help':
         help(args, replyCallback);
+        break;
+      case 'info':
+        info(replyCallback);
         break;
       default:
         replyCallback('Invalid Command try .help');
