@@ -8,7 +8,7 @@ import { help } from '../commands/help';
 import { cc } from '../commands/cc';
 import { remove } from '../commands/remove';
 import { roll } from '../commands/roll';
-import { addpic } from '../commands/addPic';
+import { addpic } from '../commands/addpic';
 
 class Member {
   static perform(command, discordId, args, replyCallback) {
