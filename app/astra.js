@@ -89,11 +89,6 @@ bot.on('ready', function () {
   logger.info('Connected');
 });
 
-bot.login(BOT_TOKEN);
-
-logger.info(BOT_TOKEN);
-logger.info(CHANNEL_ID);
-
 bot.on('disconnect', function (erMsg, code) {
     logger.info('Disconnected');
     logger.info(code + " " + erMsg);
@@ -130,6 +125,8 @@ bot.on('message', messageObj => {
     logger.info(err);
   }
 });
+
+bot.login(BOT_TOKEN);
 
 // bot.on('message', messageObj => {
 //     // Our bot needs to know if it will execute a command
