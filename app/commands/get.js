@@ -30,7 +30,7 @@ function _retrieveCharacterData(player) {
       url: "https://cdn.discordapp.com/icons/384475247723806722/b533ead0317374a01adf83f1eeae5582.png",
     },
     image: {
-      url: player.image_url
+      url: player.image_url || ''
     },
     fields: [
       {
