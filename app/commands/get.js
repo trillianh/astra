@@ -18,6 +18,16 @@ function get(discordId, callback) {
   });
 };
 
+function _retrieveImageURL(player) {
+  const url = player.image_url;
+
+  if (!url || url === 'No image attached.') {
+    return 'https://imgur.com/qdxAgLb';
+  }
+
+  return url;
+};
+
 function _retrieveCharacterData(player) {
   return {
     description:  player.family_name + " (" + player.character_name + ")",
@@ -30,7 +40,7 @@ function _retrieveCharacterData(player) {
       url: "https://cdn.discordapp.com/icons/384475247723806722/b533ead0317374a01adf83f1eeae5582.png",
     },
     image: {
-      url: player.image_url || 'https://imgur.com/qdxAgLb'
+      url: _retrieveImageURL(player)
     },
     fields: [
       {
