@@ -75,7 +75,7 @@ class BaseModel {
     });
   };
 
-  static deleteOne(query, options, collectionname) {
+  static deleteOne(query, options, collectionName) {
     return MongoClient.connect(MONGO_DB_HOST).then((client) => {
       const db = client.db(DB_NAME);
       const collection = db.collection(collectionName);
