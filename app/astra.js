@@ -91,6 +91,9 @@ bot.on('ready', function () {
 
 bot.login(BOT_TOKEN);
 
+logger.info(BOT_TOKEN);
+logger.info(CHANNEL_ID);
+
 bot.on('disconnect', function (erMsg, code) {
     logger.info('Disconnected');
     logger.info(code + " " + erMsg);
@@ -98,7 +101,7 @@ bot.on('disconnect', function (erMsg, code) {
 
 bot.on('message', messageObj => {
   logger.info('message received');
-  
+
   let message = messageObj.content;
   let discordId = messageObj.member.id;
   const channelId = messageObj.channel.id;
