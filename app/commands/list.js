@@ -82,12 +82,15 @@ function _buildQuery(args) {
 function _buildFullQuery(args) {
   let query = {};
 
-  if (!args || !args[0] || !args[1] || !args[2] || !args[3]) {
+  if (!args || !args[0]) {
     return query;
   }
 
   query['class_name'] = capitalize(args[0]);
-  query[ATTRS_MAPPING[args[3]]] =  _getConditionOption(args[1], args[2]);
+
+  if (args[1] && args[2] && args[3]) {
+    query[ATTRS_MAPPING[args[3]]] =  _getConditionOption(args[1], args[2]);
+  }
   
   return query;
 };
