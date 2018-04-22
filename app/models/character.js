@@ -8,7 +8,7 @@ export const ATTRIBUTES = [
   'awk_ap',
   'ap',
   'dp',
-  'class_id',
+  'class_name',
   'family_name',
   'character_name',
   'gear_score',
