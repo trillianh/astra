@@ -94,8 +94,6 @@ bot.login(BOT_TOKEN);
 bot.on('disconnect', function (erMsg, code) {
     logger.info('Disconnected');
     logger.info(code + " " + erMsg);
-    logger.info(BOT_TOKEN);
-    bot.connect();
 });
 
 bot.on('message', messageObj => {
