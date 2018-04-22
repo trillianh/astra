@@ -59,13 +59,13 @@ function _retrieveCharacterData(player) {
         inline: true
       },
       {
-        name: "DP",
-        value: player.dp,
+        name: "Gearscore",
+        value: player.gear_score,
         inline: true
       },
       {
-      name: "Gearscore",
-      value: player.gear_score
+      name: "DP",
+      value: player.dp
       }
     ]
   };

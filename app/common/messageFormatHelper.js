@@ -52,7 +52,8 @@ function _buildTableRow(record) {
     record.dp.toString().padEnd(4) + ' | ' +
     record.gear_score.toString().padEnd(4) + ' | ' +
     record.level.toString().padEnd(3) + ' | ' +
-    record.class_name + '\n'
+    record.class_name + ' | ' +
+    record.date + '\n'
   );
 };
 
