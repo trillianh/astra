@@ -42,6 +42,7 @@ function _validCharAttr(value) {
 };
 
 function _getCharacterAttrs(args) {
+
   return {
     awk_ap: parseInt(args[0]),
     dp: parseInt(args[1]),
