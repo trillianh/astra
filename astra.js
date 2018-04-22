@@ -105,46 +105,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var cmd = args[0].toLowerCase();
         args = args.splice(1);
         var cm = message.substring(4);
-        var embed = {
-            description:  getPlayer(args,userID),
-            timestamp: getPlayerDate(args,userID),
-            footer: {
-              icon_url: "https://cdn.discordapp.com/icons/384475247723806722/b533ead0317374a01adf83f1eeae5582.png",
-              text: "Last updated"
-            },
-            thumbnail: {
-              url: "https://cdn.discordapp.com/icons/384475247723806722/b533ead0317374a01adf83f1eeae5582.png",
-            },
-            image: {
-              url: getPlayerImg(args,userID)
-            },
-            fields: [
-              {
-                name: "Level",
-                value: getPlayerLevel(args,userID),
-                inline: true
-              },
-              {
-                name: "Class",
-                value: getPlayerClass(args,userID),
-                inline: true
-              },
-              {
-                name: "AP",
-                value: getPlayerAP(args,userID),
-                inline: true
-              },
-              {
-                name: "DP",
-                value: getPlayerDP(args,userID),
-                inline: true
-              },
-              {
-               name: "Gearscore",
-               value: getPlayerGS(args,userID)
-              }
-            ]
-          }
 
         if (userID != 385936309463678976) {
             //GLOBAL
@@ -252,7 +212,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         });
                     break;
                     case 'addpic':
-                    
+
                         if(args.length>0){
                             var fam = addPicture(args,userID);
                             bot.sendMessage({
@@ -338,7 +298,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         case 'get':
                             bot.sendMessage({
                                 to: channelID,
-                                embed: embed
+                                embed: getPlayer(args,userID)
                             });
                             break;
                         case 'help':
@@ -934,7 +894,7 @@ function getStat(stat, data) {
         return "undefined";
     }
 }
-function getPlayer(args,id) {
+function getPlayer(args,id){
     var ventus = getJSON(guildName);
     var player = 1; //no args = get message sender's info
     if(args[0]){
@@ -957,182 +917,46 @@ function getPlayer(args,id) {
             }
         }
     }
-    return "```" + player.fa + "(" + player.ch + ")" + "```";
-}
-function getPlayerLevel(args,id) {
-    var ventus = getJSON(guildName);
-    var player = 1; //no args = get message sender's info
-    if(args[0]){
-        for(var fa in ventus){
-            if(ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())||
-               ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())){
-                player = ventus[fa];
-                break;
-            }
-        }
-        if(player==1){
-            return "Player not found.";
-        }
-    }
-    else{
-        for(var fa in ventus){
-            if(ventus[fa]["discordid"]==id){
-                player = ventus[fa];
-                break;
-            }
-        }
-    }
-    return player.level;
-}
-function getPlayerClass(args,id) {
-    var ventus = getJSON(guildName);
-    var player = 1; //no args = get message sender's info
-    if(args[0]){
-        for(var fa in ventus){
-            if(ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())||
-               ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())){
-                player = ventus[fa];
-                break;
-            }
-        }
-        if(player==1){
-            return "Player not found.";
-        }
-    }
-    else{
-        for(var fa in ventus){
-            if(ventus[fa]["discordid"]==id){
-                player = ventus[fa];
-                break;
-            }
-        }
-    }
-    return getClassName(player.classid);
-}
-function getPlayerAP(args,id) {
-    var ventus = getJSON(guildName);
-    var player = 1; //no args = get message sender's info
-    if(args[0]){
-        for(var fa in ventus){
-            if(ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())||
-               ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())){
-                player = ventus[fa];
-                break;
-            }
-        }
-        if(player==1){
-            return "Player not found.";
-        }
-    }
-    else{
-        for(var fa in ventus){
-            if(ventus[fa]["discordid"]==id){
-                player = ventus[fa];
-                break;
-            }
-        }
-    }
-    return player.ap;
-}
-function getPlayerGS(args,id) {
-    var ventus = getJSON(guildName);
-    var player = 1; //no args = get message sender's info
-    if(args[0]){
-        for(var fa in ventus){
-            if(ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())||
-               ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())){
-                player = ventus[fa];
-                break;
-            }
-        }
-        if(player==1){
-            return "Player not found.";
-        }
-    }
-    else{
-        for(var fa in ventus){
-            if(ventus[fa]["discordid"]==id){
-                player = ventus[fa];
-                break;
-            }
-        }
-    }
-    return player.gs;
-}
-function getPlayerDP(args,id) {
-    var ventus = getJSON(guildName);
-    var player = 1; //no args = get message sender's info
-    if(args[0]){
-        for(var fa in ventus){
-            if(ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())||
-               ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())){
-                player = ventus[fa];
-                break;
-            }
-        }
-        if(player==1){
-            return "Player not found.";
-        }
-    }
-    else{
-        for(var fa in ventus){
-            if(ventus[fa]["discordid"]==id){
-                player = ventus[fa];
-                break;
-            }
-        }
-    }
-    return player.dp;
-}
-function getPlayerImg(args,id) {
-    var ventus = getJSON(guildName);
-    var player = 1; //no args = get message sender's info
-    if(args[0]){
-        for(var fa in ventus){
-            if(ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())||
-               ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())){
-                player = ventus[fa];
-                break;
-            }
-        }
-        if(player==1){
-            return "Player not found.";
-        }
-    }
-    else{
-        for(var fa in ventus){
-            if(ventus[fa]["discordid"]==id){
-                player = ventus[fa];
-                break;
-            }
-        }
-    }
-    return player.img;
-}
-function getPlayerDate(args,id) {
-    var ventus = getJSON(guildName);
-    var player = 1; //no args = get message sender's info
-    if(args[0]){
-        for(var fa in ventus){
-            if(ventus[fa]["fa"].toLowerCase().startsWith(args[0].toLowerCase())||
-               ventus[fa]["ch"].toLowerCase().startsWith(args[0].toLowerCase())){
-                player = ventus[fa];
-                break;
-            }
-        }
-        if(player==1){
-            return "Player not found.";
-        }
-    }
-    else{
-        for(var fa in ventus){
-            if(ventus[fa]["discordid"]==id){
-                player = ventus[fa];
-                break;
-            }
-        }
-    }
-    return player.date;
+    return {
+        description:  player.fa + " (" + player.ch + ")",
+        timestamp: player.date,
+        footer: {
+          icon_url: "https://cdn.discordapp.com/icons/384475247723806722/b533ead0317374a01adf83f1eeae5582.png",
+          text: "Last updated"
+        },
+        thumbnail: {
+          url: "https://cdn.discordapp.com/icons/384475247723806722/b533ead0317374a01adf83f1eeae5582.png",
+        },
+        image: {
+          url: player.img
+        },
+        fields: [
+          {
+            name: "Level",
+            value: player.level,
+            inline: true
+          },
+          {
+            name: "Class",
+            value: getClassName(player.classid),
+            inline: true
+          },
+          {
+            name: "AP",
+            value: player.ap,
+            inline: true
+          },
+          {
+            name: "DP",
+            value: player.dp,
+            inline: true
+          },
+          {
+           name: "Gearscore",
+           value: player.gs
+          }
+        ]
+      };
 }
 function checkRemoved(channel){
     var ventus = getJSON(guildName);
@@ -1181,7 +1005,32 @@ function info() {
     avg = avg.toPrecision(5);
     lowestStr = ("Lowest GS: **" + lowest + "** ").padEnd(15) + lowestName + "\n";
     highestStr = ("Highest GS: **" + highest + "** ").padEnd(15) + highestName + "\n";
-    return "Members: **" + ct + "**\nAverage: **" + avg + "**\n" + lowestStr + highestStr;
+    var embed = {
+        fields: [
+            {
+                name: "",
+                value: "Members: **" + ct + "**",
+                inline: true
+            },
+            {
+                name: "",
+                value: "Average GS: **" + avg + "**",
+                inline: true
+            },
+            {
+                name: "",
+                value: lowestStr,
+                inline: true
+            },
+            {
+                name: "",
+                value: highestStr,
+                inline: true
+            },
+        ]
+    }
+    return embed;
+   // return "Members: **" + ct + "**\nAverage: **" + avg + "**\n" + lowestStr + highestStr;
 
 }
 function getInfo(type){
