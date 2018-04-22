@@ -63,11 +63,12 @@ function _buildQuery(args) {
     sortOption: {}
   };
 
-  if (args.length >= 4) {
+  if (args.length == 3) {
+    queryObj.query = _buildPartialQuery(args);
+    queryObj.sortOption = _buildSortOption('gs', 'desc');
+  } else {
     queryObj.query = _buildFullQuery(args);
     queryObj.sortOption = _buildSortOption(args[3], args[4]);
-  } else if (args.length == 3) {
-    queryObj.query = _buildPartialQuery(args);
   }
 
   return queryObj;  
@@ -115,7 +116,7 @@ function _buildPartialQuery(args) {
 
 function _buildSortOption(field, direction) {
   if (!field || !direction) {
-    return {};
+    return { gear_score: -1 };
   }
 
   const sortOrder = direction == 'desc' ? -1 : 1;
