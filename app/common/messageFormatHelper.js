@@ -44,17 +44,18 @@ function paginateTable(table) {
   });
 }
 
+function getUpdate(data,  updatedTime) {
+    if (data[updatedTime]) {
+        let date = data[updatedTime].toString().toUpperCase();
+        return date.split(' ').slice(0, 3).join(' ');
+    }
+
+      return 'Fishing Koi';
+}
+
 function _buildTableRow(record) {
   const fullName = `${record.family_name} (${record.character_name})`;
-  var reviseDate = record.date;
-  if (record.date == undefined){
-    record.date = 'Fishing Koi';
-  }
-  else{
-    var date = reviseDate.toString().toUpperCase();
-    date = date.split(' ').slice(0, 3).join(' ')
-    record.date = date;
-  }
+  const date = getUpdate(record, 'updated_at');
 
   return (
     fullName.padEnd(30) + ' ' +
@@ -63,7 +64,7 @@ function _buildTableRow(record) {
     record.gear_score.toString().padEnd(4) + ' | ' +
     record.level.toString().padEnd(3) + ' | ' +
     record.class_name.padEnd(12) + ' | ' +
-    record.date + '\n'
+    date + '\n'
   );
 };
 

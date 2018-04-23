@@ -3,3 +3,7 @@ package-lock.json
 /node_modules
 .idea/workspace.xml
 app/npm-debug.log
+.idea/vcs.xml
+npm-debug.log
+.idea/modules.xml
+app/app.iml

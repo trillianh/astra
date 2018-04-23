@@ -48,7 +48,7 @@ function _getCharacterAttrs(args) {
     dp: parseInt(args[1]),
     gear_score: parseInt(args[0]) + parseInt(args[1]),
     level: parseInt(args[2]),
-    date: new Date()
+    updated_at: new Date()
   };
 }
 
