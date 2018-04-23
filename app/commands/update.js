@@ -42,11 +42,13 @@ function _validCharAttr(value) {
 };
 
 function _getCharacterAttrs(args) {
+
   return {
     awk_ap: parseInt(args[0]),
     dp: parseInt(args[1]),
     gear_score: parseInt(args[0]) + parseInt(args[1]),
-    level: parseInt(args[2])
+    level: parseInt(args[2]),
+    updated_at: new Date()
   };
 }
 

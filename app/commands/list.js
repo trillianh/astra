@@ -24,7 +24,8 @@ const ATTRS_MAPPING = {
   family: 'family_name',
   character: 'character_name',
   gs: 'gear_score',
-  class: 'class_name'
+  class: 'class_name',
+  date: 'date'
 };
 
 const ORDER_BY = [

@@ -16,7 +16,8 @@ function buildTable(records) {
     'DP'.padEnd(6) + ' ' +
     'GS'.padEnd(6) + ' ' +
     'LVL'.padEnd(5) + ' ' +
-    'Class' + '\n' +
+    'Class'.padEnd(14) + ' ' +
+    'Last Update' + '\n' +
     '-'.padEnd(140, '-') + '\n'
   );
   
@@ -43,8 +44,18 @@ function paginateTable(table) {
   });
 }
 
+function getUpdate(data,  updatedTime) {
+    if (data[updatedTime]) {
+        let date = data[updatedTime].toString().toUpperCase();
+        return date.split(' ').slice(0, 3).join(' ');
+    }
+
+      return 'Fishing Koi';
+}
+
 function _buildTableRow(record) {
   const fullName = `${record.family_name} (${record.character_name})`;
+  const date = getUpdate(record, 'updated_at');
 
   return (
     fullName.padEnd(30) + ' ' +
@@ -52,7 +63,8 @@ function _buildTableRow(record) {
     record.dp.toString().padEnd(4) + ' | ' +
     record.gear_score.toString().padEnd(4) + ' | ' +
     record.level.toString().padEnd(3) + ' | ' +
-    record.class_name + '\n'
+    record.class_name.padEnd(12) + ' | ' +
+    date + '\n'
   );
 };
 
