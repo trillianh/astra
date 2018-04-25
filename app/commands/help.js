@@ -186,12 +186,12 @@ function _buildGetHelpPayload() {
       },
       {
         name: 'character_name [optional]',
-        value: 'Name of the character you are trying to lookup. It is case sensitive',
+        value: 'Name of the character you are trying to lookup',
         inline: false
       },
       {
         name: 'family_name [optional]',
-        value: 'Family Name of the character you are trying to lookup. It is case sensitive',
+        value: 'Family Name of the character you are trying to lookup',
         inline: false
       }
     ]

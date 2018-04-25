@@ -51,7 +51,7 @@ class BaseModel {
     return MongoClient.connect(MONGO_DB_HOST).then((client) => {
       const db = client.db(DB_NAME);
       const collection = db.collection(collectionName);
-      const records = collection.find(query).sort(sort).toArray();
+      const records = collection.find(query).collation({ locale: 'en_US', strength: 2 }).sort(sort).toArray();
 
       client.close();
 
