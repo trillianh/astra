@@ -10,10 +10,10 @@ function get(args, discordId, callback) {
   const name = _retrieveName(args);
   const query = _buildQuery(name, discordId);
 
-  Character.findOne(query).then((record) => {
-    if (record) {
+  Character.find(query).then((records) => {
+    if (records && records.length > 0) {
       callback({
-        embed: _retrieveCharacterData(record)
+        embed: _retrieveCharacterData(records[0])
       });
     } else {
       callback('character not found');
