@@ -31,7 +31,7 @@ const OLD_TO_NEW_COLUNM_MAPPING = {
 
 const CLASS_LIST = [
   "Berserker",
-  "Dark Knight",
+  "Darkknight",
   "Kunoichi",
   "Maehwa",
   "Musa",
