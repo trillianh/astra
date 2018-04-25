@@ -21,7 +21,7 @@ class Member {
         addpic(args, discordId, replyCallback);
         break;
       case 'get':
-        get(discordId, replyCallback);
+        get(args, discordId, replyCallback);
         break;
       case 'update':
         update(args, discordId, replyCallback);

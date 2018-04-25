@@ -6,8 +6,11 @@ import {
   buildTable
 } from '../common/messageFormatHelper';
 
-function get(discordId, callback) {
-  Character.findOne({ discord_id: discordId }).then((record) => {
+function get(args, discordId, callback) {
+  const name = _retrieveName(args);
+  const query = _buildQuery(name, discordId);
+
+  Character.findOne(query).then((record) => {
     if (record) {
       callback({
         embed: _retrieveCharacterData(record)
@@ -69,7 +72,31 @@ function _retrieveCharacterData(player) {
       }
     ]
   };
-}
+};
+
+function _retrieveName(args) {
+  if (!args || args.length === 0) {
+    return null;
+  }
+
+  return args[0];
+};
+
+function _buildQuery(name, discordId) {
+  let queryObj = {};
+
+  if (name) {
+    queryObj['$or'] = [{
+      'character_name': name
+    }, {
+      'family_name': name
+    }];
+  } else {
+    queryObj['discord_id'] = discordId;
+  }
+
+  return queryObj;
+};
 
 export {
   get
