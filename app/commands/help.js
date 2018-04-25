@@ -176,8 +176,25 @@ function _buildRerollHelpPayload() {
 
 function _buildGetHelpPayload() {
   return {
-    title: 'Usage: .get',
-    description: 'Used to retrieve character details'
+    title: 'Usage: .get [character_name|family_name]',
+    description: 'Used to retrieve character details',
+    fields: [
+      {
+        name: 'Where:',
+        value: 'Arguments:',
+        inline: true
+      },
+      {
+        name: 'character_name [optional]',
+        value: 'Name of the character you are trying to lookup. It is case sensitive',
+        inline: false
+      },
+      {
+        name: 'family_name [optional]',
+        value: 'Family Name of the character you are trying to lookup. It is case sensitive',
+        inline: false
+      }
+    ]
   };
 };
 
