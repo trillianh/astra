@@ -6,7 +6,7 @@ import { update } from '../commands/update';
 import { reroll } from '../commands/reroll';
 import { help } from '../commands/help';
 import { cc } from '../commands/cc';
-import { remove } from '../commands/remove';
+import { remove } from '../commands/officer/remove';
 import { roll } from '../commands/roll';
 import { addpic } from '../commands/addpic';
 import { info } from '../commands/info';
