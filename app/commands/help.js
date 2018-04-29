@@ -61,7 +61,7 @@ function help(args, callback) {
 function _buildGenericHelpPayload() {
   return {
     title: 'Usage: .help [command]',
-    description: 'Use .help [command] to get more details on how to use the inquired command.',
+    description: 'Use .help command to get more details on how to use the inquired command. Note: Ignore the square brackets when using the command',
     fields: [
       {
         name: 'Where:',

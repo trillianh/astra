@@ -30,7 +30,7 @@ class Member {
         list(args, replyCallback);
         break;
       case 'reroll':
-        reroll(args, replyCallback);
+        reroll(args, discordId, replyCallback);
         break;
       case 'remove':
         remove(discordId, replyCallback);
