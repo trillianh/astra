@@ -109,7 +109,7 @@ function _buildGenericHelpPayload() {
 
 function _buildAddHelpPayload() {
   return {
-    title: 'Usage: .add family_name character_name ap dp level class_name',
+    title: 'Usage: .add family_name character_name ap awk_ap dp level class_name',
     description: 'Used to add new character to the database',
     fields: [
       {
@@ -124,6 +124,11 @@ function _buildAddHelpPayload() {
       },
       {
         name: 'ap',
+        value: 'Pre-Awakening AP of your character',
+        inline: false
+      },
+      {
+        name: 'awk_ap',
         value: 'Awakening AP of your character',
         inline: false
       }
@@ -133,7 +138,7 @@ function _buildAddHelpPayload() {
 
 function _buildUpdateHelpPayload() {
   return {
-    title: 'Usage: .update ap dp level',
+    title: 'Usage: .update ap awk_ap dp level',
     description: 'Used to update character status',
     fields: [
       {
@@ -143,6 +148,11 @@ function _buildUpdateHelpPayload() {
       },
       {
         name: 'ap',
+        value: 'Pre-Awakening AP of your character',
+        inline: false
+      },
+      {
+        name: 'awk_ap',
         value: 'Awakening AP of your character',
         inline: false
       }
@@ -152,7 +162,7 @@ function _buildUpdateHelpPayload() {
 
 function _buildRerollHelpPayload() {
   return {
-    title: 'Usage: .reroll character_name ap dp level class_name',
+    title: 'Usage: .reroll character_name ap awk_ap dp level class_name',
     description: 'Used to change the class of the character',
     fields: [
       {
@@ -167,6 +177,11 @@ function _buildRerollHelpPayload() {
       },
       {
         name: 'ap',
+        value: 'Pre-Awakening AP of your character',
+        inline: false
+      },
+      {
+        name: 'awk_ap',
         value: 'Awakening AP of your character',
         inline: false
       }

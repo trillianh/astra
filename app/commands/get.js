@@ -58,7 +58,17 @@ function _retrieveCharacterData(player) {
       },
       {
         name: "AP",
+        value: (player.ap || 0),
+        inline: true
+      },
+      {
+        name: "AWK AP",
         value: player.awk_ap,
+        inline: true
+      },
+      {
+        name: "DP",
+        value: player.dp,
         inline: true
       },
       {
@@ -67,12 +77,21 @@ function _retrieveCharacterData(player) {
         inline: true
       },
       {
-      name: "DP",
-      value: player.dp
+        name: "Renown",
+        value: _calculateRenown(player),
+        inline: true
       }
     ]
   };
 };
+
+function _calculateRenown(record) {
+  const ap = record.ap || 0;
+  const awkAp = record.awk_ap || 0;
+  const dp = record.dp || 0;
+
+  return Math.floor(((ap + awkAp)/2) + dp);
+}
 
 function _retrieveName(args) {
   if (!args || args.length === 0) {
