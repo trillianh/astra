@@ -35,13 +35,14 @@ function _validCharAttrs(args) {
     _validName(args[0]) &&
     _validCharAttr(args[1]) &&
     _validCharAttr(args[2]) &&
-    _validLevel(args[3]) &&
-    _validClass(args[4])
+    _validCharAttr(args[3]) &&
+    _validLevel(args[4]) &&
+    _validClass(args[5])
   );
 };
 
 function _validArgs(args) {
-  return args && args.length == 5;
+  return args && args.length == 6;
 };
 
 function _validName(value) {
@@ -63,12 +64,13 @@ function _validClass(className) {
 
 function _getCharacterAttrs(args) {
   return {
-    awk_ap: parseInt(args[1]),
+    ap: parseInt(args[1]),
+    awk_ap: parseInt(args[2]),
     character_name: args[0],
-    class_name: capitalize(args[4]),
-    dp: parseInt(args[2]),
-    gear_score: parseInt(args[1]) + parseInt(args[2]),
-    level: parseInt(args[3])
+    class_name: capitalize(args[5]),
+    dp: parseInt(args[3]),
+    gear_score: parseInt(args[2]) + parseInt(args[3]),
+    level: parseInt(args[4])
   };
 }
 

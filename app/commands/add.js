@@ -38,13 +38,14 @@ function _validCharAttrs(args) {
     _validName(args[1]) &&
     _validCharAttr(args[2]) &&
     _validCharAttr(args[3]) &&
-    _validLevel(args[4]) &&
-    _validClass(args[5])
+    _validCharAttr(args[4]) &&
+    _validLevel(args[5]) &&
+    _validClass(args[6])
   );
 };
 
 function _validArgs(args) {
-  return args && args.length == 6;
+  return args && args.length == 7;
 };
 
 function _validName(value) {
@@ -65,14 +66,15 @@ function _validClass(className) {
 
 function _getCharacterAttrs(args, discordId) {
   return {
-    awk_ap: parseInt(args[2]),
+    awk_ap: parseInt(args[3]),
+    ap: parseInt(args[2]),
     character_name: args[1],
-    class_name: capitalize(args[5]),
+    class_name: capitalize(args[6]),
     discord_id: discordId,
-    dp: parseInt(args[3]),
+    dp: parseInt(args[4]),
     family_name: args[0],
-    gear_score: parseInt(args[2]) + parseInt(args[3]),
-    level: parseInt(args[4])
+    gear_score: parseInt(args[3]) + parseInt(args[4]),
+    level: parseInt(args[5])
   };
 }
 

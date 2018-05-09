@@ -25,12 +25,13 @@ function _validCharAttrs(args) {
     _validArgs(args) &&
     _validCharAttr(args[0]) &&
     _validCharAttr(args[1]) &&
-    _validLevel(args[2])
+    _validCharAttr(args[2]) &&
+    _validLevel(args[3])
   );
 };
 
 function _validArgs(args) {
-  return args && args.length == 3;
+  return args && args.length == 4;
 };
 
 function _validLevel(value) {
@@ -44,10 +45,11 @@ function _validCharAttr(value) {
 function _getCharacterAttrs(args) {
 
   return {
-    awk_ap: parseInt(args[0]),
-    dp: parseInt(args[1]),
-    gear_score: parseInt(args[0]) + parseInt(args[1]),
-    level: parseInt(args[2]),
+    ap: parseInt(args[0]),
+    awk_ap: parseInt(args[1]),
+    dp: parseInt(args[2]),
+    gear_score: parseInt(args[1]) + parseInt(args[2]),
+    level: parseInt(args[3]),
     updated_at: new Date()
   };
 }

@@ -3,9 +3,15 @@ import {
 } from '../../models/character';
 
 function remove(discordId, args, callback) {
-  const discordIdToRemove = _removeMember(args) ? args[0] : discordId;
+  const query = {};
 
-  Character.deleteOne({ discord_id: discordIdToRemove }).then((record) => {
+  if (_removeMember(args)) {
+    query['family_name'] = args[0];
+  } else {
+    query['discord_id'] = discordId;
+  }
+
+  Character.deleteOne(query).then((record) => {
     console.log(record);
     callback('Successfully deleted');
   });
