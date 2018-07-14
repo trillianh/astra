@@ -2,6 +2,7 @@ export const CLASSES = [
   "Berserker",
   "Darkknight",
   "Kunoichi",
+  "Lahn",
   "Maehwa",
   "Musa",
   "Mystic",
