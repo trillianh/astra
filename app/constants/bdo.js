@@ -1,4 +1,5 @@
 export const CLASSES = [
+  "Archer",
   "Berserker",
   "Darkknight",
   "Kunoichi",
