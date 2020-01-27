@@ -43,7 +43,7 @@ const https = require('https');
 const mongodb = require('mongodb');
 
 const classnicks = [
-  "archer,legolas"
+  "archer,legolas",
   "zerker,zerk,berserker,zk,giant",
   "dk,drk,darkknight,batman,darknight,brucewayne,dark",
   "kuno,kunoichi",
