@@ -15,5 +15,7 @@ export const CLASSES = [
   "Valkyrie",
   "Warrior",
   "Witch",
-  "Wizard"
+  "Wizard",
+  "Shai",
+  "Guardian"
 ]
