@@ -30,9 +30,11 @@ const OLD_TO_NEW_COLUNM_MAPPING = {
 };
 
 const CLASS_LIST = [
+  "Archer",
   "Berserker",
   "Darkknight",
   "Kunoichi",
+  "Lahn",
   "Maehwa",
   "Musa",
   "Mystic",
@@ -45,7 +47,6 @@ const CLASS_LIST = [
   "Warrior",
   "Witch",
   "Wizard",
-  "Archer",
   "Shai",
   "Guardian"
 ];
