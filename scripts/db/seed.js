@@ -44,7 +44,10 @@ const CLASS_LIST = [
   "Valkyrie",
   "Warrior",
   "Witch",
-  "Wizard"
+  "Wizard",
+  "Archer",
+  "Shai",
+  "Guardian"
 ];
 
 const COLLECTION_NAME = 'characters';
