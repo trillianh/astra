@@ -43,6 +43,7 @@ const https = require('https');
 const mongodb = require('mongodb');
 
 const classnicks = [
+  "archer,legolas"
   "zerker,zerk,berserker,zk,giant",
   "dk,drk,darkknight,batman,darknight,brucewayne,dark",
   "kuno,kunoichi",
@@ -53,11 +54,13 @@ const classnicks = [
   "ranger,deadclass,bowmaster,dualblade,archer,elf",
   "sorc,sorceress,rwby",
   "striker,jojo,stroker",
-  "tamer,loli,ellin,tame",
+  "tamer,ellin,tame",
   "valk,valkyrie,lifeskiller",
   "warrior,kajitrainer,warr",
   "witch,hermione,ginny",
-  "wiz,wizard,wizzy,shiny,harrypotter,wizerd"
+  "wiz,wizard,wizzy,shiny,harrypotter,wizerd",
+  "loli,shai,ccbot,dp",
+  "guardian,guard"
 ];
 
 const groupnames = [
