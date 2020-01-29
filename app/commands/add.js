@@ -73,7 +73,7 @@ function _getCharacterAttrs(args, discordId) {
     discord_id: discordId,
     dp: parseInt(args[4]),
     family_name: args[0],
-    gear_score: parseInt(args[3]) + parseInt(args[4]),
+    gear_score: ((parseInt(args[3])>parseInt(args[2]))?parseInt(args[3]):parseInt(args[2])) + parseInt(args[4]),
     level: parseInt(args[5])
   };
 }
