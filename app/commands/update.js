@@ -48,7 +48,7 @@ function _getCharacterAttrs(args) {
     ap: parseInt(args[0]),
     awk_ap: parseInt(args[1]),
     dp: parseInt(args[2]),
-    gear_score: parseInt(args[1]) + parseInt(args[2]),
+    gear_score: ((parseInt(args[1])>parseInt(args[0]))?parseInt(args[1]):parseInt(args[0])) + parseInt(args[2]),
     level: parseInt(args[3]),
     updated_at: new Date()
   };
