@@ -69,7 +69,7 @@ function _getCharacterAttrs(args) {
     character_name: args[0],
     class_name: capitalize(args[5]),
     dp: parseInt(args[3]),
-    gear_score: parseInt(args[2]) + parseInt(args[3]),
+    gear_score: ((parseInt(args[1])>parseInt(args[2]))?parseInt(args[1]):parseInt(args[2])) + parseInt(args[3]),
     level: parseInt(args[4])
   };
 }
