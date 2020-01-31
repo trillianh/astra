@@ -13,14 +13,14 @@ function buildTable(records) {
   table.push(
     'Family (Character)'.padEnd(30) + ' ' +
     'AP'.padEnd(6) + ' ' +
-    'AWK AP'.padEnd(8) + ' ' +
+    'AAP'.padEnd(8) + ' ' +
     'DP'.padEnd(6) + ' ' +
     'GS'.padEnd(6) + ' ' +
     'RENOWN'.padEnd(9) + ' ' +
     'LVL'.padEnd(5) + ' ' +
     'Class'.padEnd(14) + ' ' +
     'Last Update' + '\n' +
-    '-'.padEnd(128, '-') + '\n'
+    '-'.padEnd(105, '-') + '\n'
   );
   
 
@@ -70,7 +70,7 @@ function _buildTableRow(record) {
   return (
     fullName.padEnd(30) + ' ' +
     (record.ap || '').toString().padEnd(4) + ' | ' +
-    record.awk_ap.toString().padEnd(6) + ' | ' +
+    record.awk_ap.toString().padEnd(5) + ' | ' +
     record.dp.toString().padEnd(4) + ' | ' +
     record.gear_score.toString().padEnd(4) + ' | ' +
     (_calculateRenown(record)).toString().padEnd(7) + ' | ' +
