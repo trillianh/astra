@@ -13,14 +13,14 @@ function buildTable(records) {
   table.push(
     'Family (Character)'.padEnd(31) + ' ' +
     'AP'.padEnd(5) + ' ' +
-    'AAP'.padEnd(4) + ' ' +
+    'AAP'.padEnd(5) + ' ' +
     'DP'.padEnd(5) + ' ' +
     'GS'.padEnd(5) + ' ' +
     'RS'.padEnd(5) + ' ' +
     'LVL'.padEnd(5) + ' ' +
     'Class'.padEnd(11) + ' ' +
     'Last Update' + '\n' +
-    '-'.padEnd(99, '-') + '\n'
+    '-'.padEnd(95, '-') + '\n'
   );
   
 
