@@ -64,7 +64,7 @@ function _calculateRenown(record) {
 }
 
 function _buildTableRow(record) {
-  const fullName = `${record.family_name} (${record.character_name})`;
+  var fullName = `${record.family_name} (${record.character_name})`;
   const maxNameLen = 27
   if(fullName.length>maxNameLen){
     fullName = fullName.substring(0,maxNameLen-3)+'...';
