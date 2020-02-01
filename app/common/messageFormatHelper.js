@@ -18,7 +18,7 @@ function buildTable(records) {
     'GS'.padEnd(5) + ' ' +
     'RS'.padEnd(5) + ' ' +
     'LVL'.padEnd(5) + ' ' +
-    'Class'.padEnd(11) + ' ' +
+    'Class'.padEnd(12) + ' ' +
     'Last Update' + '\n' +
     '-'.padEnd(95, '-') + '\n'
   );
@@ -75,7 +75,7 @@ function _buildTableRow(record) {
     record.gear_score.toString().padEnd(3) + ' | ' +
     (_calculateRenown(record)).toString().padEnd(3) + ' | ' +
     record.level.toString().padEnd(3) + ' | ' +
-    record.class_name.padEnd(9) + ' | ' +
+    record.class_name.padEnd(10) + ' | ' +
     date + '\n'
   );
 };
