@@ -11,13 +11,13 @@ function buildTable(records) {
   const table = [];
 
   table.push(
-    'Family (Character)'.padEnd(31) + ' ' +
+    'Family (Character)'.padEnd(27) + ' ' +
     'AP'.padEnd(5) + ' ' +
     'AAP'.padEnd(5) + ' ' +
     'DP'.padEnd(5) + ' ' +
     'GS'.padEnd(5) + ' ' +
     'RS'.padEnd(5) + ' ' +
-    'LVL'.padEnd(5) + ' ' +
+    'LVL'.padEnd(4) + ' ' +
     'Class'.padEnd(12) + ' ' +
     'Last Update' + '\n' +
     '-'.padEnd(95, '-') + '\n'
@@ -65,16 +65,20 @@ function _calculateRenown(record) {
 
 function _buildTableRow(record) {
   const fullName = `${record.family_name} (${record.character_name})`;
+  const maxNameLen = 27
+  if(fullName.length>maxNameLen){
+    fullName = fullName.substring(0,maxNameLen-3)+'...';
+  }
   const date = getUpdate(record, 'updated_at');
-
+  
   return (
-    fullName.padEnd(31) + ' ' +
+    fullName.padEnd(maxNameLen) + ' ' +
     (record.ap || '').toString().padEnd(3) + ' | ' +
     record.awk_ap.toString().padEnd(3) + ' | ' +
     record.dp.toString().padEnd(3) + ' | ' +
     record.gear_score.toString().padEnd(3) + ' | ' +
     (_calculateRenown(record)).toString().padEnd(3) + ' | ' +
-    record.level.toString().padEnd(3) + ' | ' +
+    record.level.toString().padEnd(2) + ' | ' +
     record.class_name.padEnd(10) + ' | ' +
     date + '\n'
   );
