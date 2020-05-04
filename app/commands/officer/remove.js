@@ -13,7 +13,7 @@ function remove(discordId, args, callback) {
 
   Character.deleteOne(query).then((record) => {
     console.log(record);
-    callback('Successfully deleted');
+    callback('Successfully deleted '+args[0]+' family');
   });
 };
 
