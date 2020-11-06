@@ -48,19 +48,19 @@ const classnicks = [
   "dk,drk,darkknight,batman,darknight,brucewayne,dark",
   "kuno,kunoichi",
   "mae,bae,baehwa,maehwa,plum,meihua,maewah,maewha",
-  "musa,blader,beyblade",
-  "mystic,femstriker,mys",
+  "musa,blader,beyblade,shaky",
+  "mystic,mystake,mys",
   "ninja,naruto,hokage",
-  "ranger,deadclass,bowmaster,dualblade,archer,elf",
+  "ranger,bowmaster,archer,elf",
   "sorc,sorceress,rwby",
   "striker,jojo,stroker",
   "tamer,ellin,tame",
-  "valk,valkyrie,lifeskiller",
-  "warrior,kajitrainer,warr",
+  "valk,valkyrie",
+  "warrior,fpsabuser,warr",
   "witch,hermione,ginny",
-  "wiz,wizard,wizzy,shiny,harrypotter,wizerd",
+  "wiz,wizard,wizzy,shiny,harrypotter,wizerd,fotm",
   "loli,shai,ccbot,dp",
-  "guardian,guard"
+  "guardian,guard,gd"
 ];
 
 const groupnames = [
