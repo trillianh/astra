@@ -16,7 +16,7 @@ function update(args, discordId, callback) {
       callback(buildTable([record.value]));
     });
   } else {
-    callback('failed to update character');
+    callback('Usage: .update ap awak-ap dp level');
   }
 };
 
