@@ -25,7 +25,7 @@ function add(args, discordId, callback) {
           callback(buildTable(result.ops));
         });
       } else {
-        callback('error');
+        callback('.add familyname charactername ap awak-ap dp level classname');
       }
     }
   });
