@@ -94,7 +94,7 @@ function _buildGenericHelpPayload() {
         inline: false
       },
       {
-        name: 'addpic',
+        name: '.addpic',
         value: 'Used to attach a picture to your character',
         inline: false
       },
