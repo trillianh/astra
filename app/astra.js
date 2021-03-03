@@ -61,7 +61,7 @@ const classnicks = [
   "wiz,wizard,wizzy,shiny,harrypotter,wizerd,fotm",
   "loli,shai,ccbot,dp",
   "guardian,guard,gd",
-  "hashbrown,hash",
+  "hashashin,hashbrown,hash",
   "nova,chess"
 ];
 
