@@ -60,7 +60,9 @@ const classnicks = [
   "witch,hermione,ginny",
   "wiz,wizard,wizzy,shiny,harrypotter,wizerd,fotm",
   "loli,shai,ccbot,dp",
-  "guardian,guard,gd"
+  "guardian,guard,gd",
+  "hashbrown,hash",
+  "nova,chess"
 ];
 
 const groupnames = [
