@@ -50,7 +50,8 @@ const CLASS_LIST = [
   "Shai",
   "Guardian",
   "Hashashin",
-  "Nova"
+  "Nova",
+  "Sage"
 ];
 
 const COLLECTION_NAME = 'characters';
