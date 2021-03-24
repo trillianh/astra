@@ -19,5 +19,6 @@ export const CLASSES = [
   "Shai",
   "Guardian",
   "Hashashin",
-  "Nova"
+  "Nova",
+  "Sage"
 ]
