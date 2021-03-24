@@ -62,7 +62,8 @@ const classnicks = [
   "loli,shai,ccbot,dp",
   "guardian,guard,gd",
   "hashashin,hashbrown,hash",
-  "nova,chess"
+  "nova,chess",
+  "sage,ilium"
 ];
 
 const groupnames = [
