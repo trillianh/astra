@@ -105,7 +105,7 @@ bot.on('message', messageObj => {
     let cmd = args[0].toLowerCase();
     args = args.splice(1);
     let cm = message.substring(4);
-
+    logger.info(`w`);
     // channel specific commands
     if (channelId == CHANNEL_ID && message.substring(0, 1) == '.') {
       let args = message.substring(1).split(' ');
@@ -125,6 +125,7 @@ bot.on('message', messageObj => {
       }
     }
     
+    logger.info(`2`);
     // alliance channel (testing)
     if(channelId == ALT_CHANNEL && message.substring(0, 1) == '.') {
       let args = message.substring(1).split(' ');
