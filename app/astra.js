@@ -4,7 +4,8 @@ import {
   BOT_TOKEN,
   CHANNEL_ID,
   MONGO_DB_HOST,
-  OFFICER_IDS
+  OFFICER_IDS,
+  ALT_CHANNEL
 } from './constants/config';
 
 import {
@@ -118,6 +119,20 @@ bot.on('message', messageObj => {
           messageObj.channel.send(result); 
         })
       } else {
+        Member.perform(cmd, discordId, args, (result) => {
+          messageObj.channel.send(result);
+        });
+      }
+    }
+    
+    // alliance channel (testing)
+    if(channelID == ALT_CHANNEL && message.substring(0, 1) == '.') {
+      let args = message.substring(1).split(' ');
+      let cmd = args[0].toLowerCase();
+      args = args.splice(1);
+      
+      logger.info(`command received from alt channel: ${cmd} ${args}`);
+      if(cmd=='get'||cmd=='info'||cmd=='help'||cmd=='list'){
         Member.perform(cmd, discordId, args, (result) => {
           messageObj.channel.send(result);
         });
