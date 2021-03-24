@@ -123,7 +123,6 @@ bot.on('message', messageObj => {
         });
       }
     }
-    logger.info(CHANNEL_ID);
     // alliance channel (testing)
     if (channelId == ALT_CHANNEL && message.substring(0, 1) == '.') {
       let args = message.substring(1).split(' ');
