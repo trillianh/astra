@@ -126,7 +126,7 @@ bot.on('message', messageObj => {
     }
     
     // alliance channel (testing)
-    if(channelID == ALT_CHANNEL && message.substring(0, 1) == '.') {
+    if(channelId == ALT_CHANNEL && message.substring(0, 1) == '.') {
       let args = message.substring(1).split(' ');
       let cmd = args[0].toLowerCase();
       args = args.splice(1);
