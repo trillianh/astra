@@ -124,7 +124,7 @@ bot.on('message', messageObj => {
       }
     }
     let asdf = (channelId == ALT_CHANNEL); 
-    logger.info(`$(ALT_CHANNEL)`);
+    logger.info(ALT_CHANNEL);
     // alliance channel (testing)
     if (channelId == ALT_CHANNEL && message.substring(0, 1) == '.') {
       let args = message.substring(1).split(' ');
