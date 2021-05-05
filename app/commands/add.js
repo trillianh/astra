@@ -15,13 +15,13 @@ import {
   indexOf
 } from 'lodash';
 
-function add(args, discordId, callback) {
+function add(args, discordId, channelId, callback) {
   Character.findOne({ discord_id: discordId }).then((record) => {
     if (record) {
       callback('cannot create more than one character per discord user');
     } else {
       if (discordId && _validCharAttrs(args)) {
-        Character.create(_getCharacterAttrs(args, discordId)).then((result) => {
+        Character.create(_getCharacterAttrs(args, discordId, channelId)).then((result) => {
           callback(buildTable(result.ops));
         });
       } else {
@@ -40,7 +40,7 @@ function _validCharAttrs(args) {
     _validCharAttr(args[3]) &&
     _validCharAttr(args[4]) &&
     _validLevel(args[5]) &&
-    _validClass(args[6])
+    _validClass(args[6]) 
   );
 };
 
@@ -71,6 +71,7 @@ function _getCharacterAttrs(args, discordId) {
     character_name: args[1],
     class_name: capitalize(args[6]),
     discord_id: discordId,
+    channel_id: channelId,
     dp: parseInt(args[4]),
     family_name: args[0],
     gear_score: ((parseInt(args[3])>parseInt(args[2]))?parseInt(args[3]):parseInt(args[2])) + parseInt(args[4]),
