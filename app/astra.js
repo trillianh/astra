@@ -106,7 +106,7 @@ bot.on('message', messageObj => {
     args = args.splice(1);
     let cm = message.substring(4);
     // channel specific commands
-    if (channelId == CHANNEL_ID && message.substring(0, 1) == '.') {
+    if (message.substring(0, 1) == '.') {
       let args = message.substring(1).split(' ');
       let cmd = args[0].toLowerCase();
       args = args.splice(1);
@@ -114,15 +114,16 @@ bot.on('message', messageObj => {
       logger.info(`command received: ${cmd} ${args}`);
       
       if (_isOfficer(discordId)) {
-        Officer.perform(cmd, discordId, args, (result) => {
+        Officer.perform(cmd, discordId, channelId, args, (result) => {
           messageObj.channel.send(result); 
         })
       } else {
-        Member.perform(cmd, discordId, args, (result) => {
+        Member.perform(cmd, discordId, channelId, args, (result) => {
           messageObj.channel.send(result);
         });
       }
     }
+    /*
     // alliance channel (testing)
     if (channelId == ALT_CHANNEL && message.substring(0, 1) == '.') {
       let args = message.substring(1).split(' ');
@@ -136,6 +137,7 @@ bot.on('message', messageObj => {
         });
       }
     }
+    */
   } catch(err) {
     logger.info(err);
   }
