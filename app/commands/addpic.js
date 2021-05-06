@@ -2,7 +2,7 @@ import {
   Character
 } from '../models/character';
 
-function addpic(args, discordId, callback) {
+function addpic(args, discordId, channelId, callback) {
   if (_validImgUrl(args)) { 
     Character.findAndUpdate(
       { discord_id: discordId }, 
