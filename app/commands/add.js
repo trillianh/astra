@@ -64,7 +64,7 @@ function _validClass(className) {
   return className && indexOf(CLASSES, capitalize(className)) > -1;
 };
 
-function _getCharacterAttrs(args, discordId) {
+function _getCharacterAttrs(args, discordId, channelId) {
   return {
     awk_ap: parseInt(args[3]),
     ap: parseInt(args[2]),
