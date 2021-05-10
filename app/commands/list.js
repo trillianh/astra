@@ -3,6 +3,11 @@ import {
 } from '../models/character';
 
 import {
+  CHANNEL_ID,
+  ALT_CHANNEL
+} from './constants/config';
+
+import {
   buildTable
 } from '../common/messageFormatHelper';
 
@@ -38,7 +43,7 @@ const OPERATOR_MAPPING = {
   under: '$lt'
 };
 
-function list(args, callback) {
+function list(args, channelId, callback) {
   const queryObj = _buildQuery(args);
 
   return Character.find(queryObj.query, queryObj.sortOption).then((results) => {
