@@ -43,9 +43,28 @@ const OPERATOR_MAPPING = {
   under: '$lt'
 };
 
+const CHANNEL_MAPPING = {
+  ventus: CHANNEL_ID,
+  soiar: ALT_CHANNEL
+};
+
 function list(args, channelId, callback) {
   const queryObj = _buildQuery(args);
-
+  if(args[0]){
+    ch=args[args.length-1].toLowerCase();
+    if(ch=="ventus"){
+      queryObj[channel_id]=CHANNEL_ID;
+    }
+    else if(ch=="soiar"||ch=="solar){
+      queryObj[channel_id]=ALT_CHANNEL;
+    }
+    else if(ch=="all"){
+      
+    }
+    else{
+      queryObj[channel_id]=channelId;
+    }
+  }
   return Character.find(queryObj.query, queryObj.sortOption).then((results) => {
     const table = buildTable(results);
 
@@ -73,6 +92,7 @@ function _buildQuery(args) {
     queryObj.query = _buildPartialQuery(args);
     queryObj.sortOption = _buildSortOption('gs', 'desc');
   } else {
+    //default query
     queryObj.query = _buildFullQuery(args);
     queryObj.sortOption = _buildSortOption(args[3], args[4]);
   }
@@ -92,7 +112,7 @@ function _buildFullQuery(args) {
   if (!args || !args[0]) {
     return query;
   }
-
+  
   query['class_name'] = capitalize(args[0]);
 
   if (args[1] && args[2] && args[3]) {
