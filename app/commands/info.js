@@ -10,8 +10,8 @@ import {
   CLASSES
 } from '../constants/bdo';
 
-function info(callback) {
-  return Character.find({}, { gear_score: -1 }).then((results) => {
+function info(args,channelId,callback) {
+  return Character.find({ channel_id: channelId }, { gear_score: -1 }).then((results) => {
     callback({ embed: _buildInfoPayload(results) });
   });
 };
