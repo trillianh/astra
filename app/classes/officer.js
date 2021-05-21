@@ -12,10 +12,10 @@ import { addpic } from '../commands/addpic';
 import { info } from '../commands/info';
 
 class Officer {
-  static perform(command, discordId, args, replyCallback) {
+  static perform(command, discordId, channelId, args, replyCallback) {
     switch(command) {
       case 'add':
-        add(args, discordId, replyCallback);
+        add(args, discordId, channelId, replyCallback);
         break;
       case 'addpic':
         addpic(args, discordId, replyCallback);
@@ -27,7 +27,7 @@ class Officer {
         update(args, discordId, replyCallback);
         break;
       case 'list':
-        list(args, replyCallback);
+        list(args, channelId, replyCallback);
         break;
       case 'reroll':
         reroll(args, discordId, replyCallback);
@@ -45,7 +45,7 @@ class Officer {
         help(args, replyCallback);
         break;
       case 'info':
-        info(replyCallback);
+        info(channelId, replyCallback);
         break;
       default:
         replyCallback('Invalid Command try .help');

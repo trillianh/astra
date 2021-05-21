@@ -14,6 +14,7 @@ export const ATTRIBUTES = [
   'gear_score',
   'image_url',
   'discord_id',
+  'channel_id',
   'date'
 ]
 
