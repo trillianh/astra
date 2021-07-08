@@ -55,7 +55,7 @@ function list(args, channelId, callback) {
     if(ch=="ventus"){
       queryObj[channel_id]=CHANNEL_ID;
     }
-    else if(ch=="soiar"||ch=="solar){
+    else if(ch=="soiar"||ch=="solar"){
       queryObj[channel_id]=ALT_CHANNEL;
     }
     else if(ch=="all"){
